@@ -44,9 +44,9 @@ const ProfilePage = () => {
                     <p className="lead text-muted">{email}</p>
                     <div>
                     <p className="lead text-muted">{cellPhone}</p>
-                    {/* <Button variant="primary" onClick={handleShow}>
+                    <Button variant="primary" onClick={handleShow}>
                             Update Phone Number
-                    </Button> */}
+                    </Button>
                     </div>
                     <RoleBadge role={"ROLE_USER"} currentUser={currentUser}/>
                     <RoleBadge role={"ROLE_MEMBER"} currentUser={currentUser}/>
