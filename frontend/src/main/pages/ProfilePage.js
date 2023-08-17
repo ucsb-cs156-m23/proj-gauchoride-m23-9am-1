@@ -8,17 +8,17 @@ import axios from "axios";
 const ProfilePage = () => {
 
     // Stryker disable all
-    const [showModal, setShow] = useState(false);
-    const [userCellPhone, setUserCellPhone] = useState("");
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-    const onSubmit = (event) => {
-        const response = axios.put(`/api/userprofile?cellPhone=${userCellPhone}`)
-        console.log("updated phone number at "+response);
-        event.preventDefault();
-        console.log(userCellPhone);
-        window.location.reload();
-    }
+    // const [showModal, setShow] = useState(false);
+    // const [userCellPhone, setUserCellPhone] = useState("");
+    // const handleClose = () => setShow(false);
+    // const handleShow = () => setShow(true);
+    // const onSubmit = (event) => {
+    //     const response = axios.put(`/api/userprofile?cellPhone=${userCellPhone}`)
+    //     console.log("updated phone number at "+response);
+    //     event.preventDefault();
+    //     console.log(userCellPhone);
+    //     window.location.reload();
+    // }
     // Stryker restore all
 
     const { data: currentUser } = useCurrentUser();
@@ -45,9 +45,9 @@ const ProfilePage = () => {
                     <p className="lead text-muted">{email}</p>
                     <div>
                     <p className="lead text-muted">{cellPhone}</p>
-                    <Button variant="primary" onClick={handleShow}>
+                    {/* <Button variant="primary" onClick={handleShow}>
                             Update Phone Number
-                    </Button>
+                    </Button> */}
                     </div>
                     <RoleBadge role={"ROLE_USER"} currentUser={currentUser}/>
                     <RoleBadge role={"ROLE_MEMBER"} currentUser={currentUser}/>
@@ -57,7 +57,7 @@ const ProfilePage = () => {
                     {/* d-flex align-items-center justify-content-center */}
                     <div className="">
 
-                        <Modal show={showModal} onHide={handleShow}>
+                        {/* <Modal show={showModal} onHide={handleShow}>
                             <Modal.Header closeButton onClick={handleClose}>
                                 <Modal.Title>Update Phone Number:</Modal.Title>
                             </Modal.Header>
@@ -69,7 +69,7 @@ const ProfilePage = () => {
                                 <Button variant="secondary" onClick={handleClose}>Cancel</Button>
                             </Modal.Footer>
                             </form>
-                        </Modal>
+                        </Modal> */}
                     </div>
 
 
