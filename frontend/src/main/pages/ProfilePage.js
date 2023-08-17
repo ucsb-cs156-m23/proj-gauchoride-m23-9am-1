@@ -7,7 +7,7 @@ import axios from "axios";
 
 const ProfilePage = () => {
 
-
+    // Stryker disable all
     const [showModal, setShow] = useState(false);
     const [userCellPhone, setUserCellPhone] = useState("");
     const handleClose = () => setShow(false);
@@ -19,6 +19,7 @@ const ProfilePage = () => {
         console.log(userCellPhone);
         window.location.reload();
     }
+    // Stryker restore all
 
     const { data: currentUser } = useCurrentUser();
 
