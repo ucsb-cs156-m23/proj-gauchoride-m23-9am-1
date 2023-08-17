@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">57.89% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>11/19</span>
+                <span class='fraction'>6/6</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">20% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/5</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">64.7% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>11/17</span>
+                <span class='fraction'>6/6</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -155,16 +155,16 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -210,7 +210,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -237,17 +237,17 @@ import axios from "axios";
 const ProfilePage = () =&gt; {
 &nbsp;
     // Stryker disable all
-    const [showModal, setShow] = useState(false);
-    const [userCellPhone, setUserCellPhone] = useState("");
-    const handleClose = <span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >setShow(false);</span>
-    const handleShow = <span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >setShow(true);</span>
-    const onSubmit = <span class="fstat-no" title="function not covered" >(e</span>vent) =&gt; {
-        const response = <span class="cstat-no" title="statement not covered" >axios.put(`/api/userprofile?cellPhone=${userCellPhone}`)</span>
-<span class="cstat-no" title="statement not covered" >        console.log("updated phone number at "+response);</span>
-<span class="cstat-no" title="statement not covered" >        event.preventDefault();</span>
-<span class="cstat-no" title="statement not covered" >        console.log(userCellPhone);</span>
-<span class="cstat-no" title="statement not covered" >        window.location.reload();</span>
-    }
+    // const [showModal, setShow] = useState(false);
+    // const [userCellPhone, setUserCellPhone] = useState("");
+    // const handleClose = () =&gt; setShow(false);
+    // const handleShow = () =&gt; setShow(true);
+    // const onSubmit = (event) =&gt; {
+    //     const response = axios.put(`/api/userprofile?cellPhone=${userCellPhone}`)
+    //     console.log("updated phone number at "+response);
+    //     event.preventDefault();
+    //     console.log(userCellPhone);
+    //     window.location.reload();
+    // }
     // Stryker restore all
 &nbsp;
     const { data: currentUser } = useCurrentUser();
@@ -274,9 +274,9 @@ const ProfilePage = () =&gt; {
                     &lt;p className="lead text-muted"&gt;{email}&lt;/p&gt;
                     &lt;div&gt;
                     &lt;p className="lead text-muted"&gt;{cellPhone}&lt;/p&gt;
-                    &lt;Button variant="primary" onClick={handleShow}&gt;
+                    {/* &lt;Button variant="primary" onClick={handleShow}&gt;
                             Update Phone Number
-                    &lt;/Button&gt;
+                    &lt;/Button&gt; */}
                     &lt;/div&gt;
                     &lt;RoleBadge role={"ROLE_USER"} currentUser={currentUser}/&gt;
                     &lt;RoleBadge role={"ROLE_MEMBER"} currentUser={currentUser}/&gt;
@@ -286,19 +286,19 @@ const ProfilePage = () =&gt; {
                     {/* d-flex align-items-center justify-content-center */}
                     &lt;div className=""&gt;
 &nbsp;
-                        &lt;Modal show={showModal} onHide={handleShow}&gt;
+                        {/* &lt;Modal show={showModal} onHide={handleShow}&gt;
                             &lt;Modal.Header closeButton onClick={handleClose}&gt;
                                 &lt;Modal.Title&gt;Update Phone Number:&lt;/Modal.Title&gt;
                             &lt;/Modal.Header&gt;
                             &lt;Modal.Body&gt;Enter New Phone Number&lt;/Modal.Body&gt;
                             &lt;form onSubmit={onSubmit}&gt;
-                                &lt;input type="tel" placeholder="Enter New Phone Number" name="phone" onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setUserCellPhone(e.target.value)}</span>&gt;&lt;/input&gt;
+                                &lt;input type="tel" placeholder="Enter New Phone Number" name="phone" onChange={(e) =&gt; setUserCellPhone(e.target.value)}&gt;&lt;/input&gt;
                             &lt;Modal.Footer&gt;
                                 &lt;Button type="submit"&gt;Update&lt;/Button&gt;
                                 &lt;Button variant="secondary" onClick={handleClose}&gt;Cancel&lt;/Button&gt;
                             &lt;/Modal.Footer&gt;
                             &lt;/form&gt;
-                        &lt;/Modal&gt;
+                        &lt;/Modal&gt; */}
                     &lt;/div&gt;
 &nbsp;
 &nbsp;
@@ -316,7 +316,7 @@ export default ProfilePage;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Thu Aug 17 2023 14:17:33 GMT-0700 (Pacific Daylight Time)
+                at Thu Aug 17 2023 16:09:50 GMT-0700 (Pacific Daylight Time)
             </div>
         <script src="../prettify.js"></script>
         <script>
