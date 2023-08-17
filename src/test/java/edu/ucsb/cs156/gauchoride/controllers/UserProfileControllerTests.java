@@ -36,11 +36,20 @@ public class UserProfileControllerTests extends ControllerTestCase {
   @MockBean
   UserRepository userRepository;
 
-@Test
-    public void logged_out_users_cannot_edit_profile() throws Exception {
-            mockMvc.perform(put("/api/userprofile?cellPhone=1234"))
-                            .andExpect(status().is(403));
-}
+    @Test
+        public void logged_out_users_cannot_edit_profile() throws Exception {
+                mockMvc.perform(put("/api/userprofile?cellPhone=1234"))
+                                .andExpect(status().is(403));
+    }
+
+    @WithMockUser(roles={"USER"})
+    @Test
+        public void logged_in_users_cannot_edit_profile_that_does_not_exist() throws Exception {
+                when(userRepository.findById(eq(1L))).thenReturn(Optional.empty());
+                MvcResult response = mockMvc.perform(
+                    put("/api/userprofile?cellPhone=1234").with(csrf())).andExpect(status().isNotFound()).andReturn();
+                verify(userRepository, times(1)).findById(1L);
+    }
 
   @WithMockUser(roles = { "USER" })
   @Test
