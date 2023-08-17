@@ -81,7 +81,7 @@ describe("RideRequestEditPage tests", () => {
                 endTime: "7:30PM", 
                 pickupLocation: "HSSB",
                 dropoffLocation: "SRB",
-                room: "125",
+                dropoffRoom: "125",
                 course: "CMPSC 156"
             });
             axiosMock.onPut('/api/ride_request').reply(200, {
@@ -91,7 +91,7 @@ describe("RideRequestEditPage tests", () => {
                 endTime: "4:30PM", 
                 pickupLocation: "Phelps",
                 dropoffLocation: "HSSB",
-                room: "1215",
+                dropoffRoomoom: "1215",
                 course: "WRIT 105CD"
             });
         });
@@ -124,7 +124,7 @@ describe("RideRequestEditPage tests", () => {
             const endTimeField = getByTestId("RideForm-end");
             const pickupLocationField = getByTestId("RideForm-pickup");
             const dropoffLocationField = getByTestId("RideForm-dropoff");
-            const roomField = getByTestId("RideForm-room");
+            const roomField = getByTestId("RideForm-dropoff-room");
             const courseField = getByTestId("RideForm-course");
 
             expect(dayField).toHaveValue("Tuesday");
@@ -156,7 +156,7 @@ describe("RideRequestEditPage tests", () => {
             const endTimeField = getByTestId("RideForm-end");
             const pickupLocationField = getByTestId("RideForm-pickup");
             const dropoffLocationField = getByTestId("RideForm-dropoff");
-            const roomField = getByTestId("RideForm-room");
+            const roomField = getByTestId("RideForm-dropoff-room");
             const courseField = getByTestId("RideForm-course");
             const submitButton = getByTestId("RideForm-submit");
 
@@ -195,7 +195,7 @@ describe("RideRequestEditPage tests", () => {
                 endTime: "4:30PM", 
                 pickupLocation: "Phelps",
                 dropoffLocation: "HSSB",
-                room: "1215",
+                dropoffRoom: "1215",
                 course: "WRIT 105CD"
             })); // posted object
 
