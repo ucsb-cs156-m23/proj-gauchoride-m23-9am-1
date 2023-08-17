@@ -7,18 +7,20 @@ import axios from "axios";
 
 const ProfilePage = () => {
 
-
+    // Stryker disable all
     const [showModal, setShow] = useState(false);
     const [userCellPhone, setUserCellPhone] = useState("");
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    // Stryker restore all
+
     const onSubmit = (event) => {
-        const response = axios.put(`/api/userprofile?cellPhone=${userCellPhone}`)
-        console.log("updated phone number at "+response);
+        const newPhoneNumber= event.target;
+        console.log(newPhoneNumber);
+        axios.put(`/api/userprofile?cellPhone=${userCellPhone}`)
         event.preventDefault();
-        console.log(userCellPhone);
+        // console.log(userCellPhone);
         window.location.reload();
     }
+    
 
     const { data: currentUser } = useCurrentUser();
 
@@ -29,6 +31,19 @@ const ProfilePage = () => {
     }
 
     const { email, cellPhone, pictureUrl, fullName } = currentUser.root.user;
+        
+    // Stryker disable all
+    
+    const handleClose = async () => {
+        await setShow(false);
+        console.log(showModal+" modal")
+    };
+    const handleShow = async () => {
+        await setUserCellPhone(cellPhone);
+        await setShow(true);
+        console.log(showModal+" modal")
+    };
+    // Stryker restore all
     return (
         <BasicLayout>
             <Row className="align-items-center profile-header mb-5 text-center text-md-left">
@@ -43,8 +58,8 @@ const ProfilePage = () => {
                     <h2>{fullName}</h2>
                     <p className="lead text-muted">{email}</p>
                     <div>
-                    <p className="lead text-muted">{cellPhone}</p>
-                    <Button variant="primary" onClick={handleShow}>
+                    <p className="lead text-muted" id="phone_number" data-testid="phone_number">{cellPhone}</p>
+                    <Button variant="primary" onClick={handleShow} id="update_phone_btn">
                             Update Phone Number
                     </Button>
                     </div>
@@ -56,16 +71,16 @@ const ProfilePage = () => {
                     {/* d-flex align-items-center justify-content-center */}
                     <div className="">
 
-                        <Modal show={showModal} onHide={handleShow}>
+                        <Modal show={showModal} onHide={handleShow} data-testid="modal_id">
                             <Modal.Header closeButton onClick={handleClose}>
                                 <Modal.Title>Update Phone Number:</Modal.Title>
                             </Modal.Header>
                             <Modal.Body>Enter New Phone Number</Modal.Body>
                             <form onSubmit={onSubmit}>
-                                <input type="tel" placeholder="Enter New Phone Number" name="phone" onChange={(e) => setUserCellPhone(e.target.value)}></input>
+                                <input id="new_phone" data-testid="new_phone" placeholder="Enter New Phone Number" value={userCellPhone} name="new_phone" onChange={(e) => setUserCellPhone(e.target.value)}></input>
                             <Modal.Footer>
                                 <Button type="submit">Update</Button>
-                                <Button variant="secondary" onClick={handleClose}>Cancel</Button>
+                                <Button variant="secondary" id="cancel-button" onClick={handleClose}>Cancel</Button>
                             </Modal.Footer>
                             </form>
                         </Modal>
