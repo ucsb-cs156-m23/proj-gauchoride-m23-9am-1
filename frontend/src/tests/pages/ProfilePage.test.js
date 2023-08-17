@@ -3,13 +3,13 @@ import React from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
 import { apiCurrentUserFixtures }  from "fixtures/currentUserFixtures";
-import { Modal } from "react-bootstrap";
+// import { Modal } from "react-bootstrap";
 
 import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
 import ProfilePage from "main/pages/ProfilePage";
 import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
-import mockConsole from "jest-mock-console";
+// import mockConsole from "jest-mock-console";
 
 describe("ProfilePage tests", () => {
     const location= window.location;
@@ -54,7 +54,7 @@ describe("ProfilePage tests", () => {
         expect(getByText("pconrad.cis@gmail.com")).toBeInTheDocument();
         const updatePhoneButton = getByText("Update Phone Number")
         expect(updatePhoneButton).toBeInTheDocument();
-        const logSpy = jest.spyOn(console, 'log');
+        // const logSpy = jest.spyOn(console, 'log');
 
         expect(screen.queryByText("Update Phone Number:")).not.toBeInTheDocument()
         fireEvent.click(updatePhoneButton);
