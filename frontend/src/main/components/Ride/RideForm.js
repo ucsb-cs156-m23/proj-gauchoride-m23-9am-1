@@ -147,21 +147,22 @@ function RideForm({ initialContents, submitAction, buttonLabel = "Create" }) {
             </Form.Group>
 
             <Form.Group className="mb-3" >
-                <Form.Label htmlFor="room">Room Number for Dropoff</Form.Label>
+                <Form.Label htmlFor="dropoff-room">Drop Off Room</Form.Label>
                 <Form.Control
-                    data-testid={testIdPrefix + "-room"}
-                    id="room"
+                    data-testid={testIdPrefix + "-dropoff-room"}
+                    id="dropoff-room"
                     type="text"
-                    isInvalid={Boolean(errors.room)}
-                    {...register("room", {
-                        required: "Room number is required."
-                    })}
-                    placeholder="e.g. 2225"  
-                    defaultValue={initialContents?.room} 
+                    {...register("dropoffRoom")}
+                    isInvalid={Boolean(errors.dropoffRoom)}
+                    //{...register("dropoffRoom", {
+                        //required: "Drop OffRoom number is required."
+                    //})}
+                    placeholder="e.g. 1431"  
+                    defaultValue={initialContents?.dropoffRoom} 
                 />
-                <Form.Control.Feedback type="invalid">
-                    {errors.room?.message}
-                </Form.Control.Feedback>
+                { <Form.Control.Feedback type="invalid">
+                    {errors.dropoffRoom?.message}
+                </Form.Control.Feedback> }
             </Form.Group>
 
             <Form.Group className="mb-3" >
@@ -181,7 +182,6 @@ function RideForm({ initialContents, submitAction, buttonLabel = "Create" }) {
                     {errors.course?.message}
                 </Form.Control.Feedback>
             </Form.Group>
-
 
             <Button
                 type="submit"

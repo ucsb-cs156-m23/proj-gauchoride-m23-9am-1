@@ -67,9 +67,19 @@ export default function RideTable({
             accessor: 'dropoffLocation',
         },
         {
-            Header: 'Room #',
-            accessor: 'room',
-        }
+            Header: 'Drop Off Room',
+            accessor: 'dropoffRoom',
+        },
+        // {
+        //     Header: 'Pick Up Room',
+        //     accessor: 'pickupRoom',
+
+        // },
+        // {
+        //     Header: 'Notes',
+        //     accessor: 'notes',
+
+        // }
     ];
 
     const columnsDriver = [
@@ -106,9 +116,19 @@ export default function RideTable({
             accessor: 'dropoffLocation',
         },
         {
-            Header: 'Room #',
-            accessor: 'room',
-        }
+            Header: 'Drop Off Room',
+            accessor: 'dropoffRoom',
+        },
+        // {
+        //     Header: 'Pick Up Room',
+        //     accessor: 'pickupRoom',
+
+        // },
+        // {
+        //     Header: 'Notes',
+        //     accessor: 'notes',
+
+        // }
     ];
 
     const columnsRider = [
@@ -145,9 +165,19 @@ export default function RideTable({
             accessor: 'dropoffLocation',
         },
         {
-            Header: 'Room #',
-            accessor: 'room',
-        }
+            Header: 'Drop Off Room',
+            accessor: 'dropoffRoom',
+        },
+        // {
+        //     Header: 'Pick Up Room',
+        //     accessor: 'pickupRoom',
+
+        // },
+        // {
+        //     Header: 'Notes',
+        //     accessor: 'notes',
+
+        // }
     ];
 
 
