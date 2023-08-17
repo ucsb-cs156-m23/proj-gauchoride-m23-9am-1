@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { Row, Col , Modal, Button } from "react-bootstrap";
+import React from "react";
+import { Row, Col } from "react-bootstrap";
 import RoleBadge from "main/components/Profile/RoleBadge";
 import { useCurrentUser } from "main/utils/currentUser";
 import BasicLayout from "main/layouts/BasicLayout/BasicLayout";
-import axios from "axios";
+// import axios from "axios";
 
 const ProfilePage = () => {
 
