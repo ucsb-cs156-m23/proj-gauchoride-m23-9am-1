@@ -88,7 +88,8 @@ describe("ProfilePage tests", () => {
         
         updateButton.click();
         expect(window.location.reload).toHaveBeenCalledTimes(1);
-        expect(axiosMock.history.put.length).toBe(1); // times called
+        expect(axiosMock.history.put.length).toBe(1); 
+        // times called
         // expect(axiosMock.history.put[0].params).toEqual({ cellPhone: "1234" });
 
         // jest.restoreAllMocks();
