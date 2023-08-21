@@ -185,7 +185,7 @@ describe("RideRequestEditPage tests", () => {
     
             await waitFor(() => expect(mockToast).toHaveBeenCalled());
             expect(mockToast).toBeCalledWith("Ride Updated - id: 17");
-            expect(mockNavigate).toBeCalledWith({ "to": "/ride/" });
+            expect(mockNavigate).toBeCalledWith({ "to": "/rider/" });
 
             expect(axiosMock.history.put.length).toBe(1); // times called
             expect(axiosMock.history.put[0].params).toEqual({ id: 17 });

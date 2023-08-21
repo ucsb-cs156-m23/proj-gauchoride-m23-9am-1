@@ -32,7 +32,7 @@ describe("RideTable tests", () => {
     render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <RideTable ride={[]} currentUser={currentUser} />
+          <RideTable rides={[]} currentUser={currentUser} />
         </MemoryRouter>
       </QueryClientProvider>
 
@@ -44,7 +44,7 @@ describe("RideTable tests", () => {
     render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <RideTable ride={[]} currentUser={currentUser} />
+          <RideTable rides={[]} currentUser={currentUser} />
         </MemoryRouter>
       </QueryClientProvider>
 
@@ -57,7 +57,7 @@ describe("RideTable tests", () => {
     render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <RideTable ride={[]} currentUser={currentUser} />
+          <RideTable rides={[]} currentUser={currentUser} />
         </MemoryRouter>
       </QueryClientProvider>
 
@@ -70,7 +70,7 @@ describe("RideTable tests", () => {
     render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <RideTable ride={[]} currentUser={currentUser} />
+          <RideTable rides={[]} currentUser={currentUser} />
         </MemoryRouter>
       </QueryClientProvider>
 
@@ -85,7 +85,7 @@ describe("RideTable tests", () => {
     const { getByText, getByTestId } = render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <RideTable ride={rideFixtures.threeRidesTable} currentUser={currentUser} />
+          <RideTable rides={rideFixtures.threeRidesTable} currentUser={currentUser} />
         </MemoryRouter>
       </QueryClientProvider>
 
@@ -127,7 +127,7 @@ describe("RideTable tests", () => {
     const { getByText, getByTestId } = render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <RideTable ride={rideFixtures.threeRidesTable} currentUser={currentUser} />
+          <RideTable rides={rideFixtures.threeRidesTable} currentUser={currentUser} />
         </MemoryRouter>
       </QueryClientProvider>
 
@@ -167,7 +167,7 @@ describe("RideTable tests", () => {
     const { getByText, getByTestId } = render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <RideTable ride={rideFixtures.threeRidesTable} currentUser={currentUser} />
+          <RideTable rides={rideFixtures.threeRidesTable} currentUser={currentUser} />
         </MemoryRouter>
       </QueryClientProvider>
 
@@ -203,7 +203,7 @@ describe("RideTable tests", () => {
     const { getByTestId } = render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <RideTable ride={rideFixtures.threeRidesTable} currentUser={currentUser} />
+          <RideTable rides={rideFixtures.threeRidesTable} currentUser={currentUser} />
         </MemoryRouter>
       </QueryClientProvider>
 
@@ -216,7 +216,7 @@ describe("RideTable tests", () => {
     
     fireEvent.click(editButton);
 
-    await waitFor(() => expect(mockedNavigate).toHaveBeenCalledWith('/ride/edit/2'));
+    await waitFor(() => expect(mockedNavigate).toHaveBeenCalledWith('/rider/ride/edit/2'));
 
   });
 
@@ -227,7 +227,7 @@ describe("RideTable tests", () => {
     const {getByTestId } = render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <RideTable ride={rideFixtures.threeRidesTable} currentUser={currentUser} />
+          <RideTable rides={rideFixtures.threeRidesTable} currentUser={currentUser} />
         </MemoryRouter>
       </QueryClientProvider>
 
@@ -240,7 +240,7 @@ describe("RideTable tests", () => {
     
     fireEvent.click(editButton);
 
-    await waitFor(() => expect(mockedNavigate).toHaveBeenCalledWith('/ride/edit/2'));
+    await waitFor(() => expect(mockedNavigate).toHaveBeenCalledWith('/rider/ride/edit/2'));
 
   });
 
@@ -251,7 +251,7 @@ describe("RideTable tests", () => {
     const { getByTestId } = render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <RideTable ride={rideFixtures.threeRidesTable} currentUser={currentUser} />
+          <RideTable rides={rideFixtures.threeRidesTable} currentUser={currentUser} />
         </MemoryRouter>
       </QueryClientProvider>
     );

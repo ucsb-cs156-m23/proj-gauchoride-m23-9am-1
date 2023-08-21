@@ -1,4 +1,4 @@
-import { screen, render, waitFor} from "@testing-library/react";
+import { screen, render, waitFor, queryByTestId} from "@testing-library/react";
 
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
@@ -26,8 +26,8 @@ describe("AppNavbar tests", () => {
 
         await waitFor(() => expect(getByText("Welcome, Phillip Conrad")).toBeInTheDocument());
         
-        const rideMenu = queryByTestId("appnavbar-ride-dropdown");
-        expect(rideMenu).not.toBeInTheDocument();
+        const riderDashboard = queryByTestId("appnavbar-rider-dashboard");
+        expect(riderDashboard).not.toBeInTheDocument();
 
         const adminMenu = queryByTestId("appnavbar-admin-dropdown");
         expect(adminMenu).not.toBeInTheDocument();    
@@ -344,15 +344,10 @@ describe("AppNavbar tests", () => {
         
         await waitFor(() => expect(getByText("Welcome, Phill Conrad")).toBeInTheDocument());
         
-        const rideMenu = getByTestId("appnavbar-ride-dropdown");
-        expect(rideMenu).toBeInTheDocument(); 
+        const riderDashboard = getByTestId("appnavbar-rider-dashboard");
+        console.log(riderDashboard);
 
-        await findByTestId("appnavbar-ride-dropdown");
-        const dropdown = getByTestId("appnavbar-ride-dropdown");
-        const aElement = dropdown.querySelector("a");
-        expect(aElement).toBeInTheDocument();
-        aElement?.click();
-        await findByTestId(/appnavbar-ride-create-dropdown/);
+        expect(riderDashboard).toBeInTheDocument(); 
                 
     });
 
@@ -371,15 +366,8 @@ describe("AppNavbar tests", () => {
         
         await waitFor(() => expect(getByText("Welcome, Phill Conrad")).toBeInTheDocument());
         
-        const rideMenu = getByTestId("appnavbar-ride-dropdown");
-        expect(rideMenu).toBeInTheDocument(); 
-
-        await findByTestId("appnavbar-ride-dropdown");
-        const dropdown = getByTestId("appnavbar-ride-dropdown");
-        const aElement = dropdown.querySelector("a");
-        expect(aElement).toBeInTheDocument();
-        aElement?.click();
-        await findByTestId(/appnavbar-ride-create-dropdown/);
+        const riderDashboard = getByTestId("appnavbar-rider-dashboard");
+        expect(riderDashboard).toBeInTheDocument(); 
                 
     });
 
@@ -397,8 +385,8 @@ describe("AppNavbar tests", () => {
         );
         
         await waitFor(() => expect(getByText("Welcome, Phillip Conrad")).toBeInTheDocument());
-        const rideMenu = getByTestId("appnavbar-ride-dropdown");
-        expect(rideMenu).toBeInTheDocument();        
+        const riderDashboard = screen.queryByTestId("appnavbar-rider-dashboard");
+        expect(riderDashboard).not.toBeInTheDocument();         
     });
 
     test("renders ride links correctly for rider", async () => {
@@ -416,18 +404,8 @@ describe("AppNavbar tests", () => {
         
         await waitFor(() => expect(getByText("Welcome, Phillip Conrad")).toBeInTheDocument());
         
-        const rideMenu = getByTestId("appnavbar-ride-dropdown");
-        expect(rideMenu).toBeInTheDocument(); 
-
-        await findByTestId("appnavbar-ride-dropdown");
-        const dropdown = getByTestId("appnavbar-ride-dropdown");
-        const aElement = dropdown.querySelector("a");
-        expect(aElement).toBeInTheDocument();
-        aElement?.click();
-        await findByTestId(/appnavbar-ride-create-dropdown/);   
-        
-        const rideCreate = screen.queryByTestId("appnavbar-ride-create-dropdown");
-        expect(rideCreate).toBeInTheDocument();        
+        const riderDashboard = getByTestId("appnavbar-rider-dashboard");
+        expect(riderDashboard).toBeInTheDocument(); 
 
     });
 
@@ -446,18 +424,8 @@ describe("AppNavbar tests", () => {
         
         await waitFor(() => expect(getByText("Welcome, Phill Conrad")).toBeInTheDocument());
         
-        const rideMenu = getByTestId("appnavbar-ride-dropdown");
-        expect(rideMenu).toBeInTheDocument(); 
-
-        await findByTestId("appnavbar-ride-dropdown");
-        const dropdown = getByTestId("appnavbar-ride-dropdown");
-        const aElement = dropdown.querySelector("a");
-        expect(aElement).toBeInTheDocument();
-        aElement?.click();
-        await findByTestId(/appnavbar-ride-create-dropdown/);   
-        
-        const rideCreate = screen.queryByTestId("appnavbar-ride-create-dropdown");
-        expect(rideCreate).toBeInTheDocument();        
+        const riderDashboard = getByTestId("appnavbar-rider-dashboard");
+        expect(riderDashboard).toBeInTheDocument(); 
 
     });
 
@@ -475,11 +443,11 @@ describe("AppNavbar tests", () => {
         );
         
         await waitFor(() => expect(getByText("Welcome, Phillip Conrad")).toBeInTheDocument());
-        const rideMenu = screen.queryByTestId("appnavbar-ride-dropdown");
-        expect(rideMenu).not.toBeInTheDocument();        
+        const riderDashboard = screen.queryByTestId("appnavbar-rider-dashboard");
+        expect(riderDashboard).not.toBeInTheDocument();        
     });
 
-    test("Create ride should not be available for user that is neither Admin nor Rider", async () => {
+    test("Rider dashboard should not be available for user that is neither Admin nor Rider", async () => {
 
         const currentUser = currentUserFixtures.userOnly;
         const doLogin = jest.fn();
@@ -493,11 +461,11 @@ describe("AppNavbar tests", () => {
         );
         
         await waitFor(() => expect(getByText("Welcome, Phillip Conrad")).toBeInTheDocument());
-        const rideMenu = screen.queryByTestId("appnavbar-ride-create-dropdown");
-        expect(rideMenu).not.toBeInTheDocument(); 
+        const riderDashboard = screen.queryByTestId("appnavbar-rider-dashboard");
+        expect(riderDashboard).not.toBeInTheDocument(); 
     });
 
-    test("Create ride should not be available for user that is a Driver and neither Admin nor Rider", async () => {
+    test("Rider dashboard should not be available for user that is a Driver and neither Admin nor Rider", async () => {
 
         const currentUser = currentUserFixtures.driverOnly;
         const doLogin = jest.fn();
@@ -510,20 +478,8 @@ describe("AppNavbar tests", () => {
             </QueryClientProvider>
         );
         
-        await findByTestId("appnavbar-ride-dropdown");
-        const dropdown = getByTestId("appnavbar-ride-dropdown");
-        const aElement = dropdown.querySelector("a");
-        expect(aElement).toBeInTheDocument();
-        aElement?.click();
-        
-        const rides = screen.queryByTestId("appnavbar-ride-dropdown-rides");
-        expect(rides).toBeInTheDocument();
-
-        const rideCreate = screen.queryByTestId("appnavbar-ride-create-dropdown");
-        expect(rideCreate).not.toBeInTheDocument(); 
-        
-        const NOrideCreate = screen.queryByTestId("NO-appnavbar-ride-create-dropdown");
-        expect(NOrideCreate).toBeInTheDocument();  
+        const riderDashboard = screen.queryByTestId("appnavbar-rider-dashboard");
+        expect(riderDashboard).not.toBeInTheDocument(); 
 
     });
 

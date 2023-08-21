@@ -114,7 +114,7 @@ describe("RideRequestCreatePage tests", () => {
         });
 
         expect(mockToast).toBeCalledWith("New Ride Created - id: 17");
-        expect(mockNavigate).toBeCalledWith({ "to": "/ride/" });
+        expect(mockNavigate).toBeCalledWith({ "to": "/rider/" });
     });
 
 

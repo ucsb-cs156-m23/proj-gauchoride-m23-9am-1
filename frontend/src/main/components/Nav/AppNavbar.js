@@ -12,14 +12,6 @@ function isParticipant(currentUser) {
   );
 }
 
-// function createRideRequest(currentUser) {
-//   if (hasRole(currentUser, "ROLE_RIDER") || hasRole(currentUser, "ROLE_ADMIN")) {
-//     return (<NavDropdown.Item data-testid="appnavbar-ride-create-dropdown" as={Link} to="/rider/ride/create">Request Ride</NavDropdown.Item>)
-//   } else {
-//     return (<div data-testid="NO-appnavbar-ride-create-dropdown"></div>)
-//   }
-// }
-
 export default function AppNavbar({ currentUser, systemInfo, doLogout, currentUrl = window.location.href }) {
   const styles = {
     navbar: {
@@ -81,12 +73,8 @@ export default function AppNavbar({ currentUser, systemInfo, doLogout, currentUr
                 )
               }
               {
-                isParticipant(currentUser) && (
-                  // <NavDropdown title="Rider" id="appnavbar-ride-dropdown" data-testid="appnavbar-ride-dropdown" >
-                  //   <NavDropdown.Item data-testid="appnavbar-ride-dropdown-rides" as={Link} to="/rider/">Rider Dashboard</NavDropdown.Item>
-                  //   { createRideRequest(currentUser) }
-                  // </NavDropdown>
-                  <Nav.Link href="/rider/">Rider</Nav.Link>
+                ((hasRole(currentUser, "ROLE_RIDER") || hasRole(currentUser, "ROLE_ADMIN"))) && (
+                  <Nav.Link id="appnavbar-rider-dashboard" data-testid="appnavbar-rider-dashboard" href="/rider/">Rider</Nav.Link>
                 )
               }
             </Nav>
