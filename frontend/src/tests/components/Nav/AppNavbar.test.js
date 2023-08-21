@@ -31,6 +31,10 @@ describe("AppNavbar tests", () => {
 
         const adminMenu = queryByTestId("appnavbar-admin-dropdown");
         expect(adminMenu).not.toBeInTheDocument();    
+
+        const driverMenu = getByTestId("appnavbar-driver-dropdown");
+        expect(driverMenu).not.toBeInTheDocument();
+        
     });
 
     test("renders correctly for regular logged in rider", async () => {
@@ -46,7 +50,10 @@ describe("AppNavbar tests", () => {
             </QueryClientProvider>
         );
 
-        await waitFor(() => expect(getByText("Welcome, Phillip Conrad")).toBeInTheDocument());        
+        await waitFor(() => expect(getByText("Welcome, Phillip Conrad")).toBeInTheDocument());
+        const driverMenu = getByTestId("appnavbar-driver-dropdown");
+        expect(driverMenu).not.toBeInTheDocument();
+                
 
     });
 
@@ -64,6 +71,9 @@ describe("AppNavbar tests", () => {
         );
 
         await waitFor(() => expect(getByText("Welcome, Phillip Conrad")).toBeInTheDocument());
+        const driverMenu = getByTestId("appnavbar-driver-dropdown");
+        expect(driverMenu).toBeInTheDocument();
+        
     });
 
     test("renders correctly for admin user", async () => {
@@ -81,7 +91,10 @@ describe("AppNavbar tests", () => {
 
         await waitFor(() => expect(getByText("Welcome, Phill Conrad")).toBeInTheDocument());
         const adminMenu = getByTestId("appnavbar-admin-dropdown");
-        expect(adminMenu).toBeInTheDocument();        
+        expect(adminMenu).toBeInTheDocument();
+        const driverMenu = getByTestId("appnavbar-driver-dropdown");
+        expect(driverMenu).not.toBeInTheDocument();
+                
     });
 
     test("renders H2Console and Swagger links correctly", async () => {
@@ -277,6 +290,8 @@ describe("AppNavbar tests", () => {
         await waitFor(() => expect(getByTestId("AppNavbar")).toBeInTheDocument());
         expect(queryByTestId(/AppNavbarLocalhost/i)).toBeNull();
     });
+
+    
 
     test("renders image correctly", async () => {
         const currentUser = currentUserFixtures.adminUser;
