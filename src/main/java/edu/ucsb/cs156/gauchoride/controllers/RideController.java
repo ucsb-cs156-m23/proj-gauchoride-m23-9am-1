@@ -107,7 +107,7 @@ public class RideController extends ApiController {
         {
 
         Ride ride = new Ride();
-        
+
         ride.setRiderId(getCurrentUser().getUser().getId());
         ride.setStudent(getCurrentUser().getUser().getFullName());
         ride.setDay(day);
