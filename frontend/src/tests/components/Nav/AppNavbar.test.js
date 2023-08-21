@@ -1,4 +1,4 @@
-import { screen, render, waitFor, queryByTestId} from "@testing-library/react";
+import { screen, render, waitFor } from "@testing-library/react";
 
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
@@ -334,7 +334,7 @@ describe("AppNavbar tests", () => {
         const currentUser = currentUserFixtures.adminOnly;
         const doLogin = jest.fn();
 
-        const { getByText , getByTestId, findByTestId } = render(
+        const { getByText , getByTestId } = render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
                     <AppNavbar currentUser={currentUser} doLogin={doLogin} />
@@ -356,7 +356,7 @@ describe("AppNavbar tests", () => {
         const currentUser = currentUserFixtures.adminOnlyNoUser;
         const doLogin = jest.fn();
 
-        const { getByText , getByTestId, findByTestId } = render(
+        const { getByText , getByTestId } = render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
                     <AppNavbar currentUser={currentUser} doLogin={doLogin} />
@@ -376,7 +376,7 @@ describe("AppNavbar tests", () => {
         const currentUser = currentUserFixtures.driverOnly;
         const doLogin = jest.fn();
 
-        const { getByText , getByTestId } = render(
+        const { getByText } = render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
                     <AppNavbar currentUser={currentUser} doLogin={doLogin} />
@@ -394,7 +394,7 @@ describe("AppNavbar tests", () => {
         const currentUser = currentUserFixtures.riderOnly;
         const doLogin = jest.fn();
 
-        const { getByText , getByTestId, findByTestId } = render(
+        const { getByText , getByTestId } = render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
                     <AppNavbar currentUser={currentUser} doLogin={doLogin} />
@@ -414,7 +414,7 @@ describe("AppNavbar tests", () => {
         const currentUser = currentUserFixtures.adminOnly;
         const doLogin = jest.fn();
 
-        const { getByText , getByTestId, findByTestId } = render(
+        const { getByText , getByTestId } = render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
                     <AppNavbar currentUser={currentUser} doLogin={doLogin} />
@@ -470,7 +470,7 @@ describe("AppNavbar tests", () => {
         const currentUser = currentUserFixtures.driverOnly;
         const doLogin = jest.fn();
 
-        const { getByTestId, findByTestId } = render(
+       render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
                     <AppNavbar currentUser={currentUser} doLogin={doLogin} />
