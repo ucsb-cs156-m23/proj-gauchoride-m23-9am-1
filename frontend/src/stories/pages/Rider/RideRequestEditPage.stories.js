@@ -4,7 +4,7 @@ import RideRequestEditPage from 'main/pages/Rider/RideRequestEditPage';
 import { rideFixtures } from 'fixtures/rideFixtures';
 
 export default {
-    title: 'pages/Ride/RideRequestEditPage',
+    title: 'pages/Rider/RideRequestEditPage',
     component: RideRequestEditPage
 };
 

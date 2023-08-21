@@ -3,7 +3,7 @@ import RideForm from "main/components/Rider/RideForm"
 import { rideFixtures } from 'fixtures/rideFixtures';
 
 export default {
-    title: 'components/Ride/RideForm',
+    title: 'components/Rider/RideForm',
     component: RideForm
 };
 

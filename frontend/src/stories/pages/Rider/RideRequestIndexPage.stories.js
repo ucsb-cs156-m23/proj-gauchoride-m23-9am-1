@@ -4,7 +4,7 @@ import React from 'react';
 import RideRequestIndexPage from 'main/pages/Rider/RideRequestIndexPage';
 
 export default {
-    title: 'pages/Ride/RideRequestIndexPage',
+    title: 'pages/Rider/RideRequestIndexPage',
     component: RideRequestIndexPage
 };
 
