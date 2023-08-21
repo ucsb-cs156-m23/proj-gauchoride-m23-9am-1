@@ -1,7 +1,7 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router-dom";
 
-import RideForm from "main/components/Ride/RideForm";
+import RideForm from "main/components/Rider/RideForm";
 import { rideFixtures } from "fixtures/rideFixtures";
 
 import { QueryClient, QueryClientProvider } from "react-query";

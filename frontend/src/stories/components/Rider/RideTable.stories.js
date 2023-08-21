@@ -1,5 +1,5 @@
 import React from 'react';
-import RideTable from 'main/components/Ride/RideTable';
+import RideTable from 'main/components/Rider/RideTable';
 import { rideFixtures } from 'fixtures/rideFixtures';
 import { currentUserFixtures } from 'fixtures/currentUserFixtures';
 

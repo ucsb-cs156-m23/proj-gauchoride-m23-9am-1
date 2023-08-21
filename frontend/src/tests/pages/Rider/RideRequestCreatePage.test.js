@@ -1,5 +1,5 @@
 import { render, waitFor, fireEvent } from "@testing-library/react";
-import RideRequestCreatePage from "main/pages/Ride/RideRequestCreatePage";
+import RideRequestCreatePage from "main/pages/Rider/RideRequestCreatePage";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
 

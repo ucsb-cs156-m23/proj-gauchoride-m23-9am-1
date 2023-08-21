@@ -1,7 +1,7 @@
 
 import React from 'react';
 
-import RideRequestIndexPage from 'main/pages/Ride/RideRequestIndexPage';
+import RideRequestIndexPage from 'main/pages/Rider/RideRequestIndexPage';
 
 export default {
     title: 'pages/Ride/RideRequestIndexPage',

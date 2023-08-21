@@ -5,15 +5,15 @@ import { cellToAxiosParamsDelete, onDeleteSuccess } from "main/utils/rideUtils"
 import { useNavigate } from "react-router-dom";
 import { hasRole } from "main/utils/currentUser";
 
-export default function RideTable({
-        ride,
+export default function RiderTable({
+        rides,
         currentUser
     }) {
 
     const navigate = useNavigate();
 
     const editCallback = (cell) => {
-        navigate(`/ride/edit/${cell.row.values.id}`)
+        navigate(`/rider/ride/edit/${cell.row.values.id}`)
     }
 
     // Stryker disable all : hard to test for query caching
@@ -168,7 +168,7 @@ export default function RideTable({
     
     
     return <OurTable
-        data={ride}
+        data={rides}
         columns={columnsToDisplay}
         testid={"RideTable"}
     />;

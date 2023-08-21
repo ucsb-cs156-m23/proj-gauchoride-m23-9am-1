@@ -1,6 +1,6 @@
 import BasicLayout from "main/layouts/BasicLayout/BasicLayout";
 import { useParams } from "react-router-dom";
-import RideForm from "main/components/Ride/RideForm";
+import RideForm from "main/components/Rider/RideForm";
 import { Navigate } from 'react-router-dom'
 import { useBackend, useBackendMutation } from "main/utils/useBackend";
 
@@ -58,7 +58,7 @@ export default function RideRequestEditPage() {
   }
 
   if (isSuccess) {
-    return <Navigate to="/ride/" />
+    return <Navigate to="/rider/" />
   }
 
     return (

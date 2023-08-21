@@ -1,6 +1,6 @@
 import { fireEvent, render, waitFor, screen } from "@testing-library/react";
 import { rideFixtures } from "fixtures/rideFixtures";
-import RideTable from "main/components/Ride/RideTable";
+import RideTable from "main/components/Rider/RideTable";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
 import { currentUserFixtures } from "fixtures/currentUserFixtures";

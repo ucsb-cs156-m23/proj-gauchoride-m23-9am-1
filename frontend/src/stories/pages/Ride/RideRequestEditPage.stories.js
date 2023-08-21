@@ -1,6 +1,6 @@
 import React from 'react';
 
-import RideRequestEditPage from 'main/pages/Ride/RideRequestEditPage';
+import RideRequestEditPage from 'main/pages/Rider/RideRequestEditPage';
 import { rideFixtures } from 'fixtures/rideFixtures';
 
 export default {

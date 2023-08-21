@@ -1,5 +1,5 @@
 import React from 'react';
-import RideForm from "main/components/Ride/RideForm"
+import RideForm from "main/components/Rider/RideForm"
 import { rideFixtures } from 'fixtures/rideFixtures';
 
 export default {
