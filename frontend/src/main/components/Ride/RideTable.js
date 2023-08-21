@@ -109,7 +109,8 @@ export default function RideTable({
         {
             Header: 'Drop Off Room',
             accessor: 'dropoffRoom',
-        }
+        },
+     
     ];
 
     const columnsRider = [
