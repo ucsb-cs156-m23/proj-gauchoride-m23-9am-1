@@ -154,9 +154,7 @@ function RideForm({ initialContents, submitAction, buttonLabel = "Create" }) {
                     type="text"
                     {...register("dropoffRoom")}
                     isInvalid={Boolean(errors.dropoffRoom)}
-                    //{...register("dropoffRoom", {
-                        //required: "Drop OffRoom number is required."
-                    //})}
+                  
                     placeholder="e.g. 1431"  
                     defaultValue={initialContents?.dropoffRoom} 
                 />
@@ -191,9 +189,7 @@ function RideForm({ initialContents, submitAction, buttonLabel = "Create" }) {
                     type="text"
                     {...register("pickupRoom")}
                     isInvalid={Boolean(errors.pickupRoom)}
-                    //{...register("dropoffRoom", {
-                        //required: "Drop OffRoom number is required."
-                    //})}
+                    
                     placeholder="e.g. 1940"  
                     defaultValue={initialContents?.pickupRoom} 
                 />
@@ -210,9 +206,7 @@ function RideForm({ initialContents, submitAction, buttonLabel = "Create" }) {
                     type="text"
                     {...register("notes")}
                     isInvalid={Boolean(errors.notes)}
-                    //{...register("dropoffRoom", {
-                        //required: "Drop OffRoom number is required."
-                    //})}
+                   
                     placeholder="e.g. Behind South Hall"  
                     defaultValue={initialContents?.notes} 
                 />
