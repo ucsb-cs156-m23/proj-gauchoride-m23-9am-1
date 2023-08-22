@@ -154,9 +154,6 @@ function RideForm({ initialContents, submitAction, buttonLabel = "Create" }) {
                     type="text"
                     {...register("dropoffRoom")}
                     isInvalid={Boolean(errors.dropoffRoom)}
-                    //{...register("dropoffRoom", {
-                        //required: "Drop OffRoom number is required."
-                    //})}
                     placeholder="e.g. 1431"  
                     defaultValue={initialContents?.dropoffRoom} 
                 />
