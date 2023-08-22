@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import io.swagger.v3.oas.annotations.media.Schema;
-
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
