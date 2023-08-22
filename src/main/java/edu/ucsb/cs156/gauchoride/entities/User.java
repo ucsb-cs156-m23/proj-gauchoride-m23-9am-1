@@ -20,7 +20,6 @@ public class User {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
   private String email;
-  // added cell phone variable
   private String cellPhone;
   private String googleSub;
   private String pictureUrl;
