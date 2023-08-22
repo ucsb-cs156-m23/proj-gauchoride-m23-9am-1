@@ -263,7 +263,7 @@ public class ShiftControllerTests extends ControllerTestCase {
         }
         
 
-
+        
         // GET ALL
 
         @WithMockUser(roles = { "USER" })
