@@ -547,7 +547,6 @@ public class ShiftControllerTests extends ControllerTestCase {
                                 .driverBackupID(1)
                                 .build();
 
-                //when(shiftRepository.save(eq(shift1))).thenReturn(shift1);
                 when(shiftRepository.findById(eq(15L))).thenReturn(Optional.of(shift1));
 
                 // act
