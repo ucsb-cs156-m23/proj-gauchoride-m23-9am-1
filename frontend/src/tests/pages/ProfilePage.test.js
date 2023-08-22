@@ -3,13 +3,11 @@ import React from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
 import { apiCurrentUserFixtures }  from "fixtures/currentUserFixtures";
-// import { Modal } from "react-bootstrap";
 
 import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
 import ProfilePage from "main/pages/ProfilePage";
 import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
-// import mockConsole from "jest-mock-console";
 
 describe("ProfilePage tests", () => {
     const location= window.location;
@@ -54,11 +52,8 @@ describe("ProfilePage tests", () => {
         expect(getByText("pconrad.cis@gmail.com")).toBeInTheDocument();
         const updatePhoneButton = getByText("Update Phone Number")
         expect(updatePhoneButton).toBeInTheDocument();
-        // const logSpy = jest.spyOn(console, 'log');
-
         expect(screen.queryByText("Update Phone Number:")).not.toBeInTheDocument()
         fireEvent.click(updatePhoneButton);
-        // expect(logSpy).toHaveBeenCalledWith('true modal');
         await waitFor( () => expect(getByText("Update Phone Number:")).toBeInTheDocument() );
         expect(getByText("Enter New Phone Number")).toBeInTheDocument();
 
@@ -68,16 +63,11 @@ describe("ProfilePage tests", () => {
         expect(cancelButton).toBeInTheDocument();
 
         fireEvent.click(cancelButton);
-        // expect(screen.queryByText("Update Phone Number:")).not.toBeInTheDocument()
-        // expect(logSpy).toHaveBeenCalledWith('false modal');
-        // expect(handleClose).toHaveBeenCalledTimes(1)
-        // const newPhone = screen.getByTestId("new_phone")
         expect(getByText("Update Phone Number:"));
         
 
         fireEvent.click(updatePhoneButton);
       
-        // Assert
 
 
         const newPhone = screen.getByTestId("new_phone")
@@ -89,11 +79,6 @@ describe("ProfilePage tests", () => {
         updateButton.click();
         expect(window.location.reload).toHaveBeenCalledTimes(1);
         expect(axiosMock.history.put.length).toBe(1); 
-        // times called
-        // expect(axiosMock.history.put[0].params).toEqual({ cellPhone: "1234" });
-
-        // jest.restoreAllMocks();
-        // window.location = location;
 
     });
 

@@ -55,8 +55,6 @@ public class UserProfileControllerTests extends ControllerTestCase {
   @Test
   public void currentUser__logged_in_can_edit_profile() throws Exception {
 
-    // arrange
-
     CurrentUser currentUser = currentUserService.getCurrentUser();
 
     User fakeUserOld = User.builder()
@@ -96,12 +94,8 @@ public class UserProfileControllerTests extends ControllerTestCase {
 
     when(userRepository.findById(eq(1L))).thenReturn(Optional.of(fakeUserOld));
 
-    // act
-
     MvcResult response = mockMvc.perform(
                     put("/api/userprofile?cellPhone=1234").with(csrf())).andExpect(status().isOk()).andReturn();
-
-    // assert
     String responseString = response.getResponse().getContentAsString();
     assertEquals(expectedJson, responseString);
   }
