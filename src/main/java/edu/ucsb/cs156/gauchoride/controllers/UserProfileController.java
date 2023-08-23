@@ -28,7 +28,7 @@ public class UserProfileController extends ApiController {
   @Operation(summary = "Update user cell phone number")
   @PreAuthorize("hasRole('ROLE_USER')")
   @PutMapping("")
-  public User updateRide(
+  public User updateUsersCellPhone(
     @Parameter(name="cellPhone") @RequestParam String cellPhone) {
         Long id = super.getCurrentUser().getUser().getId();
         User user = userRepository.findById(id)
