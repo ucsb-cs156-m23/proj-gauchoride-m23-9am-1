@@ -190,7 +190,7 @@ function RideForm({ initialContents, submitAction, buttonLabel = "Create" }) {
                     isInvalid={Boolean(errors.pickupRoom)}
                  
                         
-                    //})}
+        
                     placeholder="e.g. 1940"  
                     defaultValue={initialContents?.pickupRoom} 
                 />
