@@ -81,7 +81,7 @@ public class ShiftControllerTests extends ControllerTestCase {
         @Test
         public void logged_in_users_can_get_by_id() throws Exception {
                 mockMvc.perform(get("/api/shift/get?id=7"))
-                                .andExpect(status().is(404)); // logged out users can't get by id
+                                .andExpect(status().is(404)); // logged, but no id exists
         }
 
 
