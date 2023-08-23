@@ -107,7 +107,6 @@ public class RideController extends ApiController {
         {
 
         Ride ride = new Ride();
-        //not sure if we have to set dropoffroom and pickuproom
         ride.setRiderId(getCurrentUser().getUser().getId());
         ride.setStudent(getCurrentUser().getUser().getFullName());
         ride.setDay(day);
