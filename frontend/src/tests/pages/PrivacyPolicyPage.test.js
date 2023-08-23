@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react";
+import { getByDisplayValue, render, waitFor } from "@testing-library/react";
 import PrivacyPolicyPage from "main/pages/PrivacyPolicyPage";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
@@ -29,6 +29,18 @@ describe("PageNotFound tests", () => {
                 </MemoryRouter>
             </QueryClientProvider>
         );
+    });
+
+    test("renders privacy policy HTML correctly", async () => {
+        const { getByText } = render(
+            <QueryClientProvider client={queryClient}>
+                <MemoryRouter>
+                    <PrivacyPolicyPage />
+                </MemoryRouter>
+            </QueryClientProvider>
+        );
+
+        await waitFor( () => expect(getByText("PRIVACY POLICY")).toBeInTheDocument() );
     });
 
 });
