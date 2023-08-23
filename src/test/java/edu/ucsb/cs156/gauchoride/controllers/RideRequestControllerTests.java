@@ -3,8 +3,8 @@ package edu.ucsb.cs156.gauchoride.controllers;
 import edu.ucsb.cs156.gauchoride.repositories.UserRepository;
 import edu.ucsb.cs156.gauchoride.testconfig.TestConfig;
 import edu.ucsb.cs156.gauchoride.ControllerTestCase;
-import edu.ucsb.cs156.gauchoride.entities.Ride;
-import edu.ucsb.cs156.gauchoride.repositories.RideRepository;
+import edu.ucsb.cs156.gauchoride.entities.RideRequest;
+import edu.ucsb.cs156.gauchoride.repositories.RideRequestRepository;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,12 +30,12 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@WebMvcTest(controllers = RideController.class)
+@WebMvcTest(controllers = RideRequestController.class)
 @Import(TestConfig.class)
-public class RideControllerTests extends ControllerTestCase {
+public class RideRequestControllerTests extends ControllerTestCase {
 
         @MockBean
-        RideRepository rideRepository;
+        RideRequestRepository rideReqRepository;
 
         @MockBean
         UserRepository userRepository;
@@ -145,7 +145,7 @@ public class RideControllerTests extends ControllerTestCase {
 
                 long userId = currentUserService.getCurrentUser().getUser().getId();
 
-                Ride ride = Ride.builder()
+                RideRequest ride = RideRequest.builder()
                                 .riderId(userId)
                                 .student("CGaucho")
                                 .day("Monday")
@@ -159,7 +159,7 @@ public class RideControllerTests extends ControllerTestCase {
                                 .notes("see you soon :)")
                                 .build();
 
-                when(rideRepository.findByIdAndRiderId(eq(7L), eq(userId))).thenReturn(Optional.of(ride));
+                when(rideReqRepository.findByIdAndRiderId(eq(7L), eq(userId))).thenReturn(Optional.of(ride));
 
                 // act
                 MvcResult response = mockMvc.perform(get("/api/ride_request?id=7"))
@@ -167,7 +167,7 @@ public class RideControllerTests extends ControllerTestCase {
 
                 // assert
 
-                verify(rideRepository, times(1)).findByIdAndRiderId(eq(7L), eq(userId));
+                verify(rideReqRepository, times(1)).findByIdAndRiderId(eq(7L), eq(userId));
                 String expectedJson = mapper.writeValueAsString(ride);
                 String responseString = response.getResponse().getContentAsString();
                 assertEquals(expectedJson, responseString);
@@ -181,7 +181,7 @@ public class RideControllerTests extends ControllerTestCase {
 
                 long userId = currentUserService.getCurrentUser().getUser().getId();
 
-                when(rideRepository.findByIdAndRiderId(eq(7L), eq(userId))).thenReturn(Optional.empty());
+                when(rideReqRepository.findByIdAndRiderId(eq(7L), eq(userId))).thenReturn(Optional.empty());
 
                 // act
                 MvcResult response = mockMvc.perform(get("/api/ride_request?id=7"))
@@ -189,7 +189,7 @@ public class RideControllerTests extends ControllerTestCase {
 
                 // assert
 
-                verify(rideRepository, times(1)).findByIdAndRiderId(eq(7L), eq(userId));
+                verify(rideReqRepository, times(1)).findByIdAndRiderId(eq(7L), eq(userId));
                 Map<String, Object> json = responseToJson(response);
                 assertEquals("EntityNotFoundException", json.get("type"));
                 assertEquals("Ride with id 7 not found", json.get("message"));
@@ -205,7 +205,7 @@ public class RideControllerTests extends ControllerTestCase {
                 long userId = currentUserService.getCurrentUser().getUser().getId();
                 long otherUserId = userId + 1;
 
-                Ride ride = Ride.builder()
+                RideRequest ride = RideRequest.builder()
                                 .riderId(otherUserId)
                                 .student("CGaucho")
                                 .day("Monday")
@@ -219,7 +219,7 @@ public class RideControllerTests extends ControllerTestCase {
                                 .notes("see you soon :)")
                                 .build();
 
-                when(rideRepository.findByIdAndRiderId(eq(7L), eq(otherUserId))).thenReturn(Optional.of(ride));
+                when(rideReqRepository.findByIdAndRiderId(eq(7L), eq(otherUserId))).thenReturn(Optional.of(ride));
 
                 // act
                 MvcResult response = mockMvc.perform(get("/api/ride_request?id=7"))
@@ -227,7 +227,7 @@ public class RideControllerTests extends ControllerTestCase {
 
                 // assert
 
-                verify(rideRepository, times(1)).findByIdAndRiderId(eq(7L), eq(userId));
+                verify(rideReqRepository, times(1)).findByIdAndRiderId(eq(7L), eq(userId));
                 Map<String, Object> json = responseToJson(response);
                 assertEquals("EntityNotFoundException", json.get("type"));
                 assertEquals("Ride with id 7 not found", json.get("message"));
@@ -244,7 +244,7 @@ public class RideControllerTests extends ControllerTestCase {
                 long userId = currentUserService.getCurrentUser().getUser().getId();
                 long otherUserId = userId + 1;
 
-                Ride ride = Ride.builder()
+                RideRequest ride = RideRequest.builder()
                                 .riderId(otherUserId)
                                 .student("CGaucho")
                                 .day("Monday")
@@ -258,7 +258,7 @@ public class RideControllerTests extends ControllerTestCase {
                                 .notes("see you soon :)")
                                 .build();
 
-                when(rideRepository.findById(eq(7L))).thenReturn(Optional.of(ride));
+                when(rideReqRepository.findById(eq(7L))).thenReturn(Optional.of(ride));
 
                 // act
                 MvcResult response = mockMvc.perform(get("/api/ride_request?id=7"))
@@ -266,7 +266,7 @@ public class RideControllerTests extends ControllerTestCase {
 
                 // assert
 
-                verify(rideRepository, times(1)).findById(eq(7L));
+                verify(rideReqRepository, times(1)).findById(eq(7L));
                 String expectedJson = mapper.writeValueAsString(ride);
                 String responseString = response.getResponse().getContentAsString();
                 assertEquals(expectedJson, responseString);
@@ -281,7 +281,7 @@ public class RideControllerTests extends ControllerTestCase {
                 long userId = currentUserService.getCurrentUser().getUser().getId();
                 long otherUserId = userId + 1;
 
-                Ride ride = Ride.builder()
+                RideRequest ride = RideRequest.builder()
                                 .riderId(otherUserId)
                                 .student("DGaucho")
                                 .day("Monday")
@@ -295,7 +295,7 @@ public class RideControllerTests extends ControllerTestCase {
                                 .notes("see you soon :)")
                                 .build();
 
-                when(rideRepository.findById(eq(7L))).thenReturn(Optional.of(ride));
+                when(rideReqRepository.findById(eq(7L))).thenReturn(Optional.of(ride));
 
                 // act
                 MvcResult response = mockMvc.perform(get("/api/ride_request?id=7"))
@@ -303,7 +303,7 @@ public class RideControllerTests extends ControllerTestCase {
 
                 // assert
 
-                verify(rideRepository, times(1)).findById(eq(7L));
+                verify(rideReqRepository, times(1)).findById(eq(7L));
                 String expectedJson = mapper.writeValueAsString(ride);
                 String responseString = response.getResponse().getContentAsString();
                 assertEquals(expectedJson, responseString);
@@ -315,7 +315,7 @@ public class RideControllerTests extends ControllerTestCase {
 
                 // arrange
 
-                when(rideRepository.findById(eq(7L))).thenReturn(Optional.empty());
+                when(rideReqRepository.findById(eq(7L))).thenReturn(Optional.empty());
 
                 // act
                 MvcResult response = mockMvc.perform(get("/api/ride_request?id=7"))
@@ -323,7 +323,7 @@ public class RideControllerTests extends ControllerTestCase {
 
                 // assert
 
-                verify(rideRepository, times(1)).findById(eq(7L));
+                verify(rideReqRepository, times(1)).findById(eq(7L));
                 Map<String, Object> json = responseToJson(response);
                 assertEquals("EntityNotFoundException", json.get("type"));
                 assertEquals("Ride with id 7 not found", json.get("message"));
@@ -335,7 +335,7 @@ public class RideControllerTests extends ControllerTestCase {
 
                 // arrange
 
-                when(rideRepository.findById(eq(7L))).thenReturn(Optional.empty());
+                when(rideReqRepository.findById(eq(7L))).thenReturn(Optional.empty());
 
                 // act
                 MvcResult response = mockMvc.perform(get("/api/ride_request?id=7"))
@@ -343,7 +343,7 @@ public class RideControllerTests extends ControllerTestCase {
 
                 // assert
 
-                verify(rideRepository, times(1)).findById(eq(7L));
+                verify(rideReqRepository, times(1)).findById(eq(7L));
                 Map<String, Object> json = responseToJson(response);
                 assertEquals("EntityNotFoundException", json.get("type"));
                 assertEquals("Ride with id 7 not found", json.get("message"));
@@ -359,7 +359,7 @@ public class RideControllerTests extends ControllerTestCase {
 
                 long userId = currentUserService.getCurrentUser().getUser().getId();
 
-                Ride ride1 = Ride.builder()
+                RideRequest ride1 = RideRequest.builder()
                                 .riderId(userId)
                                 .student("CGaucho")
                                 .day("Monday")
@@ -373,7 +373,7 @@ public class RideControllerTests extends ControllerTestCase {
                                 .notes("see you soon :)")
                                 .build();
 
-                Ride ride3 = Ride.builder()
+                RideRequest ride3 = RideRequest.builder()
                                 .riderId(userId)
                                 .student("CGaucho")
                                 .day("Thursday")
@@ -387,10 +387,10 @@ public class RideControllerTests extends ControllerTestCase {
                                 .notes("thanks for taking me")
                                 .build();
 
-                ArrayList<Ride> expectedRides = new ArrayList<>();
+                ArrayList<RideRequest> expectedRides = new ArrayList<>();
                 expectedRides.addAll(Arrays.asList(ride1, ride3));
 
-                when(rideRepository.findAllByRiderId(eq(userId))).thenReturn(expectedRides);
+                when(rideReqRepository.findAllByRiderId(eq(userId))).thenReturn(expectedRides);
 
                 // act
                 MvcResult response = mockMvc.perform(get("/api/ride_request/all"))
@@ -398,7 +398,7 @@ public class RideControllerTests extends ControllerTestCase {
 
                 // assert
 
-                verify(rideRepository, times(1)).findAllByRiderId(eq(userId));
+                verify(rideReqRepository, times(1)).findAllByRiderId(eq(userId));
                 String expectedJson = mapper.writeValueAsString(expectedRides);
                 String responseString = response.getResponse().getContentAsString();
                 assertEquals(expectedJson, responseString);
@@ -411,7 +411,7 @@ public class RideControllerTests extends ControllerTestCase {
                 long userId = currentUserService.getCurrentUser().getUser().getId();
                 long otherUserId = userId + 1;
 
-                Ride ride1 = Ride.builder()
+                RideRequest ride1 = RideRequest.builder()
                                 .riderId(userId)
                                 .student("CGaucho")
                                 .day("Monday")
@@ -425,7 +425,7 @@ public class RideControllerTests extends ControllerTestCase {
                                 .notes("going to cs156!")
                                 .build();
 
-                Ride ride2 = Ride.builder()
+                RideRequest ride2 = RideRequest.builder()
                                 .riderId(otherUserId)
                                 .student("DGaucho")
                                 .day("Thursday")
@@ -439,7 +439,7 @@ public class RideControllerTests extends ControllerTestCase {
                                 .notes("looking forward to riding with you")
                                 .build();
 
-                Ride ride3 = Ride.builder()
+                RideRequest ride3 = RideRequest.builder()
                                 .riderId(userId)
                                 .student("CGaucho")
                                 .day("Thursday")
@@ -453,10 +453,10 @@ public class RideControllerTests extends ControllerTestCase {
                                 .notes("see you soon :)")
                                 .build();
 
-                ArrayList<Ride> expectedRides = new ArrayList<>();
+                ArrayList<RideRequest> expectedRides = new ArrayList<>();
                 expectedRides.addAll(Arrays.asList(ride1, ride2, ride3));
 
-                when(rideRepository.findAll()).thenReturn(expectedRides);
+                when(rideReqRepository.findAll()).thenReturn(expectedRides);
 
                 // act
                 MvcResult response = mockMvc.perform(get("/api/ride_request/all"))
@@ -464,7 +464,7 @@ public class RideControllerTests extends ControllerTestCase {
 
                 // assert
 
-                verify(rideRepository, times(1)).findAll();
+                verify(rideReqRepository, times(1)).findAll();
                 String expectedJson = mapper.writeValueAsString(expectedRides);
                 String responseString = response.getResponse().getContentAsString();
                 assertEquals(expectedJson, responseString);
@@ -477,7 +477,7 @@ public class RideControllerTests extends ControllerTestCase {
                 long userId = currentUserService.getCurrentUser().getUser().getId();
                 long otherUserId = userId + 1;
 
-                Ride ride1 = Ride.builder()
+                RideRequest ride1 = RideRequest.builder()
                                 .riderId(userId)
                                 .student("CGaucho")
                                 .day("Monday")
@@ -491,7 +491,7 @@ public class RideControllerTests extends ControllerTestCase {
                                 .notes("see you soon :)")
                                 .build();
 
-                Ride ride2 = Ride.builder()
+                RideRequest ride2 = RideRequest.builder()
                                 .riderId(otherUserId)
                                 .student("DGaucho")
                                 .day("Thursday")
@@ -505,7 +505,7 @@ public class RideControllerTests extends ControllerTestCase {
                                 .notes("thanks for picking me up")
                                 .build();
 
-                Ride ride3 = Ride.builder()
+                RideRequest ride3 = RideRequest.builder()
                                 .riderId(userId)
                                 .student("CGaucho")
                                 .day("Thursday")
@@ -519,10 +519,10 @@ public class RideControllerTests extends ControllerTestCase {
                                 .notes("I am in the lobby!")
                                 .build();
 
-                ArrayList<Ride> expectedRides = new ArrayList<>();
+                ArrayList<RideRequest> expectedRides = new ArrayList<>();
                 expectedRides.addAll(Arrays.asList(ride1, ride2, ride3));
 
-                when(rideRepository.findAll()).thenReturn(expectedRides);
+                when(rideReqRepository.findAll()).thenReturn(expectedRides);
 
                 // act
                 MvcResult response = mockMvc.perform(get("/api/ride_request/all"))
@@ -530,7 +530,7 @@ public class RideControllerTests extends ControllerTestCase {
 
                 // assert
 
-                verify(rideRepository, times(1)).findAll();
+                verify(rideReqRepository, times(1)).findAll();
                 String expectedJson = mapper.writeValueAsString(expectedRides);
                 String responseString = response.getResponse().getContentAsString();
                 assertEquals(expectedJson, responseString);
@@ -549,7 +549,7 @@ public class RideControllerTests extends ControllerTestCase {
 
                 long userId = currentUserService.getCurrentUser().getUser().getId();
 
-                Ride ride1 = Ride.builder()
+                RideRequest ride1 = RideRequest.builder()
                         .riderId(userId)
                         .student("Fake user")
                         .day("Monday")
@@ -563,7 +563,7 @@ public class RideControllerTests extends ControllerTestCase {
                         .notes("hi")
                         .build();
 
-                when(rideRepository.save(eq(ride1))).thenReturn(ride1);
+                when(rideReqRepository.save(eq(ride1))).thenReturn(ride1);
 
                 String postRequesString = "day=Monday&course=CMPSC 156&startTime=2:00PM&endTime=3:15PM&pickupLocation=Phelps Hall&dropoffLocation=South Hall&dropoffRoom=1431&pickupRoom=3505&notes=hi";
 
@@ -574,7 +574,7 @@ public class RideControllerTests extends ControllerTestCase {
                                 .andExpect(status().isOk()).andReturn();
 
                 // assert
-                verify(rideRepository, times(1)).save(ride1);
+                verify(rideReqRepository, times(1)).save(ride1);
                 String expectedJson = mapper.writeValueAsString(ride1);
                 String responseString = response.getResponse().getContentAsString();
                 assertEquals(expectedJson, responseString);
@@ -593,7 +593,7 @@ public class RideControllerTests extends ControllerTestCase {
 
                 long userId = currentUserService.getCurrentUser().getUser().getId();
 
-                Ride ride1 = Ride.builder()
+                RideRequest ride1 = RideRequest.builder()
                         .riderId(userId)
                         .student("CGaucho")
                         .day("Monday")
@@ -607,7 +607,7 @@ public class RideControllerTests extends ControllerTestCase {
                         .notes("waiting outside of 3505")
                         .build();
 
-                when(rideRepository.findByIdAndRiderId(eq(15L), eq(userId))).thenReturn(Optional.of(ride1));
+                when(rideReqRepository.findByIdAndRiderId(eq(15L), eq(userId))).thenReturn(Optional.of(ride1));
 
                 // act
                 MvcResult response = mockMvc.perform(
@@ -616,8 +616,8 @@ public class RideControllerTests extends ControllerTestCase {
                                 .andExpect(status().isOk()).andReturn();
 
                 // assertuserId
-                verify(rideRepository, times(1)).findByIdAndRiderId(eq(15L), eq(userId));
-                verify(rideRepository, times(1)).delete(ride1);
+                verify(rideReqRepository, times(1)).findByIdAndRiderId(eq(15L), eq(userId));
+                verify(rideReqRepository, times(1)).delete(ride1);
 
                 Map<String, Object> json = responseToJson(response);
                 assertEquals("Ride with id 15 deleted", json.get("message"));
@@ -632,7 +632,7 @@ public class RideControllerTests extends ControllerTestCase {
                 long userId = currentUserService.getCurrentUser().getUser().getId();
                 long otherUserId = userId + 1;
 
-                Ride ride1 = Ride.builder()
+                RideRequest ride1 = RideRequest.builder()
                         .riderId(otherUserId)
                         .student("CGaucho")
                         .day("Monday")
@@ -646,7 +646,7 @@ public class RideControllerTests extends ControllerTestCase {
                         .notes("waiting outside of 3505")
                         .build();
 
-                when(rideRepository.findByIdAndRiderId(eq(15L), eq(otherUserId))).thenReturn(Optional.of(ride1));
+                when(rideReqRepository.findByIdAndRiderId(eq(15L), eq(otherUserId))).thenReturn(Optional.of(ride1));
 
                 // act
                 MvcResult response = mockMvc.perform(
@@ -655,7 +655,7 @@ public class RideControllerTests extends ControllerTestCase {
                                 .andExpect(status().isNotFound()).andReturn();
 
                 // assert
-                verify(rideRepository, times(1)).findByIdAndRiderId(eq(15L), eq(userId));
+                verify(rideReqRepository, times(1)).findByIdAndRiderId(eq(15L), eq(userId));
                 Map<String, Object> json = responseToJson(response);
                 assertEquals("Ride with id 15 not found", json.get("message"));
         }
@@ -668,7 +668,7 @@ public class RideControllerTests extends ControllerTestCase {
 
                 long userId = currentUserService.getCurrentUser().getUser().getId();
 
-                when(rideRepository.findByIdAndRiderId(eq(15L), eq(userId))).thenReturn(Optional.empty());
+                when(rideReqRepository.findByIdAndRiderId(eq(15L), eq(userId))).thenReturn(Optional.empty());
 
                 // act
                 MvcResult response = mockMvc.perform(
@@ -677,7 +677,7 @@ public class RideControllerTests extends ControllerTestCase {
                                 .andExpect(status().isNotFound()).andReturn();
 
                 // assert
-                verify(rideRepository, times(1)).findByIdAndRiderId(eq(15L), eq(userId));
+                verify(rideReqRepository, times(1)).findByIdAndRiderId(eq(15L), eq(userId));
                 Map<String, Object> json = responseToJson(response);
                 assertEquals("Ride with id 15 not found", json.get("message"));
         }
@@ -691,7 +691,7 @@ public class RideControllerTests extends ControllerTestCase {
                 long userId = currentUserService.getCurrentUser().getUser().getId();
                 long otherUserId = userId + 1;
 
-                Ride ride1 = Ride.builder()
+                RideRequest ride1 = RideRequest.builder()
                         .riderId(otherUserId)
                         .student("DGaucho")
                         .day("Monday")
@@ -705,7 +705,7 @@ public class RideControllerTests extends ControllerTestCase {
                         .notes("waiting outside of 3505")
                         .build();
 
-                when(rideRepository.findById(eq(15L))).thenReturn(Optional.of(ride1));
+                when(rideReqRepository.findById(eq(15L))).thenReturn(Optional.of(ride1));
 
                 // act
                 MvcResult response = mockMvc.perform(
@@ -714,8 +714,8 @@ public class RideControllerTests extends ControllerTestCase {
                                 .andExpect(status().isOk()).andReturn();
 
                 // assert
-                verify(rideRepository, times(1)).findById(15L);
-                verify(rideRepository, times(1)).delete(ride1);
+                verify(rideReqRepository, times(1)).findById(15L);
+                verify(rideReqRepository, times(1)).delete(ride1);
 
                 Map<String, Object> json = responseToJson(response);
                 assertEquals("Ride with id 15 deleted", json.get("message"));
@@ -729,7 +729,7 @@ public class RideControllerTests extends ControllerTestCase {
                 long userId = currentUserService.getCurrentUser().getUser().getId();
                 long otherUserId = userId + 1;
 
-                Ride ride1 = Ride.builder()
+                RideRequest ride1 = RideRequest.builder()
                         .riderId(otherUserId)
                         .student("DGaucho")
                         .day("Monday")
@@ -743,7 +743,7 @@ public class RideControllerTests extends ControllerTestCase {
                         .notes("waiting outside of 3505")
                         .build();
 
-                when(rideRepository.findById(eq(15L))).thenReturn(Optional.of(ride1));
+                when(rideReqRepository.findById(eq(15L))).thenReturn(Optional.of(ride1));
 
                 // act
                 MvcResult response = mockMvc.perform(
@@ -752,8 +752,8 @@ public class RideControllerTests extends ControllerTestCase {
                                 .andExpect(status().isOk()).andReturn();
 
                 // assert
-                verify(rideRepository, times(1)).findById(15L);
-                verify(rideRepository, times(1)).delete(ride1);
+                verify(rideReqRepository, times(1)).findById(15L);
+                verify(rideReqRepository, times(1)).delete(ride1);
 
                 Map<String, Object> json = responseToJson(response);
                 assertEquals("Ride with id 15 deleted", json.get("message"));
@@ -765,7 +765,7 @@ public class RideControllerTests extends ControllerTestCase {
                         throws Exception {
                 // arrange
 
-                when(rideRepository.findById(eq(15L))).thenReturn(Optional.empty());
+                when(rideReqRepository.findById(eq(15L))).thenReturn(Optional.empty());
 
                 // act
                 MvcResult response = mockMvc.perform(
@@ -774,7 +774,7 @@ public class RideControllerTests extends ControllerTestCase {
                                 .andExpect(status().isNotFound()).andReturn();
 
                 // assert
-                verify(rideRepository, times(1)).findById(15L);
+                verify(rideReqRepository, times(1)).findById(15L);
                 Map<String, Object> json = responseToJson(response);
                 assertEquals("Ride with id 15 not found", json.get("message"));
         }
@@ -786,7 +786,7 @@ public class RideControllerTests extends ControllerTestCase {
                         throws Exception {
                 // arrange
 
-                when(rideRepository.findById(eq(15L))).thenReturn(Optional.empty());
+                when(rideReqRepository.findById(eq(15L))).thenReturn(Optional.empty());
 
                 // act
                 MvcResult response = mockMvc.perform(
@@ -795,7 +795,7 @@ public class RideControllerTests extends ControllerTestCase {
                                 .andExpect(status().isNotFound()).andReturn();
 
                 // assert
-                verify(rideRepository, times(1)).findById(15L);
+                verify(rideReqRepository, times(1)).findById(15L);
                 Map<String, Object> json = responseToJson(response);
                 assertEquals("Ride with id 15 not found", json.get("message"));
         }
@@ -812,7 +812,7 @@ public class RideControllerTests extends ControllerTestCase {
 
                 long userId = currentUserService.getCurrentUser().getUser().getId();
 
-                Ride ride_original = Ride.builder()
+                RideRequest ride_original = RideRequest.builder()
                                 .riderId(userId)
                                 .student("CGaucho")
                                 .day("Monday")
@@ -826,7 +826,7 @@ public class RideControllerTests extends ControllerTestCase {
                                 .notes("waiting outside of 3505")
                                 .build();
 
-                Ride ride_edited = Ride.builder()
+                RideRequest ride_edited = RideRequest.builder()
                                 .riderId(userId)
                                 .student("CGaucho")
                                 .day("Thursday")
@@ -842,7 +842,7 @@ public class RideControllerTests extends ControllerTestCase {
 
                 String requestBody = mapper.writeValueAsString(ride_edited);
 
-                when(rideRepository.findByIdAndRiderId(eq(67L), eq(userId))).thenReturn(Optional.of(ride_original));
+                when(rideReqRepository.findByIdAndRiderId(eq(67L), eq(userId))).thenReturn(Optional.of(ride_original));
 
                 // act
                 MvcResult response = mockMvc.perform(
@@ -854,8 +854,8 @@ public class RideControllerTests extends ControllerTestCase {
                                 .andExpect(status().isOk()).andReturn();
 
                 // assert
-                verify(rideRepository, times(1)).findByIdAndRiderId(eq(67L), eq(userId));
-                verify(rideRepository, times(1)).save(ride_edited); // should be saved with correct user
+                verify(rideReqRepository, times(1)).findByIdAndRiderId(eq(67L), eq(userId));
+                verify(rideReqRepository, times(1)).save(ride_edited); // should be saved with correct user
                 String responseString = response.getResponse().getContentAsString();
                 assertEquals(requestBody, responseString);
         }
@@ -869,7 +869,7 @@ public class RideControllerTests extends ControllerTestCase {
                 long userId = currentUserService.getCurrentUser().getUser().getId();
                 long otherUserId = userId + 1;
 
-                Ride ride_original = Ride.builder()
+                RideRequest ride_original = RideRequest.builder()
                                 .riderId(otherUserId)
                                 .student("DGaucho")
                                 .day("Monday")
@@ -883,7 +883,7 @@ public class RideControllerTests extends ControllerTestCase {
                                 .notes("waiting outside of 3505")
                                 .build();
 
-                Ride ride_edited = Ride.builder()
+                RideRequest ride_edited = RideRequest.builder()
                                 .riderId(otherUserId)
                                 .student("DGaucho")
                                 .day("Thursday")
@@ -899,7 +899,7 @@ public class RideControllerTests extends ControllerTestCase {
 
                 String requestBody = mapper.writeValueAsString(ride_edited);
 
-                when(rideRepository.findByIdAndRiderId(eq(67L), eq(otherUserId))).thenReturn(Optional.of(ride_original));
+                when(rideReqRepository.findByIdAndRiderId(eq(67L), eq(otherUserId))).thenReturn(Optional.of(ride_original));
 
                 // act
                 MvcResult response = mockMvc.perform(
@@ -911,7 +911,7 @@ public class RideControllerTests extends ControllerTestCase {
                                 .andExpect(status().isNotFound()).andReturn();
 
                 // assert
-                verify(rideRepository, times(1)).findByIdAndRiderId(eq(67L), eq(userId));
+                verify(rideReqRepository, times(1)).findByIdAndRiderId(eq(67L), eq(userId));
                 Map<String, Object> json = responseToJson(response);
                 assertEquals("Ride with id 67 not found", json.get("message"));
         }
@@ -923,7 +923,7 @@ public class RideControllerTests extends ControllerTestCase {
 
                 long userId = currentUserService.getCurrentUser().getUser().getId();
 
-                Ride ride_edited = Ride.builder()
+                RideRequest ride_edited = RideRequest.builder()
                                 .riderId(userId)
                                 .student("CGaucho")
                                 .day("Thursday")
@@ -940,7 +940,7 @@ public class RideControllerTests extends ControllerTestCase {
 
                 String requestBody = mapper.writeValueAsString(ride_edited);
 
-                when(rideRepository.findByIdAndRiderId(eq(67L), eq(userId))).thenReturn(Optional.empty());
+                when(rideReqRepository.findByIdAndRiderId(eq(67L), eq(userId))).thenReturn(Optional.empty());
 
                 // act
                 MvcResult response = mockMvc.perform(
@@ -952,7 +952,7 @@ public class RideControllerTests extends ControllerTestCase {
                                 .andExpect(status().isNotFound()).andReturn();
 
                 // assert
-                verify(rideRepository, times(1)).findByIdAndRiderId(67L, userId);
+                verify(rideReqRepository, times(1)).findByIdAndRiderId(67L, userId);
                 Map<String, Object> json = responseToJson(response);
                 assertEquals("Ride with id 67 not found", json.get("message"));
 
@@ -967,7 +967,7 @@ public class RideControllerTests extends ControllerTestCase {
                 long userId = currentUserService.getCurrentUser().getUser().getId();
                 long otherUserId = userId + 1;
 
-                Ride ride_original = Ride.builder()
+                RideRequest ride_original = RideRequest.builder()
                                 .riderId(otherUserId)
                                 .student("DGaucho")
                                 .day("Monday")
@@ -981,7 +981,7 @@ public class RideControllerTests extends ControllerTestCase {
                                 .notes("waiting outside of 3505")
                                 .build();
 
-                Ride ride_edited = Ride.builder()
+                RideRequest ride_edited = RideRequest.builder()
                                 .riderId(otherUserId)
                                 .student("DGaucho")
                                 .day("Thursday")
@@ -997,7 +997,7 @@ public class RideControllerTests extends ControllerTestCase {
 
                 String requestBody = mapper.writeValueAsString(ride_edited);
 
-                when(rideRepository.findById(eq(67L))).thenReturn(Optional.of(ride_original));
+                when(rideReqRepository.findById(eq(67L))).thenReturn(Optional.of(ride_original));
 
                 // act
                 MvcResult response = mockMvc.perform(
@@ -1009,8 +1009,8 @@ public class RideControllerTests extends ControllerTestCase {
                                 .andExpect(status().isOk()).andReturn();
 
                 // assert
-                verify(rideRepository, times(1)).findById(67L);
-                verify(rideRepository, times(1)).save(ride_edited); // should be saved with correct user
+                verify(rideReqRepository, times(1)).findById(67L);
+                verify(rideReqRepository, times(1)).save(ride_edited); // should be saved with correct user
                 String responseString = response.getResponse().getContentAsString();
                 assertEquals(requestBody, responseString);
         }
@@ -1023,7 +1023,7 @@ public class RideControllerTests extends ControllerTestCase {
                 long userId = currentUserService.getCurrentUser().getUser().getId();
                 long otherUserId = userId + 1;
 
-                Ride ride_original = Ride.builder()
+                RideRequest ride_original = RideRequest.builder()
                                 .riderId(otherUserId)
                                 .student("DGaucho")
                                 .day("Monday")
@@ -1037,7 +1037,7 @@ public class RideControllerTests extends ControllerTestCase {
                                 .notes("waiting outside of 3505")
                                 .build();
 
-                Ride ride_edited = Ride.builder()
+                RideRequest ride_edited = RideRequest.builder()
                                 .riderId(otherUserId)
                                 .student("DGaucho")
                                 .day("Thursday")
@@ -1053,7 +1053,7 @@ public class RideControllerTests extends ControllerTestCase {
 
                 String requestBody = mapper.writeValueAsString(ride_edited);
 
-                when(rideRepository.findById(eq(67L))).thenReturn(Optional.of(ride_original));
+                when(rideReqRepository.findById(eq(67L))).thenReturn(Optional.of(ride_original));
 
                 // act
                 MvcResult response = mockMvc.perform(
@@ -1065,8 +1065,8 @@ public class RideControllerTests extends ControllerTestCase {
                                 .andExpect(status().isOk()).andReturn();
 
                 // assert
-                verify(rideRepository, times(1)).findById(67L);
-                verify(rideRepository, times(1)).save(ride_edited); // should be saved with correct user
+                verify(rideReqRepository, times(1)).findById(67L);
+                verify(rideReqRepository, times(1)).save(ride_edited); // should be saved with correct user
                 String responseString = response.getResponse().getContentAsString();
                 assertEquals(requestBody, responseString);
         }
@@ -1078,7 +1078,7 @@ public class RideControllerTests extends ControllerTestCase {
 
                 long userId = currentUserService.getCurrentUser().getUser().getId();
 
-                Ride ride_edited = Ride.builder()
+                RideRequest ride_edited = RideRequest.builder()
                                 .riderId(userId)
                                 .student("CGaucho")
                                 .day("Thursday")
@@ -1094,7 +1094,7 @@ public class RideControllerTests extends ControllerTestCase {
 
                 String requestBody = mapper.writeValueAsString(ride_edited);
 
-                when(rideRepository.findById(eq(67L))).thenReturn(Optional.empty());
+                when(rideReqRepository.findById(eq(67L))).thenReturn(Optional.empty());
 
                 // act
                 MvcResult response = mockMvc.perform(
@@ -1106,7 +1106,7 @@ public class RideControllerTests extends ControllerTestCase {
                                 .andExpect(status().isNotFound()).andReturn();
 
                 // assert
-                verify(rideRepository, times(1)).findById(67L);
+                verify(rideReqRepository, times(1)).findById(67L);
                 Map<String, Object> json = responseToJson(response);
                 assertEquals("Ride with id 67 not found", json.get("message"));
         }
@@ -1118,7 +1118,7 @@ public class RideControllerTests extends ControllerTestCase {
 
                 long userId = currentUserService.getCurrentUser().getUser().getId();
 
-                Ride ride_edited = Ride.builder()
+                RideRequest ride_edited = RideRequest.builder()
                                 .riderId(userId)
                                 .student("CGaucho")
                                 .day("Thursday")
@@ -1134,7 +1134,7 @@ public class RideControllerTests extends ControllerTestCase {
 
                 String requestBody = mapper.writeValueAsString(ride_edited);
 
-                when(rideRepository.findById(eq(67L))).thenReturn(Optional.empty());
+                when(rideReqRepository.findById(eq(67L))).thenReturn(Optional.empty());
 
                 // act
                 MvcResult response = mockMvc.perform(
@@ -1146,7 +1146,7 @@ public class RideControllerTests extends ControllerTestCase {
                                 .andExpect(status().isNotFound()).andReturn();
 
                 // assert
-                verify(rideRepository, times(1)).findById(67L);
+                verify(rideReqRepository, times(1)).findById(67L);
                 Map<String, Object> json = responseToJson(response);
                 assertEquals("Ride with id 67 not found", json.get("message"));
         }

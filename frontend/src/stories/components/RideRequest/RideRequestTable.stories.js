@@ -1,42 +1,41 @@
 import React from 'react';
-import RideTable from 'main/components/Rider/RideTable';
-import { rideFixtures } from 'fixtures/rideFixtures';
+import RideRequestTable from 'main/components/RideRequest/RideRequestTable';
+import { rideReqFixtures } from 'fixtures/rideRequestFixtures';
 import { currentUserFixtures } from 'fixtures/currentUserFixtures';
 
 export default {
-    title: 'components/Rider/RideTable',
-    component: RideTable
+    title: 'components/RideRequest/RideRequestTable',
+    component: RideRequestTable
 };
 
 const Template = (args) => {
     return (
-        <RideTable {...args} />
+        <RideRequestTable {...args} />
     )
 };
 
 export const Empty = Template.bind({});
 
 Empty.args = {
-    rides: []
+    rideReqs: []
 };
 
 
 export const DriverThreeSubjectsNoButtons = Template.bind({});
-
 DriverThreeSubjectsNoButtons.args = {
-    rides: rideFixtures.threeRidesTable,
+    rideReqs: rideReqFixtures.threeRideReqs,
     currentUser: currentUserFixtures.driverOnly
 };
 
 
 export const RiderThreeSubjectsWithButtons = Template.bind({});
 RiderThreeSubjectsWithButtons.args = {
-    rides: rideFixtures.threeRidesTable,
+    rideReqs: rideReqFixtures.threeRideReqs,
     currentUser: currentUserFixtures.userOnly
 };
 
 export const AdminThreeSubjectsWithButtons = Template.bind({});
 AdminThreeSubjectsWithButtons.args = {
-    rides: rideFixtures.threeRidesTable,
+    rideReqs: rideReqFixtures.threeRideReqs,
     currentUser: currentUserFixtures.adminUser
 };

@@ -1,9 +1,9 @@
 import React from 'react';
 
-import RideRequestCreatePage from 'main/pages/Rider/RideRequestCreatePage';
+import RideRequestCreatePage from 'main/pages/RideRequest/RideRequestCreatePage';
 
 export default {
-    title: 'pages/Rider/RideRequestCreatePage',
+    title: 'pages/RideRequest/RideRequestCreatePage',
     component: RideRequestCreatePage
 };
 

@@ -1,8 +1,8 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router-dom";
 
-import RideForm from "main/components/Rider/RideForm";
-import { rideFixtures } from "fixtures/rideFixtures";
+import RideRequestForm from "main/components/RideRequest/RideRequestForm";
+import { rideReqFixtures } from "fixtures/rideRequestFixtures";
 
 import { QueryClient, QueryClientProvider } from "react-query";
 
@@ -13,17 +13,17 @@ jest.mock('react-router-dom', () => ({
     useNavigate: () => mockedNavigate
 }));
 
-describe("RideForm tests", () => {
+describe("RideRequestForm tests", () => {
     const queryClient = new QueryClient();
 
-    const expectedHeaders = ["Day of Week", "Start Time", "End Time", "Pick Up Location", "Drop Off Location", "Room Number for Dropoff", "Course Number"];
-    const testId = "RideForm";
+    const expectedHeaders = [ "Day of Week", "Start Time", "End Time", "Pick-up Location", "Pick-up Room #", "Drop-off Location", "Drop-off Room #", "Course", "Notes" ];
+    const testId = "RideRequestForm";
 
     test("renders correctly with no initialContents", async () => {
         render(
             <QueryClientProvider client={queryClient}>
                 <Router>
-                    <RideForm />
+                    <RideRequestForm />
                 </Router>
             </QueryClientProvider>
         );
@@ -41,7 +41,7 @@ describe("RideForm tests", () => {
         render(
             <QueryClientProvider client={queryClient}>
                 <Router>
-                    <RideForm initialContents={rideFixtures.oneRide} />
+                    <RideRequestForm initialContents={rideReqFixtures.oneRideReq} />
                 </Router>
             </QueryClientProvider>
         );
@@ -62,7 +62,7 @@ describe("RideForm tests", () => {
         render(
             <QueryClientProvider client={queryClient}>
                 <Router>
-                    <RideForm />
+                    <RideRequestForm />
                 </Router>
             </QueryClientProvider>
         );

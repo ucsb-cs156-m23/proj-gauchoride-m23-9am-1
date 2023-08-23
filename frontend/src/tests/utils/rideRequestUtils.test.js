@@ -1,4 +1,4 @@
-import { onDeleteSuccess, cellToAxiosParamsDelete } from "main/utils/rideUtils";
+import { onDeleteSuccess, cellToAxiosParamsDelete } from "main/utils/rideRequestUtils";
 import mockConsole from "jest-mock-console";
 
 const mockToast = jest.fn();
@@ -11,7 +11,7 @@ jest.mock('react-toastify', () => {
     };
 });
 
-describe("RideUtils", () => {
+describe("RideRequestUtils", () => {
 
     describe("onDeleteSuccess", () => {
 

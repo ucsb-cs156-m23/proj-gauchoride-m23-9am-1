@@ -4,14 +4,12 @@ import ProfilePage from "main/pages/ProfilePage";
 import AdminUsersPage from "main/pages/AdminUsersPage";
 import PageNotFound from "main/pages/PageNotFound";
 
-import RideRequestCreatePage from "main/pages/Rider/RideRequestCreatePage";
-import RideRequestEditPage from "main/pages/Rider/RideRequestEditPage";
-import RideRequestIndexPage from "main/pages/Rider/RideRequestIndexPage";
+import RideRequestIndexPage from "main/pages/RideRequest/RideRequestIndexPage";
+import RideRequestCreatePage from "main/pages/RideRequest/RideRequestCreatePage";
+import RideRequestEditPage from "main/pages/RideRequest/RideRequestEditPage";
+
+import RiderPage from "main/pages/RiderPage";
 import ShiftPage from "main/pages/ShiftPage";
-
-
-
-
 
 import { hasRole, useCurrentUser } from "main/utils/currentUser";
 
@@ -31,13 +29,16 @@ function App() {
           hasRole(currentUser, "ROLE_ADMIN") && <Route exact path="/admin/users" element={<AdminUsersPage />} />
         }
         {
-          (hasRole(currentUser, "ROLE_ADMIN") || hasRole(currentUser, "ROLE_DRIVER") || hasRole(currentUser, "ROLE_RIDER") )&& <Route exact path="/rider/" element={<RideRequestIndexPage />} />
+          !hasRole(currentUser, "ROLE_RIDER") && <Route exact path="/ride-requests" element={<RideRequestIndexPage />} />
+        }
+        { 
+          (hasRole(currentUser, "ROLE_RIDER") || hasRole(currentUser, "ROLE_ADMIN")) && <Route exact path="/ride-request/create" element={<RideRequestCreatePage />} />
         }
         {
-          (hasRole(currentUser, "ROLE_RIDER") || hasRole(currentUser, "ROLE_ADMIN"))  && <Route exact path="/rider/ride/create" element={<RideRequestCreatePage />} />
+          (hasRole(currentUser, "ROLE_RIDER")  || hasRole(currentUser, "ROLE_ADMIN") )&& <Route exact path="/ride-request/edit/:id" element={<RideRequestEditPage />} />
         }
         {
-          (hasRole(currentUser, "ROLE_ADMIN")  || hasRole(currentUser, "ROLE_RIDER") )&& <Route exact path="/rider/ride/edit/:id" element={<RideRequestEditPage />} />
+          (hasRole(currentUser, "ROLE_RIDER") || hasRole(currentUser, "ROLE_ADMIN")) &&  <Route exact path="/rider" element={<RiderPage />} />
         }
         {
           hasRole(currentUser, "ROLE_ADMIN") && <Route exact path="/shift/list" element={<ShiftPage />} />

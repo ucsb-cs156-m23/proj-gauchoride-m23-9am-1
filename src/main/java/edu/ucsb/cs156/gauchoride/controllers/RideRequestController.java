@@ -1,8 +1,8 @@
 package edu.ucsb.cs156.gauchoride.controllers;
 
-import edu.ucsb.cs156.gauchoride.entities.Ride;
+import edu.ucsb.cs156.gauchoride.entities.RideRequest;
 import edu.ucsb.cs156.gauchoride.errors.EntityNotFoundException;
-import edu.ucsb.cs156.gauchoride.repositories.RideRepository;
+import edu.ucsb.cs156.gauchoride.repositories.RideRequestRepository;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
@@ -28,52 +28,52 @@ import javax.validation.Valid;
 @RequestMapping("/api/ride_request")
 @RestController
 
-public class RideController extends ApiController {
+public class RideRequestController extends ApiController {
 
     @Autowired
-    RideRepository rideRepository;
+    RideRequestRepository rideReqRepository;
 
     @Operation(summary = "List all rides, only user's if not admin/driver")
     @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_DRIVER') || hasRole('ROLE_USER')")
     @GetMapping("/all")
-    public Iterable<Ride> allRides() {
-        Iterable<Ride> rides;
+    public Iterable<RideRequest> allRides() {
+        Iterable<RideRequest> rideReqs;
 
         if (getCurrentUser().getRoles().contains(new SimpleGrantedAuthority("ROLE_ADMIN")) ||
             getCurrentUser().getRoles().contains(new SimpleGrantedAuthority("ROLE_DRIVER"))) {
-            rides = rideRepository.findAll();
+            rideReqs = rideReqRepository.findAll();
         } else {
-            rides = rideRepository.findAllByRiderId(getCurrentUser().getUser().getId());
+            rideReqs = rideReqRepository.findAllByRiderId(getCurrentUser().getUser().getId());
         }
 
-        return rides;
+        return rideReqs;
     }
 
     @Operation(summary = "Get a single ride by id, only user's if not admin/driver")
     @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_DRIVER') || hasRole('ROLE_USER')")
     @GetMapping("")
-    public Ride getById(
+    public RideRequest getById(
             @Parameter(name="id", description = "long, Id of the Ride to get", 
             required = true)  
             @RequestParam Long id) {
-        Ride ride;
+        RideRequest rideReq;
         
         if (getCurrentUser().getRoles().contains(new SimpleGrantedAuthority("ROLE_ADMIN")) ||
             getCurrentUser().getRoles().contains(new SimpleGrantedAuthority("ROLE_DRIVER"))) {
-            ride = rideRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(Ride.class, id));;
+            rideReq = rideReqRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(RideRequest.class, id));;
         } else {
-            ride = rideRepository.findByIdAndRiderId(id, getCurrentUser().getUser().getId())
-                .orElseThrow(() -> new EntityNotFoundException(Ride.class, id));
+            rideReq = rideReqRepository.findByIdAndRiderId(id, getCurrentUser().getUser().getId())
+                .orElseThrow(() -> new EntityNotFoundException(RideRequest.class, id));
         }
 
-        return ride;
+        return rideReq;
     }
 
     @Operation(summary = "Create a new ride")
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/post")
-    public Ride postRide(
+    public RideRequest postRideRequest(
         @Parameter(name="day", description="String, Day of the week ride is requested (Monday - Sunday) and allows Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday", 
                     example="Tuesday", required = true) 
         @RequestParam String day,
@@ -87,6 +87,9 @@ public class RideController extends ApiController {
         @Parameter(name="pickupLocation", description="String, Location the ride starts", example="Phelps Hall", required = true)
         @RequestParam String pickupLocation,
 
+        @Parameter(name="pickupRoom", description="String, Room number for the class at the pickupLocation", example="1940", required = false)
+        @RequestParam String pickupRoom,
+
         @Parameter(name="dropoffLocation", description="String, Location the ride ends", example="South Hall", required = true)
         @RequestParam String dropoffLocation,
 
@@ -96,32 +99,27 @@ public class RideController extends ApiController {
         @Parameter(name="course", description="String, Course number for the class at the dropoffLocation", example="CMPSC 156", required = true)
         @RequestParam String course,
 
-        @Parameter(name="pickupRoom", description="String, Room number for the class at the pickupLocation", example="1940", required = false)
-        @RequestParam String pickupRoom,
-
         @Parameter(name="notes", description="String, Notes for additional information", example="Library entrance by the arbor", required = false)
         @RequestParam String notes
-
 
         )
         {
 
-        Ride ride = new Ride();
-        ride.setRiderId(getCurrentUser().getUser().getId());
-        ride.setStudent(getCurrentUser().getUser().getFullName());
-        ride.setDay(day);
-        ride.setStartTime(startTime);
-        ride.setEndTime(endTime);
-        ride.setPickupLocation(pickupLocation);
-        ride.setDropoffLocation(dropoffLocation);
-        ride.setDropoffRoom(dropoffRoom);
-        ride.setCourse(course);
-        ride.setPickupRoom(pickupRoom);
-        ride.setNotes(notes);
+        RideRequest rideReq = new RideRequest();
+        rideReq.setRiderId(getCurrentUser().getUser().getId());
+        rideReq.setStudent(getCurrentUser().getUser().getFullName());
+        rideReq.setDay(day);
+        rideReq.setStartTime(startTime);
+        rideReq.setEndTime(endTime);
+        rideReq.setPickupLocation(pickupLocation);
+        rideReq.setPickupRoom(pickupRoom);
+        rideReq.setDropoffLocation(dropoffLocation);
+        rideReq.setDropoffRoom(dropoffRoom);
+        rideReq.setCourse(course);
+        rideReq.setNotes(notes);
 
-        Ride savedRide = rideRepository.save(ride);
-
-        return savedRide;
+        RideRequest savedRideReq = rideReqRepository.save(rideReq);
+        return savedRideReq;
     }
 
     @Operation(summary = "Delete a ride, only user's if not admin/driver")
@@ -132,18 +130,18 @@ public class RideController extends ApiController {
         required = true)
         @RequestParam Long id) {
 
-        Ride ride;
+        RideRequest rideReq;
 
         if (getCurrentUser().getRoles().contains(new SimpleGrantedAuthority("ROLE_ADMIN")) ||
             getCurrentUser().getRoles().contains(new SimpleGrantedAuthority("ROLE_DRIVER"))) {
-            ride = rideRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(Ride.class, id));;
+            rideReq = rideReqRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(RideRequest.class, id));;
         } else {
-            ride = rideRepository.findByIdAndRiderId(id, getCurrentUser().getUser().getId())
-                .orElseThrow(() -> new EntityNotFoundException(Ride.class, id));
+            rideReq = rideReqRepository.findByIdAndRiderId(id, getCurrentUser().getUser().getId())
+                .orElseThrow(() -> new EntityNotFoundException(RideRequest.class, id));
         }
 
-        rideRepository.delete(ride);
+        rideReqRepository.delete(rideReq);
         return genericMessage("Ride with id %s deleted".formatted(id));
     }
 
@@ -151,36 +149,34 @@ public class RideController extends ApiController {
     @Operation(summary = "Update a single ride, only user's if not admin/driver")
     @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_DRIVER') || hasRole('ROLE_USER')")
     @PutMapping("")
-    public Ride updateRide(
+    public RideRequest updateRide(
             @Parameter(name="id", description="long, Id of the Ride to be edited", 
             required = true)
             @RequestParam Long id,
-            @RequestBody @Valid Ride incoming) {
+            @RequestBody @Valid RideRequest incoming) {
 
-        Ride ride;
+        RideRequest rideReq;
 
         if (getCurrentUser().getRoles().contains(new SimpleGrantedAuthority("ROLE_ADMIN")) ||
             getCurrentUser().getRoles().contains(new SimpleGrantedAuthority("ROLE_DRIVER"))) {
-            ride = rideRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(Ride.class, id));;
+            rideReq = rideReqRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(RideRequest.class, id));;
         } else {
-            ride = rideRepository.findByIdAndRiderId(id, getCurrentUser().getUser().getId())
-                .orElseThrow(() -> new EntityNotFoundException(Ride.class, id));
+            rideReq = rideReqRepository.findByIdAndRiderId(id, getCurrentUser().getUser().getId())
+                .orElseThrow(() -> new EntityNotFoundException(RideRequest.class, id));
         }
 
-        ride.setDay(incoming.getDay());
-        ride.setStartTime(incoming.getStartTime());
-        ride.setEndTime(incoming.getEndTime());
-        ride.setPickupLocation(incoming.getPickupLocation());
-        ride.setDropoffLocation(incoming.getDropoffLocation());
-        ride.setDropoffRoom(incoming.getDropoffRoom());
-        ride.setCourse(incoming.getCourse());
-        ride.setPickupRoom(incoming.getPickupRoom());
-        ride.setNotes(incoming.getNotes());
+        rideReq.setDay(incoming.getDay());
+        rideReq.setStartTime(incoming.getStartTime());
+        rideReq.setEndTime(incoming.getEndTime());
+        rideReq.setPickupLocation(incoming.getPickupLocation());
+        rideReq.setPickupRoom(incoming.getPickupRoom());
+        rideReq.setDropoffLocation(incoming.getDropoffLocation());
+        rideReq.setDropoffRoom(incoming.getDropoffRoom());
+        rideReq.setCourse(incoming.getCourse());
+        rideReq.setNotes(incoming.getNotes());
 
-
-        rideRepository.save(ride);
-
-        return ride;
+        rideReqRepository.save(rideReq);
+        return rideReq;
     }
 }

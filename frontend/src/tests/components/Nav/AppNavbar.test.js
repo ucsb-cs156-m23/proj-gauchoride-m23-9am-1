@@ -329,7 +329,7 @@ describe("AppNavbar tests", () => {
         expect(navbar).toHaveStyle("background-color: #003660");
       });
 
-      test("renders ride links correctly for admin user", async () => {
+      test("renders ride request links correctly for admin user", async () => {
 
         const currentUser = currentUserFixtures.adminOnly;
         const doLogin = jest.fn();
@@ -344,14 +344,15 @@ describe("AppNavbar tests", () => {
         
         await waitFor(() => expect(getByText("Welcome, Phill Conrad")).toBeInTheDocument());
         
-        const riderDashboard = getByTestId("appnavbar-rider-dashboard");
-        console.log(riderDashboard);
+        const rideRequests = getByTestId("appnavbar-ride-requests");
+        expect(rideRequests).toBeInTheDocument(); 
 
+        const riderDashboard = getByTestId("appnavbar-rider-dashboard");
         expect(riderDashboard).toBeInTheDocument(); 
                 
     });
 
-    test("renders ride links correctly for admin NO user", async () => {
+    test("renders ride request links correctly for admin NO user", async () => {
 
         const currentUser = currentUserFixtures.adminOnlyNoUser;
         const doLogin = jest.fn();
@@ -366,17 +367,20 @@ describe("AppNavbar tests", () => {
         
         await waitFor(() => expect(getByText("Welcome, Phill Conrad")).toBeInTheDocument());
         
+        const rideRequests = getByTestId("appnavbar-ride-requests");
+        expect(rideRequests).toBeInTheDocument(); 
+
         const riderDashboard = getByTestId("appnavbar-rider-dashboard");
         expect(riderDashboard).toBeInTheDocument(); 
                 
     });
 
-    test("renders ride links correctly for driver", async () => {
+    test("renders ride request links correctly for driver", async () => {
 
         const currentUser = currentUserFixtures.driverOnly;
         const doLogin = jest.fn();
 
-        const { getByText } = render(
+        const { getByText, getByTestId } = render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
                     <AppNavbar currentUser={currentUser} doLogin={doLogin} />
@@ -385,16 +389,20 @@ describe("AppNavbar tests", () => {
         );
         
         await waitFor(() => expect(getByText("Welcome, Phillip Conrad")).toBeInTheDocument());
+
+        const rideRequests = getByTestId("appnavbar-ride-requests");
+        expect(rideRequests).toBeInTheDocument(); 
+
         const riderDashboard = screen.queryByTestId("appnavbar-rider-dashboard");
         expect(riderDashboard).not.toBeInTheDocument();         
     });
 
-    test("renders ride links correctly for rider", async () => {
+    test("renders ride request links correctly for rider", async () => {
 
         const currentUser = currentUserFixtures.riderOnly;
         const doLogin = jest.fn();
 
-        const { getByText , getByTestId } = render(
+        const { getByText, getByTestId } = render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
                     <AppNavbar currentUser={currentUser} doLogin={doLogin} />
@@ -404,37 +412,20 @@ describe("AppNavbar tests", () => {
         
         await waitFor(() => expect(getByText("Welcome, Phillip Conrad")).toBeInTheDocument());
         
+        const rideRequests = screen.queryByTestId("appnavbar-ride-requests");
+        expect(rideRequests).not.toBeInTheDocument(); 
+
         const riderDashboard = getByTestId("appnavbar-rider-dashboard");
         expect(riderDashboard).toBeInTheDocument(); 
 
     });
 
-    test("renders ride links correctly for admin", async () => {
-
-        const currentUser = currentUserFixtures.adminOnly;
-        const doLogin = jest.fn();
-
-        const { getByText , getByTestId } = render(
-            <QueryClientProvider client={queryClient}>
-                <MemoryRouter>
-                    <AppNavbar currentUser={currentUser} doLogin={doLogin} />
-                </MemoryRouter>
-            </QueryClientProvider>
-        );
-        
-        await waitFor(() => expect(getByText("Welcome, Phill Conrad")).toBeInTheDocument());
-        
-        const riderDashboard = getByTestId("appnavbar-rider-dashboard");
-        expect(riderDashboard).toBeInTheDocument(); 
-
-    });
-
-    test("not render ride links for regular user", async () => {
+    test("renders ride request links correctly for regular user", async () => {
 
         const currentUser = currentUserFixtures.userOnly;
         const doLogin = jest.fn();
 
-        const { getByText } = render(
+        const { getByText, getByTestId } = render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
                     <AppNavbar currentUser={currentUser} doLogin={doLogin} />
@@ -443,44 +434,12 @@ describe("AppNavbar tests", () => {
         );
         
         await waitFor(() => expect(getByText("Welcome, Phillip Conrad")).toBeInTheDocument());
+
+        const rideRequests = getByTestId("appnavbar-ride-requests");
+        expect(rideRequests).toBeInTheDocument(); 
+
         const riderDashboard = screen.queryByTestId("appnavbar-rider-dashboard");
         expect(riderDashboard).not.toBeInTheDocument();        
-    });
-
-    test("Rider dashboard should not be available for user that is neither Admin nor Rider", async () => {
-
-        const currentUser = currentUserFixtures.userOnly;
-        const doLogin = jest.fn();
-
-        const { getByText } = render(
-            <QueryClientProvider client={queryClient}>
-                <MemoryRouter>
-                    <AppNavbar currentUser={currentUser} doLogin={doLogin} />
-                </MemoryRouter>
-            </QueryClientProvider>
-        );
-        
-        await waitFor(() => expect(getByText("Welcome, Phillip Conrad")).toBeInTheDocument());
-        const riderDashboard = screen.queryByTestId("appnavbar-rider-dashboard");
-        expect(riderDashboard).not.toBeInTheDocument(); 
-    });
-
-    test("Rider dashboard should not be available for user that is a Driver and neither Admin nor Rider", async () => {
-
-        const currentUser = currentUserFixtures.driverOnly;
-        const doLogin = jest.fn();
-
-       render(
-            <QueryClientProvider client={queryClient}>
-                <MemoryRouter>
-                    <AppNavbar currentUser={currentUser} doLogin={doLogin} />
-                </MemoryRouter>
-            </QueryClientProvider>
-        );
-        
-        const riderDashboard = screen.queryByTestId("appnavbar-rider-dashboard");
-        expect(riderDashboard).not.toBeInTheDocument(); 
-
     });
 
 });

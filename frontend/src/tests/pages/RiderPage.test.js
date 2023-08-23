@@ -1,12 +1,12 @@
 import { fireEvent, screen, render, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
-import RideRequestIndexPage from "main/pages/Rider/RideRequestIndexPage";
+import RiderPage from "main/pages/RiderPage";
 
 
 import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
 import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
-import { rideFixtures } from "fixtures/rideFixtures";
+import { rideReqFixtures } from "fixtures/rideRequestFixtures";
 import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
 import mockConsole from "jest-mock-console";
@@ -22,11 +22,11 @@ jest.mock('react-toastify', () => {
     };
 });
 
-describe("RideRequestIndexPage tests", () => {
+describe("RiderPage tests", () => {
 
-    const axiosMock =new AxiosMockAdapter(axios);
+    const axiosMock = new AxiosMockAdapter(axios);
 
-    const testId = "RideTable";
+    const testId = "RideRequestTable";
 
     const setupUserOnly = () => {
         axiosMock.reset();
@@ -35,10 +35,10 @@ describe("RideRequestIndexPage tests", () => {
         axiosMock.onGet("/api/systemInfo").reply(200, systemInfoFixtures.showingNeither);
     };
 
-    const setupDriverOnly = () => {
+    const setupRiderOnly = () => {
         axiosMock.reset();
         axiosMock.resetHistory();
-        axiosMock.onGet("/api/currentUser").reply(200, apiCurrentUserFixtures.driverOnly);
+        axiosMock.onGet("/api/currentUser").reply(200, apiCurrentUserFixtures.riderOnly);
         axiosMock.onGet("/api/systemInfo").reply(200, systemInfoFixtures.showingNeither);
     };
 
@@ -50,6 +50,7 @@ describe("RideRequestIndexPage tests", () => {
     };
 
     test("renders without crashing for regular user", () => {
+
         setupUserOnly();
         const queryClient = new QueryClient();
         axiosMock.onGet("/api/ride_request/all").reply(200, []);
@@ -57,19 +58,15 @@ describe("RideRequestIndexPage tests", () => {
         render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
-                    <RideRequestIndexPage />
+                    <RiderPage />
                 </MemoryRouter>
             </QueryClientProvider>
         );
-
-        const createRideButton = screen.getByText("Create Ride Request");
-        expect(createRideButton).toBeInTheDocument();
-        expect(createRideButton).toHaveAttribute("style", "float: right;");
-
 
     });
 
     test("renders without crashing for admin user", () => {
+
         setupAdminUser();
         const queryClient = new QueryClient();
         axiosMock.onGet("/api/ride_request/all").reply(200, []);
@@ -77,62 +74,23 @@ describe("RideRequestIndexPage tests", () => {
         render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
-                    <RideRequestIndexPage />
+                    <RiderPage />
                 </MemoryRouter>
             </QueryClientProvider>
         );
-        const createRideButton = screen.getByText("Create Ride Request");
-        expect(createRideButton).toBeInTheDocument();
-        expect(createRideButton).toHaveAttribute("style", "float: right;");
-    });
-
-    test("renders without crashing for driver", () => {
-        setupDriverOnly();
-        const queryClient = new QueryClient();
-        axiosMock.onGet("/api/ride_request/all").reply(200, []);
-
-        render(
-            <QueryClientProvider client={queryClient}>
-                <MemoryRouter>
-                    <RideRequestIndexPage />
-                </MemoryRouter>
-            </QueryClientProvider>
-        );
-        const createRideButton = screen.getByText("Create Ride Request");
-        expect(createRideButton).toBeInTheDocument();
-        expect(createRideButton).toHaveAttribute("style", "float: right;");
-
-
-    });
-
-    test("renders three rides without crashing for regular user", async () => {
-        setupUserOnly();
-        const queryClient = new QueryClient();
-        axiosMock.onGet("/api/ride_request/all").reply(200, rideFixtures.threeRidesTable);
-
-        const { getByTestId } = render(
-            <QueryClientProvider client={queryClient}>
-                <MemoryRouter>
-                    <RideRequestIndexPage />
-                </MemoryRouter>
-            </QueryClientProvider>
-        );
-
-        await waitFor(() => { expect(getByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent("2"); });
-        expect(getByTestId(`${testId}-cell-row-1-col-id`)).toHaveTextContent("3");
-        expect(getByTestId(`${testId}-cell-row-2-col-id`)).toHaveTextContent("4");
 
     });
 
     test("renders three rides without crashing for admin user", async () => {
+
         setupAdminUser();
         const queryClient = new QueryClient();
-        axiosMock.onGet("/api/ride_request/all").reply(200, rideFixtures.threeRidesTable);
+        axiosMock.onGet("/api/ride_request/all").reply(200, rideReqFixtures.threeRideReqs);
 
         const { getByTestId } = render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
-                    <RideRequestIndexPage />
+                    <RiderPage />
                 </MemoryRouter>
             </QueryClientProvider>
         );
@@ -143,15 +101,16 @@ describe("RideRequestIndexPage tests", () => {
 
     });
 
-    test("renders three rides without crashing for driver", async () => {
-        setupDriverOnly();
+    test("renders three rides without crashing for rider", async () => {
+
+        setupRiderOnly();
         const queryClient = new QueryClient();
-        axiosMock.onGet("/api/ride_request/all").reply(200, rideFixtures.threeRidesTable);
+        axiosMock.onGet("/api/ride_request/all").reply(200, rideReqFixtures.threeRideReqs);
 
         const { getByTestId } = render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
-                    <RideRequestIndexPage />
+                    <RiderPage />
                 </MemoryRouter>
             </QueryClientProvider>
         );
@@ -163,17 +122,16 @@ describe("RideRequestIndexPage tests", () => {
     });
 
     test("renders empty table when backend unavailable, user only", async () => {
-        setupUserOnly();
 
+        setupUserOnly();
         const queryClient = new QueryClient();
         axiosMock.onGet("/api/ride_request/all").timeout();
-
         const restoreConsole = mockConsole();
 
         const { queryByTestId } = render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
-                    <RideRequestIndexPage />
+                    <RiderPage />
                 </MemoryRouter>
             </QueryClientProvider>
         );
@@ -182,40 +140,10 @@ describe("RideRequestIndexPage tests", () => {
         //console.debug(axiosMock.history);
         ///console.debug(console.error.mock);
         //const errorMessage = console.error.mock.calls[0][0];
-        
         //expect(errorMessage).toMatch("Error communicating with backend via GET on /api/ride_request/all");
+
         restoreConsole();
-
         expect(queryByTestId(`${testId}-cell-row-0-col-id`)).not.toBeInTheDocument();
-    });
-
-    test("what happens when you click delete, admin", async () => {
-        setupUserOnly();
-
-        const queryClient = new QueryClient();
-        axiosMock.onGet("/api/ride_request/all").reply(200, rideFixtures.threeRidesTable);
-        axiosMock.onDelete("/api/ride_request").reply(200, "Ride with id 2 was deleted");
-
-
-        const { getByTestId } = render(
-            <QueryClientProvider client={queryClient}>
-                <MemoryRouter>
-                    <RideRequestIndexPage />
-                </MemoryRouter>
-            </QueryClientProvider>
-        );
-
-        await waitFor(() => { expect(getByTestId(`${testId}-cell-row-0-col-id`)).toBeInTheDocument(); });
-
-        expect(getByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent("2"); 
-
-
-        const deleteButton = getByTestId(`${testId}-cell-row-0-col-Delete-button`);
-        expect(deleteButton).toBeInTheDocument();
-       
-        fireEvent.click(deleteButton);
-
-        await waitFor(() => { expect(mockToast).toBeCalledWith("Ride with id 2 was deleted") });
 
     });
 

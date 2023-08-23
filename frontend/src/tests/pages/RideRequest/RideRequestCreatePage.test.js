@@ -1,5 +1,5 @@
 import { render, waitFor, fireEvent } from "@testing-library/react";
-import RideRequestCreatePage from "main/pages/Rider/RideRequestCreatePage";
+import RideRequestCreatePage from "main/pages/RideRequest/RideRequestCreatePage";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
 
@@ -40,6 +40,7 @@ describe("RideRequestCreatePage tests", () => {
     });
 
     test("renders without crashing", () => {
+
         const queryClient = new QueryClient();
         render(
             <QueryClientProvider client={queryClient}>
@@ -48,6 +49,7 @@ describe("RideRequestCreatePage tests", () => {
                 </MemoryRouter>
             </QueryClientProvider>
         );
+
     });
 
     test("when you fill in the form and hit submit, it makes a request to the backend", async () => {
@@ -59,9 +61,11 @@ describe("RideRequestCreatePage tests", () => {
             startTime: "3:30PM",
             endTime: "4:30PM", 
             pickupLocation: "Phelps",
+            pickupRoom: "2225",
             dropoffLocation: "HSSB",
-            room: "1215",
-            course: "WRIT 105CD"
+            dropoffRoom: "1215",
+            course: "WRIT 105CD",
+            notes: "hi :)"
         };
 
         axiosMock.onPost("/api/ride_request/post").reply( 202, ride );
@@ -74,47 +78,48 @@ describe("RideRequestCreatePage tests", () => {
             </QueryClientProvider>
         );
 
-        await waitFor(() => {
-            expect(getByTestId("RideForm-day")).toBeInTheDocument();
-        });
-
-        const dayField = getByTestId("RideForm-day");
-        const startTimeField = getByTestId("RideForm-start");
-        const endTimeField = getByTestId("RideForm-end");
-        const pickupLocationField = getByTestId("RideForm-pickup");
-        const dropoffLocationField = getByTestId("RideForm-dropoff");
-        const roomField = getByTestId("RideForm-room");
-        const courseField = getByTestId("RideForm-course");
-        const submitButton = getByTestId("RideForm-submit");
+        await waitFor(() => { expect(getByTestId("RideRequestForm-day")).toBeInTheDocument(); });
+        const dayField = getByTestId("RideRequestForm-day");
+        const startTimeField = getByTestId("RideRequestForm-startTime");
+        const endTimeField = getByTestId("RideRequestForm-endTime");
+        const pickupLocationField = getByTestId("RideRequestForm-pickupLocation");
+        const pickupRoomField = getByTestId("RideRequestForm-pickupRoom");
+        const dropoffLocationField = getByTestId("RideRequestForm-dropoffLocation");
+        const dropoffRoomField = getByTestId("RideRequestForm-dropoffRoom");
+        const courseField = getByTestId("RideRequestForm-course");
+        const notesField = getByTestId("RideRequestForm-notes");
+        const submitButton = getByTestId("RideRequestForm-submit");
 
         fireEvent.change(dayField, { target: { value: 'Monday' } });
         fireEvent.change(startTimeField, { target: { value: '3:30PM' } });
         fireEvent.change(endTimeField, { target: { value: '4:30PM' } });
         fireEvent.change(pickupLocationField, { target: { value: 'Phelps' } });
+        fireEvent.change(pickupRoomField, { target: { value: '2225' } });
         fireEvent.change(dropoffLocationField, { target: { value: 'HSSB' } });
-        fireEvent.change(roomField, { target: { value: '1215' } });
+        fireEvent.change(dropoffRoomField, { target: { value: '1215' } });
         fireEvent.change(courseField, { target: { value: 'WRIT 105CD' } });
-
+        fireEvent.change(notesField, { target: { value: 'hi :)' } });
 
         expect(submitButton).toBeInTheDocument();
-
         fireEvent.click(submitButton);
 
         await waitFor(() => expect(axiosMock.history.post.length).toBe(1));
-
         expect(axiosMock.history.post[0].params).toEqual(
             {
                 "day": "Monday",
                 "startTime": "3:30PM",
                 "endTime": "4:30PM", 
                 "pickupLocation": "Phelps",
+                "pickupRoom": "2225",
                 "dropoffLocation": "HSSB",
-                "room": "1215",
-                "course": "WRIT 105CD"
-        });
+                "dropoffRoom": "1215",
+                "course": "WRIT 105CD",
+                "notes": "hi :)"
+            }
+        );
 
-        expect(mockToast).toBeCalledWith("New Ride Created - id: 17");
-        expect(mockNavigate).toBeCalledWith({ "to": "/rider/" });
+        expect(mockToast).toBeCalledWith("Ride Request Created - id: 17");
+        expect(mockNavigate).toBeCalledWith({ "to": "/rider" });
     });
 
 

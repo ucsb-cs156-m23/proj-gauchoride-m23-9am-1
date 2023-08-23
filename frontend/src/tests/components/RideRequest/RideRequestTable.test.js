@@ -1,6 +1,6 @@
 import { fireEvent, render, waitFor, screen } from "@testing-library/react";
-import { rideFixtures } from "fixtures/rideFixtures";
-import RideTable from "main/components/Rider/RideTable";
+import { rideReqFixtures } from "fixtures/rideRequestFixtures";
+import RideRequestTable from "main/components/RideRequest/RideRequestTable";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
 import { currentUserFixtures } from "fixtures/currentUserFixtures";
@@ -22,7 +22,7 @@ jest.mock('react-router-dom', () => ({
     useNavigate: () => mockedNavigate
 }));
 
-describe("RideTable tests", () => {
+describe("RideRequestTable tests", () => {
   const queryClient = new QueryClient();
 
 
@@ -32,19 +32,19 @@ describe("RideTable tests", () => {
     render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <RideTable rides={[]} currentUser={currentUser} />
+          <RideRequestTable rideReqs={[]} currentUser={currentUser} />
         </MemoryRouter>
       </QueryClientProvider>
 
     );
   });
-  test("renders without crashing for empty table for ordinary rider", () => {
+  test("renders without crashing for empty table for ordinary user", () => {
     const currentUser = currentUserFixtures.userOnly;
 
     render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <RideTable rides={[]} currentUser={currentUser} />
+          <RideRequestTable rideReqs={[]} currentUser={currentUser} />
         </MemoryRouter>
       </QueryClientProvider>
 
@@ -57,7 +57,7 @@ describe("RideTable tests", () => {
     render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <RideTable rides={[]} currentUser={currentUser} />
+          <RideRequestTable rideReqs={[]} currentUser={currentUser} />
         </MemoryRouter>
       </QueryClientProvider>
 
@@ -70,7 +70,7 @@ describe("RideTable tests", () => {
     render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <RideTable rides={[]} currentUser={currentUser} />
+          <RideRequestTable rideReqs={[]} currentUser={currentUser} />
         </MemoryRouter>
       </QueryClientProvider>
 
@@ -85,15 +85,15 @@ describe("RideTable tests", () => {
     const { getByText, getByTestId } = render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <RideTable rides={rideFixtures.threeRidesTable} currentUser={currentUser} />
+          <RideRequestTable rideReqs={rideReqFixtures.threeRideReqs} currentUser={currentUser} />
         </MemoryRouter>
       </QueryClientProvider>
 
     );
 
-    const expectedHeaders = ['id','Day','Student','Driver', 'Course #', 'Start Time', 'End Time', 'Pick Up', 'Drop Off', 'Room #'];
-    const expectedFields = ['id', 'day', 'student', 'driver', 'course', 'startTime', 'endTime', 'pickupLocation', 'dropoffLocation','room'];
-    const testId = "RideTable";
+    const expectedHeaders = [ 'id', 'Day', 'Student', 'Driver', 'Start Time', 'End Time', 'Pick-up Location', 'Pick-up Room #', 'Drop-off Location', 'Drop-off Room #', 'Course', 'Notes' ];
+    const expectedFields = [ 'id', 'day', 'student', 'driver', 'startTime', 'endTime', 'pickupLocation', 'pickupRoom', 'dropoffLocation', 'dropoffRoom', 'course', 'notes' ];
+    const testId = "RideRequestTable";
 
     expectedHeaders.forEach((headerText) => {
       const header = getByText(headerText);
@@ -118,24 +118,22 @@ describe("RideTable tests", () => {
 
   });
 
-
-
-  test("Has the expected column headers and content for ordinary rider", () => {
+  test("Has the expected column headers and content for ordinary user", () => {
 
     const currentUser = currentUserFixtures.userOnly;
 
     const { getByText, getByTestId } = render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <RideTable rides={rideFixtures.threeRidesTable} currentUser={currentUser} />
+          <RideRequestTable rideReqs={rideReqFixtures.threeRideReqs} currentUser={currentUser} />
         </MemoryRouter>
       </QueryClientProvider>
 
     );
 
-    const expectedHeaders = ['id','Day','Driver', 'Course #', 'Start Time', 'End Time', 'Pick Up', 'Drop Off', 'Room #'];
-    const expectedFields = ['id', 'day',  'driver', 'course', 'startTime', 'endTime', 'pickupLocation', 'dropoffLocation','room'];
-    const testId = "RideTable";
+    const expectedHeaders = [ 'id', 'Day', 'Student', 'Driver', 'Start Time', 'End Time', 'Pick-up Location', 'Pick-up Room #', 'Drop-off Location', 'Drop-off Room #', 'Course', 'Notes' ];
+    const expectedFields = [ 'id', 'day', 'student', 'driver', 'startTime', 'endTime', 'pickupLocation', 'pickupRoom', 'dropoffLocation', 'dropoffRoom', 'course', 'notes' ];
+    const testId = "RideRequestTable";
 
     expectedHeaders.forEach((headerText) => {
       const header = getByText(headerText);
@@ -150,32 +148,27 @@ describe("RideTable tests", () => {
     expect(getByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent("2");
     expect(getByTestId(`${testId}-cell-row-1-col-id`)).toHaveTextContent("3");
 
-    const editButton = getByTestId(`${testId}-cell-row-0-col-Edit-button`);
-    expect(editButton).toBeInTheDocument();
-    expect(editButton).toHaveClass("btn-primary");
-
-    const deleteButton = getByTestId(`${testId}-cell-row-0-col-Delete-button`);
-    expect(deleteButton).toBeInTheDocument();
-    expect(deleteButton).toHaveClass("btn-danger");
+    expect(screen.queryByText("Delete")).not.toBeInTheDocument();
+    expect(screen.queryByText("Edit")).not.toBeInTheDocument();
 
   });
 
-  test("Has the expected column headers and content for ordinary driver", () => {
+  test("Has the expected column headers and content for driver", () => {
 
     const currentUser = currentUserFixtures.driverOnly;
 
     const { getByText, getByTestId } = render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <RideTable rides={rideFixtures.threeRidesTable} currentUser={currentUser} />
+          <RideRequestTable rideReqs={rideReqFixtures.threeRideReqs} currentUser={currentUser} />
         </MemoryRouter>
       </QueryClientProvider>
 
     );
 
-    const expectedHeaders = ['id','Day','Student', 'Course #', 'Start Time', 'End Time', 'Pick Up', 'Drop Off', 'Room #'];
-    const expectedFields = ['id', 'day', 'student', 'course', 'startTime', 'endTime', 'pickupLocation', 'dropoffLocation','room'];
-    const testId = "RideTable";
+    const expectedHeaders = [ 'id', 'Day', 'Student', 'Start Time', 'End Time', 'Pick-up Location', 'Pick-up Room #', 'Drop-off Location', 'Drop-off Room #', 'Course', 'Notes' ];
+    const expectedFields = [ 'id', 'day', 'student', 'startTime', 'endTime', 'pickupLocation', 'pickupRoom', 'dropoffLocation', 'dropoffRoom', 'course', 'notes' ];
+    const testId = "RideRequestTable";
 
     expectedHeaders.forEach((headerText) => {
       const header = getByText(headerText);
@@ -189,7 +182,6 @@ describe("RideTable tests", () => {
 
     expect(getByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent("2");
     expect(getByTestId(`${testId}-cell-row-1-col-id`)).toHaveTextContent("3");
-
 
     expect(screen.queryByText("Delete")).not.toBeInTheDocument();
     expect(screen.queryByText("Edit")).not.toBeInTheDocument();
@@ -203,62 +195,63 @@ describe("RideTable tests", () => {
     const { getByTestId } = render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <RideTable rides={rideFixtures.threeRidesTable} currentUser={currentUser} />
+          <RideRequestTable rideReqs={rideReqFixtures.threeRideReqs} currentUser={currentUser} />
         </MemoryRouter>
       </QueryClientProvider>
 
     );
 
-    await waitFor(() => { expect(getByTestId(`RideTable-cell-row-0-col-id`)).toHaveTextContent("2"); });
+    await waitFor(() => { expect(getByTestId(`RideRequestTable-cell-row-0-col-id`)).toHaveTextContent("2"); });
 
-    const editButton = getByTestId(`RideTable-cell-row-0-col-Edit-button`);
+    const editButton = getByTestId(`RideRequestTable-cell-row-0-col-Edit-button`);
     expect(editButton).toBeInTheDocument();
     
     fireEvent.click(editButton);
 
-    await waitFor(() => expect(mockedNavigate).toHaveBeenCalledWith('/rider/ride/edit/2'));
+    await waitFor(() => expect(mockedNavigate).toHaveBeenCalledWith('/ride-request/edit/2'));
 
   });
 
-  test("Edit button navigates to the edit page for ordinary rider", async () => {
+  test("Edit button navigates to the edit page for rider", async () => {
 
-    const currentUser = currentUserFixtures.userOnly;
+    const currentUser = currentUserFixtures.riderOnly;
 
     const {getByTestId } = render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <RideTable rides={rideFixtures.threeRidesTable} currentUser={currentUser} />
+          <RideRequestTable rideReqs={rideReqFixtures.threeRideReqs} currentUser={currentUser} />
         </MemoryRouter>
       </QueryClientProvider>
 
     );
 
-    await waitFor(() => { expect(getByTestId(`RideTable-cell-row-0-col-id`)).toHaveTextContent("2"); });
+    await waitFor(() => { expect(getByTestId(`RideRequestTable-cell-row-0-col-id`)).toHaveTextContent("2"); });
 
-    const editButton = getByTestId(`RideTable-cell-row-0-col-Edit-button`);
+    const editButton = getByTestId(`RideRequestTable-cell-row-0-col-Edit-button`);
     expect(editButton).toBeInTheDocument();
     
     fireEvent.click(editButton);
 
-    await waitFor(() => expect(mockedNavigate).toHaveBeenCalledWith('/rider/ride/edit/2'));
+    await waitFor(() => expect(mockedNavigate).toHaveBeenCalledWith('/ride-request/edit/2'));
 
   });
 
   
   test("Delete button calls deleteMutation for rider (which admin is classifed as)", async () => {
-    const currentUser = currentUserFixtures.userOnly;
+
+    const currentUser = currentUserFixtures.adminOnly;
   
     const { getByTestId } = render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <RideTable rides={rideFixtures.threeRidesTable} currentUser={currentUser} />
+          <RideRequestTable rideReqs={rideReqFixtures.threeRideReqs} currentUser={currentUser} />
         </MemoryRouter>
       </QueryClientProvider>
     );
   
-    await waitFor(() => { expect(getByTestId(`RideTable-cell-row-0-col-id`)).toHaveTextContent("2"); });
+    await waitFor(() => { expect(getByTestId(`RideRequestTable-cell-row-0-col-id`)).toHaveTextContent("2"); });
   
-    const deleteButton = getByTestId(`RideTable-cell-row-0-col-Delete-button`);
+    const deleteButton = getByTestId(`RideRequestTable-cell-row-0-col-Delete-button`);
     expect(deleteButton).toBeInTheDocument();
     
     fireEvent.click(deleteButton);

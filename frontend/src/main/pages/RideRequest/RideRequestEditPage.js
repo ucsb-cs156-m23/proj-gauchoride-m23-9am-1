@@ -1,15 +1,16 @@
 import BasicLayout from "main/layouts/BasicLayout/BasicLayout";
 import { useParams } from "react-router-dom";
-import RideForm from "main/components/Rider/RideForm";
+import RideRequestForm from "main/components/RideRequest/RideRequestForm";
 import { Navigate } from 'react-router-dom'
 import { useBackend, useBackendMutation } from "main/utils/useBackend";
+import { removeId } from "main/utils/rideRequestUtils";
 
 import { toast } from "react-toastify";
 
 export default function RideRequestEditPage() {
   let { id } = useParams();
 
-  const { data: ride, _error, _status } =
+  const { data: rideReq, _error, _status } =
     useBackend(
       // Stryker disable next-line all : don't test internal caching of React Query
       [`/api/ride_request?id=${id}`],
@@ -23,25 +24,17 @@ export default function RideRequestEditPage() {
     );
 
 
-  const objectToAxiosPutParams = (ride) => ({
+  const objectToAxiosPutParams = (rideReq) => ({
     url: "/api/ride_request",
     method: "PUT",
     params: {
-      id: ride.id,
+      id: rideReq.id,
     },
-    data: {
-        day: ride.day,
-        startTime: ride.start,
-        endTime: ride.end, 
-        pickupLocation: ride.pickup,
-        dropoffLocation: ride.dropoff,
-        room: ride.room,
-        course: ride.course
-    }
+    data: removeId(rideReq)
   });
 
-  const onSuccess = (ride) => {
-    toast(`Ride Updated - id: ${ride.id}`);
+  const onSuccess = (rideReq) => {
+    toast(`Ride Request Updated - id: ${rideReq.id}`);
   }
 
   const mutation = useBackendMutation(
@@ -58,15 +51,15 @@ export default function RideRequestEditPage() {
   }
 
   if (isSuccess) {
-    return <Navigate to="/rider/" />
+    return <Navigate to="/rider" />
   }
 
     return (
         <BasicLayout>
             <div className="pt-2">
                 <h1>Edit Ride Request</h1>
-                {ride &&
-                <RideForm initialContents={ride} submitAction={onSubmit} buttonLabel="Update" />
+                {rideReq &&
+                  <RideRequestForm initialContents={rideReq} submitAction={onSubmit} buttonLabel="Update" />
                 }
             </div>
         </BasicLayout>
