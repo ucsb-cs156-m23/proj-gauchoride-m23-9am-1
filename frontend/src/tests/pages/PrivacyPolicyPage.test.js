@@ -1,4 +1,4 @@
-import { getByDisplayValue, render, waitFor } from "@testing-library/react";
+import { render, waitFor } from "@testing-library/react";
 import PrivacyPolicyPage from "main/pages/PrivacyPolicyPage";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
