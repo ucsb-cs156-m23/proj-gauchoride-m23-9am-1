@@ -58,8 +58,8 @@ describe("RideRequestCreatePage tests", () => {
         const ride = {
             id: 17,
             day: "Monday",
-            startTime: "3:30PM",
-            endTime: "4:30PM", 
+            startTime: "3:30 PM",
+            endTime: "4:30 PM", 
             pickupLocation: "Phelps",
             pickupRoom: "2225",
             dropoffLocation: "HSSB",
@@ -91,8 +91,8 @@ describe("RideRequestCreatePage tests", () => {
         const submitButton = getByTestId("RideRequestForm-submit");
 
         fireEvent.change(dayField, { target: { value: 'Monday' } });
-        fireEvent.change(startTimeField, { target: { value: '3:30PM' } });
-        fireEvent.change(endTimeField, { target: { value: '4:30PM' } });
+        fireEvent.change(startTimeField, { target: { value: '3:30 PM' } });
+        fireEvent.change(endTimeField, { target: { value: '4:30 PM' } });
         fireEvent.change(pickupLocationField, { target: { value: 'Phelps' } });
         fireEvent.change(pickupRoomField, { target: { value: '2225' } });
         fireEvent.change(dropoffLocationField, { target: { value: 'HSSB' } });
@@ -107,8 +107,8 @@ describe("RideRequestCreatePage tests", () => {
         expect(axiosMock.history.post[0].params).toEqual(
             {
                 "day": "Monday",
-                "startTime": "3:30PM",
-                "endTime": "4:30PM", 
+                "startTime": "3:30 PM",
+                "endTime": "4:30 PM", 
                 "pickupLocation": "Phelps",
                 "pickupRoom": "2225",
                 "dropoffLocation": "HSSB",
