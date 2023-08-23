@@ -189,7 +189,7 @@ function RideForm({ initialContents, submitAction, buttonLabel = "Create" }) {
                     {...register("pickupRoom")}
                     isInvalid={Boolean(errors.pickupRoom)}
                  
-                        //required: "Drop OffRoom number is required."
+                        
                     //})}
                     placeholder="e.g. 1940"  
                     defaultValue={initialContents?.pickupRoom} 
