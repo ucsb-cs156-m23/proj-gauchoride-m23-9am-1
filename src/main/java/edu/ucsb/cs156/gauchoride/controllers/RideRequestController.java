@@ -142,7 +142,7 @@ public class RideRequestController extends ApiController {
         }
 
         rideReqRepository.delete(rideReq);
-        return genericMessage("Ride with id %s deleted".formatted(id));
+        return genericMessage("RideRequest with id %s deleted".formatted(id));
     }
 
 

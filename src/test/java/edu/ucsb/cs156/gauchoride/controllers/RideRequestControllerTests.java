@@ -192,7 +192,7 @@ public class RideRequestControllerTests extends ControllerTestCase {
                 verify(rideReqRepository, times(1)).findByIdAndRiderId(eq(7L), eq(userId));
                 Map<String, Object> json = responseToJson(response);
                 assertEquals("EntityNotFoundException", json.get("type"));
-                assertEquals("Ride with id 7 not found", json.get("message"));
+                assertEquals("RideRequest with id 7 not found", json.get("message"));
         }
         
 
@@ -230,7 +230,7 @@ public class RideRequestControllerTests extends ControllerTestCase {
                 verify(rideReqRepository, times(1)).findByIdAndRiderId(eq(7L), eq(userId));
                 Map<String, Object> json = responseToJson(response);
                 assertEquals("EntityNotFoundException", json.get("type"));
-                assertEquals("Ride with id 7 not found", json.get("message"));
+                assertEquals("RideRequest with id 7 not found", json.get("message"));
         }
 
 
@@ -326,7 +326,7 @@ public class RideRequestControllerTests extends ControllerTestCase {
                 verify(rideReqRepository, times(1)).findById(eq(7L));
                 Map<String, Object> json = responseToJson(response);
                 assertEquals("EntityNotFoundException", json.get("type"));
-                assertEquals("Ride with id 7 not found", json.get("message"));
+                assertEquals("RideRequest with id 7 not found", json.get("message"));
         }
 
         @WithMockUser(roles = { "DRIVER" })
@@ -346,7 +346,7 @@ public class RideRequestControllerTests extends ControllerTestCase {
                 verify(rideReqRepository, times(1)).findById(eq(7L));
                 Map<String, Object> json = responseToJson(response);
                 assertEquals("EntityNotFoundException", json.get("type"));
-                assertEquals("Ride with id 7 not found", json.get("message"));
+                assertEquals("RideRequest with id 7 not found", json.get("message"));
         }
         
 
@@ -620,7 +620,7 @@ public class RideRequestControllerTests extends ControllerTestCase {
                 verify(rideReqRepository, times(1)).delete(ride1);
 
                 Map<String, Object> json = responseToJson(response);
-                assertEquals("Ride with id 15 deleted", json.get("message"));
+                assertEquals("RideRequest with id 15 deleted", json.get("message"));
         }
 
         @WithMockUser(roles = { "USER" })
@@ -657,7 +657,7 @@ public class RideRequestControllerTests extends ControllerTestCase {
                 // assert
                 verify(rideReqRepository, times(1)).findByIdAndRiderId(eq(15L), eq(userId));
                 Map<String, Object> json = responseToJson(response);
-                assertEquals("Ride with id 15 not found", json.get("message"));
+                assertEquals("RideRequest with id 15 not found", json.get("message"));
         }
 
         @WithMockUser(roles = { "USER" })
@@ -679,7 +679,7 @@ public class RideRequestControllerTests extends ControllerTestCase {
                 // assert
                 verify(rideReqRepository, times(1)).findByIdAndRiderId(eq(15L), eq(userId));
                 Map<String, Object> json = responseToJson(response);
-                assertEquals("Ride with id 15 not found", json.get("message"));
+                assertEquals("RideRequest with id 15 not found", json.get("message"));
         }
 
 
@@ -718,7 +718,7 @@ public class RideRequestControllerTests extends ControllerTestCase {
                 verify(rideReqRepository, times(1)).delete(ride1);
 
                 Map<String, Object> json = responseToJson(response);
-                assertEquals("Ride with id 15 deleted", json.get("message"));
+                assertEquals("RideRequest with id 15 deleted", json.get("message"));
         }
 
         @WithMockUser(roles = { "DRIVER" })
@@ -756,7 +756,7 @@ public class RideRequestControllerTests extends ControllerTestCase {
                 verify(rideReqRepository, times(1)).delete(ride1);
 
                 Map<String, Object> json = responseToJson(response);
-                assertEquals("Ride with id 15 deleted", json.get("message"));
+                assertEquals("RideRequest with id 15 deleted", json.get("message"));
         }
 
         @WithMockUser(roles = { "ADMIN", "USER" })
@@ -776,7 +776,7 @@ public class RideRequestControllerTests extends ControllerTestCase {
                 // assert
                 verify(rideReqRepository, times(1)).findById(15L);
                 Map<String, Object> json = responseToJson(response);
-                assertEquals("Ride with id 15 not found", json.get("message"));
+                assertEquals("RideRequest with id 15 not found", json.get("message"));
         }
 
 
@@ -797,7 +797,7 @@ public class RideRequestControllerTests extends ControllerTestCase {
                 // assert
                 verify(rideReqRepository, times(1)).findById(15L);
                 Map<String, Object> json = responseToJson(response);
-                assertEquals("Ride with id 15 not found", json.get("message"));
+                assertEquals("RideRequest with id 15 not found", json.get("message"));
         }
 
 
@@ -913,7 +913,7 @@ public class RideRequestControllerTests extends ControllerTestCase {
                 // assert
                 verify(rideReqRepository, times(1)).findByIdAndRiderId(eq(67L), eq(userId));
                 Map<String, Object> json = responseToJson(response);
-                assertEquals("Ride with id 67 not found", json.get("message"));
+                assertEquals("RideRequest with id 67 not found", json.get("message"));
         }
 
         @WithMockUser(roles = { "USER" })
@@ -954,7 +954,7 @@ public class RideRequestControllerTests extends ControllerTestCase {
                 // assert
                 verify(rideReqRepository, times(1)).findByIdAndRiderId(67L, userId);
                 Map<String, Object> json = responseToJson(response);
-                assertEquals("Ride with id 67 not found", json.get("message"));
+                assertEquals("RideRequest with id 67 not found", json.get("message"));
 
         }
 
@@ -1108,7 +1108,7 @@ public class RideRequestControllerTests extends ControllerTestCase {
                 // assert
                 verify(rideReqRepository, times(1)).findById(67L);
                 Map<String, Object> json = responseToJson(response);
-                assertEquals("Ride with id 67 not found", json.get("message"));
+                assertEquals("RideRequest with id 67 not found", json.get("message"));
         }
 
         @WithMockUser(roles = { "DRIVER" })
@@ -1148,6 +1148,6 @@ public class RideRequestControllerTests extends ControllerTestCase {
                 // assert
                 verify(rideReqRepository, times(1)).findById(67L);
                 Map<String, Object> json = responseToJson(response);
-                assertEquals("Ride with id 67 not found", json.get("message"));
+                assertEquals("RideRequest with id 67 not found", json.get("message"));
         }
 }
