@@ -76,7 +76,7 @@ public class ShiftController extends ApiController {
         return ResponseEntity.ok().body(body);
     }
 
-    @Operation(summary = "Create a new shift for the table")
+    @Operation(summary = "Create a new shift")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/post")
     public Shift postShift(
@@ -90,7 +90,7 @@ public class ShiftController extends ApiController {
 
         Shift shift = new Shift();
 
-        shift.setDriverID(getCurrentUser().getUser().getId());
+        shift.setDriverID(driverID);
         shift.setDay(day);
         shift.setShiftStart(shiftStart);
         shift.setShiftEnd(shiftEnd);
@@ -103,7 +103,7 @@ public class ShiftController extends ApiController {
 
 
 
-    @Operation(summary= "Delete a Shift, drivers can only delete their own")
+    @Operation(summary= "Delete a Shift")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("")
     public Object deleteShift(
@@ -118,7 +118,7 @@ public class ShiftController extends ApiController {
     }
 
 
-    @Operation(summary = "Update a single shift, drivers can only update their own")
+    @Operation(summary = "Update a single shift")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("")
     public Shift updateShift(

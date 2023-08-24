@@ -689,7 +689,7 @@ public class ShiftControllerTests extends ControllerTestCase {
                                 .day("Tuesday")
                                 .shiftStart("11:30AM")
                                 .shiftEnd("01:30PM")
-                                .driverBackupID(1)
+                                .driverBackupID(3)
                                 .build();
 
                 String requestBody = mapper.writeValueAsString(shift_edited);
@@ -710,6 +710,40 @@ public class ShiftControllerTests extends ControllerTestCase {
                 verify(shiftRepository, times(1)).save(shift_edited); // should be saved with correct user
                 String responseString = response.getResponse().getContentAsString();
                 assertEquals(requestBody, responseString);
+        }
+
+        @WithMockUser(roles = { "ADMIN" })
+        @Test
+        public void admin_cannot_edit_shift_that_does_not_exist() throws Exception {
+                // arrange
+
+                long userId = currentUserService.getCurrentUser().getUser().getId();
+
+                Shift shift_edited = Shift.builder()
+                                .driverID(userId)
+                                .day("Tuesday")
+                                .shiftStart("11:30AM")
+                                .shiftEnd("01:30PM")
+                                .driverBackupID(1)
+                                .build();
+
+                String requestBody = mapper.writeValueAsString(shift_edited);
+
+                when(shiftRepository.findById(eq(67L))).thenReturn(Optional.empty());
+
+                // act
+                MvcResult response = mockMvc.perform(
+                                put("/api/shift?id=67")
+                                                .contentType(MediaType.APPLICATION_JSON)
+                                                .characterEncoding("utf-8")
+                                                .content(requestBody)
+                                                .with(csrf()))
+                                .andExpect(status().isNotFound()).andReturn();
+
+                // assert
+                verify(shiftRepository, times(1)).findById(67L);
+                Map<String, Object> json = responseToJson(response);
+                assertEquals("Shift with id 67 not found", json.get("message"));
         }
 
 }
