@@ -45,7 +45,7 @@ public class ShiftController extends ApiController {
     ObjectMapper mapper;
 
     @Operation(summary = "Get a list of all shifts")
-    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_DRIVER') || hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_DRIVER') || hasRole('ROLE_RIDER') || hasRole('ROLE_USER')")
     @GetMapping("/all")
     public ResponseEntity<String> allShifts()
             throws JsonProcessingException {
@@ -55,7 +55,7 @@ public class ShiftController extends ApiController {
     }
 
     @Operation(summary = "Get shift by id")
-    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_DRIVER') || hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_DRIVER') || hasRole('ROLE_RIDER') || hasRole('ROLE_USER')")
     @GetMapping("/get")
     public Shift shiftByID(
             @Parameter(name = "id", description = "Long, id number of shift to get", example = "1", required = true) @RequestParam Long id)
@@ -77,7 +77,7 @@ public class ShiftController extends ApiController {
     }
 
     @Operation(summary = "Create a new shift for the table")
-    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_DRIVER')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/post")
     public Shift postShift(
         @Parameter(name="day", description ="String, day of the week", example = "Monday") @RequestParam String day,
@@ -104,21 +104,13 @@ public class ShiftController extends ApiController {
 
 
     @Operation(summary= "Delete a Shift, drivers can only delete their own")
-    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_DRIVER')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("")
     public Object deleteShift(
         @Parameter(name="id", description = "Long, id number of shift to get", example = "1", required = true) 
         @RequestParam long id){
             Shift shift = shiftRepository.findById(id)
                     .orElseThrow(() -> new EntityNotFoundException(Shift.class, id));
-
-            
-            if (!getCurrentUser().getRoles().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))){
-                if((getCurrentUser().getUser().getId() != shift.getDriverID())){
-                    throw new EntityNotFoundException(Shift.class, id);
-                }
-            }
-
     
             shiftRepository.delete(shift);
             return genericMessage("Shift with id %s deleted".formatted(id));
@@ -127,7 +119,7 @@ public class ShiftController extends ApiController {
 
 
     @Operation(summary = "Update a single shift, drivers can only update their own")
-    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_DRIVER')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("")
     public Shift updateShift(
             @Parameter(name="id", description = "Long, id number of shift to get", example = "1", required = true)
@@ -136,13 +128,6 @@ public class ShiftController extends ApiController {
 
         Shift shift = shiftRepository.findById(id)
                     .orElseThrow(() -> new EntityNotFoundException(Shift.class, id));
-
-        
-        if (!getCurrentUser().getRoles().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))){
-                if((getCurrentUser().getUser().getId() != shift.getDriverID())){
-                    throw new EntityNotFoundException(Shift.class, id);
-                }
-            }
 
         
         shift.setDay(incoming.getDay());
