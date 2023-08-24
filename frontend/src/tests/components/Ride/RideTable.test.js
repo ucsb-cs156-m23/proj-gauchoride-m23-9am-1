@@ -91,8 +91,8 @@ describe("RideTable tests", () => {
 
     );
 
-    const expectedHeaders = ['id','Day','Student','Driver', 'Course #', 'Start Time', 'End Time', 'Pick Up', 'Drop Off', 'Drop Off Room'];
-    const expectedFields = ['id', 'day', 'student', 'driver', 'course', 'startTime', 'endTime', 'pickupLocation', 'dropoffLocation','dropoffRoom'];
+    const expectedHeaders = ['id','Day','Student','Driver', 'Course #', 'Start Time', 'End Time', 'Pick Up', 'Drop Off', 'Drop Off Room', 'Pick Up Room', 'Notes'];
+    const expectedFields = ['id', 'day', 'student', 'driver', 'course', 'startTime', 'endTime', 'pickupLocation', 'dropoffLocation','dropoffRoom', 'pickupRoom', 'notes'];
     const testId = "RideTable";
 
     expectedHeaders.forEach((headerText) => {
@@ -133,8 +133,8 @@ describe("RideTable tests", () => {
 
     );
 
-    const expectedHeaders = ['id','Day','Driver', 'Course #', 'Start Time', 'End Time', 'Pick Up', 'Drop Off', 'Drop Off Room'];
-    const expectedFields = ['id', 'day',  'driver', 'course', 'startTime', 'endTime', 'pickupLocation', 'dropoffLocation','dropoffRoom'];
+    const expectedHeaders = ['id','Day','Driver', 'Course #', 'Start Time', 'End Time', 'Pick Up', 'Drop Off', 'Drop Off Room', 'Pick Up Room', 'Notes'];
+    const expectedFields = ['id', 'day',  'driver', 'course', 'startTime', 'endTime', 'pickupLocation', 'dropoffLocation','dropoffRoom', 'pickupRoom', 'notes'];
     const testId = "RideTable";
 
     expectedHeaders.forEach((headerText) => {
@@ -173,8 +173,8 @@ describe("RideTable tests", () => {
 
     );
 
-    const expectedHeaders = ['id','Day','Student', 'Course #', 'Start Time', 'End Time', 'Pick Up', 'Drop Off', 'Drop Off Room'];
-    const expectedFields = ['id', 'day', 'student', 'course', 'startTime', 'endTime', 'pickupLocation', 'dropoffLocation','dropoffRoom'];
+    const expectedHeaders = ['id','Day','Student', 'Course #', 'Start Time', 'End Time', 'Pick Up', 'Drop Off', 'Drop Off Room', 'Pick Up Room', 'Notes'];
+    const expectedFields = ['id', 'day', 'student', 'course', 'startTime', 'endTime', 'pickupLocation', 'dropoffLocation','dropoffRoom', 'pickupRoom', 'notes'];
     const testId = "RideTable";
 
     expectedHeaders.forEach((headerText) => {
