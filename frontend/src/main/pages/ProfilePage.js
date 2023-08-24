@@ -6,6 +6,7 @@ import BasicLayout from "main/layouts/BasicLayout/BasicLayout";
 
 const ProfilePage = () => {
 
+
     const { data: currentUser } = useCurrentUser();
 
     if (!currentUser.loggedIn) {
@@ -14,7 +15,7 @@ const ProfilePage = () => {
         )
     }
 
-    const { email, pictureUrl, fullName } = currentUser.root.user;
+    const { email, cellPhone, pictureUrl, fullName } = currentUser.root.user;
     return (
         <BasicLayout>
             <Row className="align-items-center profile-header mb-5 text-center text-md-left">
@@ -28,11 +29,17 @@ const ProfilePage = () => {
                 <Col md>
                     <h2>{fullName}</h2>
                     <p className="lead text-muted">{email}</p>
+                    <div>
+                    <p className="lead text-muted">{cellPhone}</p>
+                    </div>
                     <RoleBadge role={"ROLE_USER"} currentUser={currentUser}/>
                     <RoleBadge role={"ROLE_MEMBER"} currentUser={currentUser}/>
                     <RoleBadge role={"ROLE_ADMIN"} currentUser={currentUser}/>
                     <RoleBadge role={"ROLE_DRIVER"} currentUser={currentUser}/>
                     <RoleBadge role={"ROLE_RIDER"} currentUser={currentUser}/>
+                    <div className="">
+                    </div>
+
 
                 </Col>
             </Row>
