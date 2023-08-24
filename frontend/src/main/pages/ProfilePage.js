@@ -1,26 +1,21 @@
-import React, { useState } from "react";
-import { Row, Col , Modal, Button } from "react-bootstrap";
+import React from "react";
+import { Row, Col } from "react-bootstrap";
 import RoleBadge from "main/components/Profile/RoleBadge";
 import { useCurrentUser } from "main/utils/currentUser";
 import BasicLayout from "main/layouts/BasicLayout/BasicLayout";
-import axios from "axios";
 
 const ProfilePage = () => {
-
+  
     // Stryker disable all
     const [showModal, setShow] = useState(false);
     const [userCellPhone, setUserCellPhone] = useState("");
     // Stryker restore all
 
     const onSubmit = (event) => {
-        const newPhoneNumber= event.target;
-        console.log(newPhoneNumber);
         axios.put(`/api/userprofile?cellPhone=${userCellPhone}`)
         event.preventDefault();
-        // console.log(userCellPhone);
         window.location.reload();
     }
-    
 
     const { data: currentUser } = useCurrentUser();
 
@@ -68,7 +63,6 @@ const ProfilePage = () => {
                     <RoleBadge role={"ROLE_ADMIN"} currentUser={currentUser}/>
                     <RoleBadge role={"ROLE_DRIVER"} currentUser={currentUser}/>
                     <RoleBadge role={"ROLE_RIDER"} currentUser={currentUser}/>
-                    {/* d-flex align-items-center justify-content-center */}
                     <div className="">
 
                         <Modal show={showModal} onHide={handleShow} data-testid="modal_id">

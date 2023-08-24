@@ -56,6 +56,9 @@ public class RoleInterceptor implements HandlerInterceptor {
                 if (user.getDriver()) {
                     revisedAuthorities.add(new SimpleGrantedAuthority("ROLE_DRIVER"));
                 }
+                if (user.getRider()) {
+                    revisedAuthorities.add(new SimpleGrantedAuthority("ROLE_RIDER"));
+                }
                 Authentication newAuth = new OAuth2AuthenticationToken(principal, revisedAuthorities,
                         (((OAuth2AuthenticationToken) authentication).getAuthorizedClientRegistrationId()));
                 SecurityContextHolder.getContext().setAuthentication(newAuth);
