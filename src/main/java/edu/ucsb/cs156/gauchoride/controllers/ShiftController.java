@@ -76,6 +76,7 @@ public class ShiftController extends ApiController {
         return ResponseEntity.ok().body(body);
     }
 
+
     @Operation(summary = "Create a new shift")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/post")

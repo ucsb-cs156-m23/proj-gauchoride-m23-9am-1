@@ -90,16 +90,23 @@ public class RideController extends ApiController {
         @Parameter(name="dropoffLocation", description="String, Location the ride ends", example="South Hall", required = true)
         @RequestParam String dropoffLocation,
 
-        @Parameter(name="room", description="String, Room number for the dropoffLocation", example="1431", required = true)
-        @RequestParam String room,
+        @Parameter(name="dropoffRoom", description="String, Room number for the dropoffLocation", example="1431", required = false)
+        @RequestParam String dropoffRoom,
 
         @Parameter(name="course", description="String, Course number for the class at the dropoffLocation", example="CMPSC 156", required = true)
-        @RequestParam String course
+        @RequestParam String course,
+
+        @Parameter(name="pickupRoom", description="String, Room number for the class at the pickupLocation", example="1940", required = false)
+        @RequestParam String pickupRoom,
+
+        @Parameter(name="notes", description="String, Notes for additional information", example="Library entrance by the arbor", required = false)
+        @RequestParam String notes
+
+
         )
         {
 
         Ride ride = new Ride();
-        
         ride.setRiderId(getCurrentUser().getUser().getId());
         ride.setStudent(getCurrentUser().getUser().getFullName());
         ride.setDay(day);
@@ -107,8 +114,10 @@ public class RideController extends ApiController {
         ride.setEndTime(endTime);
         ride.setPickupLocation(pickupLocation);
         ride.setDropoffLocation(dropoffLocation);
-        ride.setRoom(room);
+        ride.setDropoffRoom(dropoffRoom);
         ride.setCourse(course);
+        ride.setPickupRoom(pickupRoom);
+        ride.setNotes(notes);
 
         Ride savedRide = rideRepository.save(ride);
 
@@ -164,8 +173,11 @@ public class RideController extends ApiController {
         ride.setEndTime(incoming.getEndTime());
         ride.setPickupLocation(incoming.getPickupLocation());
         ride.setDropoffLocation(incoming.getDropoffLocation());
-        ride.setRoom(incoming.getRoom());
+        ride.setDropoffRoom(incoming.getDropoffRoom());
         ride.setCourse(incoming.getCourse());
+        ride.setPickupRoom(incoming.getPickupRoom());
+        ride.setNotes(incoming.getNotes());
+
 
         rideRepository.save(ride);
 

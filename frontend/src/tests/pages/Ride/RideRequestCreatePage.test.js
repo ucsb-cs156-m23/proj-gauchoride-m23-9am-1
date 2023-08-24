@@ -60,8 +60,10 @@ describe("RideRequestCreatePage tests", () => {
             endTime: "4:30PM", 
             pickupLocation: "Phelps",
             dropoffLocation: "HSSB",
-            room: "1215",
-            course: "WRIT 105CD"
+            dropoffRoom: "1215",
+            course: "WRIT 105CD",
+            pickupRoom: "3505",
+            notes: "waiting outside of 3505"
         };
 
         axiosMock.onPost("/api/ride_request/post").reply( 202, ride );
@@ -83,8 +85,10 @@ describe("RideRequestCreatePage tests", () => {
         const endTimeField = getByTestId("RideForm-end");
         const pickupLocationField = getByTestId("RideForm-pickup");
         const dropoffLocationField = getByTestId("RideForm-dropoff");
-        const roomField = getByTestId("RideForm-room");
+        const roomField = getByTestId("RideForm-dropoff-room");
         const courseField = getByTestId("RideForm-course");
+        const pickupRoomField = getByTestId("RideForm-pickup-room");
+        const notesField = getByTestId("RideForm-notes");
         const submitButton = getByTestId("RideForm-submit");
 
         fireEvent.change(dayField, { target: { value: 'Monday' } });
@@ -94,6 +98,9 @@ describe("RideRequestCreatePage tests", () => {
         fireEvent.change(dropoffLocationField, { target: { value: 'HSSB' } });
         fireEvent.change(roomField, { target: { value: '1215' } });
         fireEvent.change(courseField, { target: { value: 'WRIT 105CD' } });
+        fireEvent.change(pickupRoomField, { target: { value: '3505' } });
+        fireEvent.change(notesField, { target: { value: 'waiting outside of 3505' } });
+
 
 
         expect(submitButton).toBeInTheDocument();
@@ -109,8 +116,10 @@ describe("RideRequestCreatePage tests", () => {
                 "endTime": "4:30PM", 
                 "pickupLocation": "Phelps",
                 "dropoffLocation": "HSSB",
-                "room": "1215",
-                "course": "WRIT 105CD"
+                "dropoffRoom": "1215",
+                "course": "WRIT 105CD",
+                "pickupRoom": "3505",
+                "notes": "waiting outside of 3505"
         });
 
         expect(mockToast).toBeCalledWith("New Ride Created - id: 17");

@@ -147,21 +147,19 @@ function RideForm({ initialContents, submitAction, buttonLabel = "Create" }) {
             </Form.Group>
 
             <Form.Group className="mb-3" >
-                <Form.Label htmlFor="room">Room Number for Dropoff</Form.Label>
+                <Form.Label htmlFor="dropoff-room">Drop Off Room</Form.Label>
                 <Form.Control
-                    data-testid={testIdPrefix + "-room"}
-                    id="room"
+                    data-testid={testIdPrefix + "-dropoff-room"}
+                    id="dropoff-room"
                     type="text"
-                    isInvalid={Boolean(errors.room)}
-                    {...register("room", {
-                        required: "Room number is required."
-                    })}
-                    placeholder="e.g. 2225"  
-                    defaultValue={initialContents?.room} 
+                    {...register("dropoffRoom")}
+                    isInvalid={Boolean(errors.dropoffRoom)}
+                    placeholder="e.g. 1431"  
+                    defaultValue={initialContents?.dropoffRoom} 
                 />
-                <Form.Control.Feedback type="invalid">
-                    {errors.room?.message}
-                </Form.Control.Feedback>
+                { <Form.Control.Feedback type="invalid">
+                    {errors.dropoffRoom?.message}
+                </Form.Control.Feedback> }
             </Form.Group>
 
             <Form.Group className="mb-3" >
@@ -182,6 +180,40 @@ function RideForm({ initialContents, submitAction, buttonLabel = "Create" }) {
                 </Form.Control.Feedback>
             </Form.Group>
 
+            <Form.Group className="mb-3" >
+                <Form.Label htmlFor="pickup-room">Pickup Room</Form.Label>
+                <Form.Control
+                    data-testid={testIdPrefix + "-pickup-room"}
+                    id="pickup-room"
+                    type="text"
+                    {...register("pickupRoom")}
+                    isInvalid={Boolean(errors.pickupRoom)}
+                 
+                        
+        
+                    placeholder="e.g. 1940"  
+                    defaultValue={initialContents?.pickupRoom} 
+                />
+                { <Form.Control.Feedback type="invalid">
+                    {errors.pickupRoom?.message}
+                </Form.Control.Feedback> }
+            </Form.Group>
+
+            <Form.Group className="mb-3" >
+                <Form.Label htmlFor="notes">Notes</Form.Label>
+                <Form.Control
+                    data-testid={testIdPrefix + "-notes"}
+                    id="notes"
+                    type="text"
+                    {...register("notes")}
+                    isInvalid={Boolean(errors.notes)}
+                    placeholder="e.g. Behind South Hall"  
+                    defaultValue={initialContents?.notes} 
+                />
+                { <Form.Control.Feedback type="invalid">
+                    {errors.notes?.message}
+                </Form.Control.Feedback> }
+            </Form.Group>
 
             <Button
                 type="submit"
