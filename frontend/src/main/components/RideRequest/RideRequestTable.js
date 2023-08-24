@@ -47,6 +47,7 @@ export default function RideRequestTable({ rideReqs, currentUser }) {
         { Header: 'id', accessor: 'id' },
         { Header: 'Day', accessor: 'day' },
         { Header: 'Student', accessor: 'student' },
+        { Header: 'Driver', accessor: 'driver' },
         { Header: 'Start Time', accessor: 'startTime' },
         { Header: 'End Time', accessor: 'endTime' },
         { Header: 'Pick-up Location', accessor: 'pickupLocation' },

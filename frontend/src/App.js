@@ -4,7 +4,6 @@ import ProfilePage from "main/pages/ProfilePage";
 import AdminUsersPage from "main/pages/AdminUsersPage";
 import PageNotFound from "main/pages/PageNotFound";
 
-import RideRequestIndexPage from "main/pages/RideRequest/RideRequestIndexPage";
 import RideRequestCreatePage from "main/pages/RideRequest/RideRequestCreatePage";
 import RideRequestEditPage from "main/pages/RideRequest/RideRequestEditPage";
 
