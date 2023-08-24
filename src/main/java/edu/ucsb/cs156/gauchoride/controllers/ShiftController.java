@@ -45,7 +45,7 @@ public class ShiftController extends ApiController {
     ObjectMapper mapper;
 
     @Operation(summary = "Get a list of all shifts")
-    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_DRIVER') || hasRole('ROLE_RIDER') || hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_DRIVER') || hasRole('ROLE_RIDER')")
     @GetMapping("/all")
     public ResponseEntity<String> allShifts()
             throws JsonProcessingException {
@@ -55,7 +55,7 @@ public class ShiftController extends ApiController {
     }
 
     @Operation(summary = "Get shift by id")
-    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_DRIVER') || hasRole('ROLE_RIDER') || hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_DRIVER') || hasRole('ROLE_RIDER')")
     @GetMapping("/get")
     public Shift shiftByID(
             @Parameter(name = "id", description = "Long, id number of shift to get", example = "1", required = true) @RequestParam Long id)
