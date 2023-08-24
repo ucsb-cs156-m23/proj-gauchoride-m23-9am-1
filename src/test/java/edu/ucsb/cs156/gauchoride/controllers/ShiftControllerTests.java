@@ -253,6 +253,7 @@ public class ShiftControllerTests extends ControllerTestCase {
         @WithMockUser(roles = { "USER" })
         @Test
         public void logged_in_user_can_get_all_shifts() throws Exception {
+                // arrange
 
                 long userId = currentUserService.getCurrentUser().getUser().getId();
 
@@ -292,6 +293,7 @@ public class ShiftControllerTests extends ControllerTestCase {
         @WithMockUser(roles = { "RIDER" })
         @Test
         public void logged_in_rider_can_get_all_shifts() throws Exception {
+                // arrange
 
                 long userId = currentUserService.getCurrentUser().getUser().getId();
 
@@ -333,6 +335,7 @@ public class ShiftControllerTests extends ControllerTestCase {
         @WithMockUser(roles = { "DRIVER" })
         @Test
         public void logged_in_driver_can_get_all_shifts() throws Exception {
+                // arrange
 
                 long userId = currentUserService.getCurrentUser().getUser().getId();
 
@@ -372,6 +375,7 @@ public class ShiftControllerTests extends ControllerTestCase {
         @WithMockUser(roles = { "ADMIN" })
         @Test
         public void logged_in_admin_can_get_all_shifts() throws Exception {
+                // arrange
 
                 long userId = currentUserService.getCurrentUser().getUser().getId();
 
@@ -417,7 +421,6 @@ public class ShiftControllerTests extends ControllerTestCase {
         @WithMockUser(roles = { "USER" })
         @Test
         public void test_that_logged_in_user_can_get_by_id_when_the_id_exists_and_user_id_matches() throws Exception {
-
                 // arrange
 
                 long userId = currentUserService.getCurrentUser().getUser().getId();
@@ -447,7 +450,6 @@ public class ShiftControllerTests extends ControllerTestCase {
         @WithMockUser(roles = { "USER" })
         @Test
         public void test_that_logged_in_user_can_get_by_id_when_the_id_does_not_exist() throws Exception {
-
                 // arrange
 
                 when(shiftRepository.findById(eq(7L))).thenReturn(Optional.empty());
@@ -467,7 +469,6 @@ public class ShiftControllerTests extends ControllerTestCase {
         @WithMockUser(roles = { "RIDER" })
         @Test
         public void test_that_logged_in_rider_can_get_by_id_when_the_id_does_not_exist() throws Exception {
-
                 // arrange
 
                 when(shiftRepository.findById(eq(7L))).thenReturn(Optional.empty());
@@ -488,7 +489,6 @@ public class ShiftControllerTests extends ControllerTestCase {
         @WithMockUser(roles = { "RIDER" })
         @Test
         public void test_that_logged_in_rider_can_get_by_id_when_the_id_exists_and_user_id_matches() throws Exception {
-
                 // arrange
 
                 long userId = currentUserService.getCurrentUser().getUser().getId();
@@ -521,7 +521,6 @@ public class ShiftControllerTests extends ControllerTestCase {
         @WithMockUser(roles = { "DRIVER" })
         @Test
         public void test_that_logged_in_driver_can_get_by_id_when_the_id_exists() throws Exception {
-
                 // arrange
 
                 long userId = currentUserService.getCurrentUser().getUser().getId();
@@ -551,7 +550,6 @@ public class ShiftControllerTests extends ControllerTestCase {
         @WithMockUser(roles = { "DRIVER" })
         @Test
         public void test_that_logged_in_driver_can_get_by_id_when_the_id_does_not_exist() throws Exception {
-
                 // arrange
 
                 when(shiftRepository.findById(eq(7L))).thenReturn(Optional.empty());
@@ -571,7 +569,6 @@ public class ShiftControllerTests extends ControllerTestCase {
         @WithMockUser(roles = { "ADMIN" })
         @Test
         public void test_that_logged_in_admin_can_get_by_id_when_the_id_exists() throws Exception {
-
                 // arrange
 
                 long userId = currentUserService.getCurrentUser().getUser().getId();
@@ -601,7 +598,6 @@ public class ShiftControllerTests extends ControllerTestCase {
         @WithMockUser(roles = { "ADMIN" })
         @Test
         public void test_that_logged_in_admin_can_get_by_id_when_the_id_does_not_exist() throws Exception {
-
                 // arrange
 
                 when(shiftRepository.findById(eq(7L))).thenReturn(Optional.empty());
@@ -626,6 +622,7 @@ public class ShiftControllerTests extends ControllerTestCase {
         @WithMockUser(roles = { "DRIVER" })
         @Test
         public void logged_in_driver_can_get_all_their_shifts() throws Exception {
+                // arrange
 
                 long userId = currentUserService.getCurrentUser().getUser().getId();
 
@@ -739,8 +736,7 @@ public class ShiftControllerTests extends ControllerTestCase {
 
         @WithMockUser(roles = { "ADMIN" })
         @Test
-        public void admin_tries_to_delete_non_existant_shift_and_gets_right_error_message()
-                        throws Exception {
+        public void admin_tries_to_delete_non_existant_shift_and_gets_right_error_message() throws Exception {
                 // arrange
 
                 when(shiftRepository.findById(eq(15L))).thenReturn(Optional.empty());
@@ -803,5 +799,5 @@ public class ShiftControllerTests extends ControllerTestCase {
                 String responseString = response.getResponse().getContentAsString();
                 assertEquals(requestBody, responseString);
         }
-        
+
 }
