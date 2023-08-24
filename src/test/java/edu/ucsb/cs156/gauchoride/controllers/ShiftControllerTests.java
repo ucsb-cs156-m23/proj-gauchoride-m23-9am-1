@@ -99,6 +99,38 @@ public class ShiftControllerTests extends ControllerTestCase {
                                 .andExpect(status().is(404)); // logged, but no id exists
         }
 
+        // authorization tests for /drivershifts
+
+        @Test
+        public void logged_out_users_cannot_get_driver_shifts() throws Exception {
+                mockMvc.perform(get("/api/shift/drivershifts"))
+                                .andExpect(status().is(403)); 
+        }
+
+        @WithMockUser(roles = { "USER" })
+        @Test
+        public void logged_in_users_cannot_get_driver_shifts() throws Exception {
+                mockMvc.perform(get("/api/shift/drivershifts"))
+                                .andExpect(status().is(403)); 
+        }
+
+
+        @WithMockUser(roles = { "DRIVER" })
+        @Test
+        public void logged_in_driver_can_get_driver_shifts() throws Exception {
+                mockMvc.perform(get("/api/shift/drivershifts"))
+                                .andExpect(status().is(200)); 
+        }
+
+        @WithMockUser(roles = { "ADMIN" })
+        @Test
+        public void logged_in_admin_cannot_get_driver_shifts() throws Exception {
+                mockMvc.perform(get("/api/shift/drivershifts"))
+                                .andExpect(status().is(403)); 
+        }
+
+
+
         // Authorization tests for /api/shift/post
 
         @Test
@@ -420,6 +452,48 @@ public class ShiftControllerTests extends ControllerTestCase {
                 // assert
 
                 verify(shiftRepository, times(1)).findAll();
+                String expectedJson = mapper.writeValueAsString(expectedShifts);
+                String responseString = response.getResponse().getContentAsString();
+                assertEquals(expectedJson, responseString);
+        }
+
+        // GET DRIVER SHIFTS
+
+        @WithMockUser(roles = { "DRIVER" })
+        @Test
+        public void logged_in_driver_can_get_all_their_shifts() throws Exception {
+
+                long userId = currentUserService.getCurrentUser().getUser().getId();
+
+                Shift shift1 = Shift.builder()
+                                .driverID(userId)
+                                .day("Monday")
+                                .shiftStart("10:30AM")
+                                .shiftEnd("12:30PM")
+                                .driverBackupID(userId + 1)
+                                .build();
+
+                Shift shift2 = Shift.builder()
+                                .driverID(userId)
+                                .day("Tuesday")
+                                .shiftStart("10:30AM")
+                                .shiftEnd("12:30PM")
+                                .driverBackupID(userId + 1)
+                                .build();
+
+
+                ArrayList<Shift> expectedShifts = new ArrayList<>();
+                expectedShifts.addAll(Arrays.asList(shift1, shift2));
+
+                when(shiftRepository.findByDriverID(userId)).thenReturn(expectedShifts);
+
+                // act
+                MvcResult response = mockMvc.perform(get("/api/shift/drivershifts"))
+                                .andExpect(status().isOk()).andReturn();
+
+                // assert
+
+                verify(shiftRepository, times(1)).findByDriverID(userId);
                 String expectedJson = mapper.writeValueAsString(expectedShifts);
                 String responseString = response.getResponse().getContentAsString();
                 assertEquals(expectedJson, responseString);
