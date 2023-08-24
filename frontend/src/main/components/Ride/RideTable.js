@@ -69,6 +69,7 @@ export default function RideTable({
         {
             Header: 'Drop Off Room',
             accessor: 'dropoffRoom',
+
         },
         {
             Header: 'Pick Up Room',
@@ -80,6 +81,7 @@ export default function RideTable({
             accessor: 'notes',
 
         }
+
     ];
 
     const columnsDriver = [
@@ -119,6 +121,7 @@ export default function RideTable({
             Header: 'Drop Off Room',
             accessor: 'dropoffRoom',
         },
+
         {
             Header: 'Pick Up Room',
             accessor: 'pickupRoom',
@@ -129,6 +132,9 @@ export default function RideTable({
             accessor: 'notes',
 
         }
+
+     
+
     ];
 
     const columnsRider = [
@@ -167,6 +173,7 @@ export default function RideTable({
         {
             Header: 'Drop Off Room',
             accessor: 'dropoffRoom',
+
         },
         {
             Header: 'Pick Up Room',
@@ -178,6 +185,9 @@ export default function RideTable({
             accessor: 'notes',
 
         }
+
+
+
     ];
 
 
