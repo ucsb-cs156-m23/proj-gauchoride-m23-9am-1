@@ -73,11 +73,6 @@ export default function AppNavbar({ currentUser, systemInfo, doLogout, currentUr
                 )
               }
               {
-                !hasRole(currentUser, "ROLE_RIDER") && (
-                  <Nav.Link id="appnavbar-ride-requests" data-testid="appnavbar-ride-requests" href="/ride-requests">Ride Requests</Nav.Link>
-                )
-              }
-              {
                 (hasRole(currentUser, "ROLE_RIDER") || hasRole(currentUser, "ROLE_ADMIN")) && (
                   <Nav.Link id="appnavbar-rider-dashboard" data-testid="appnavbar-rider-dashboard" href="/rider">Rider</Nav.Link>
                 )

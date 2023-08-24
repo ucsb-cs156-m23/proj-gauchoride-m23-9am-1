@@ -28,9 +28,6 @@ function App() {
         {
           hasRole(currentUser, "ROLE_ADMIN") && <Route exact path="/admin/users" element={<AdminUsersPage />} />
         }
-        {
-          !hasRole(currentUser, "ROLE_RIDER") && <Route exact path="/ride-requests" element={<RideRequestIndexPage />} />
-        }
         { 
           (hasRole(currentUser, "ROLE_RIDER") || hasRole(currentUser, "ROLE_ADMIN")) && <Route exact path="/ride-request/create" element={<RideRequestCreatePage />} />
         }
