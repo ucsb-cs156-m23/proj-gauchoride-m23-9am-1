@@ -14,7 +14,7 @@ jest.mock('react-router-dom', () => ({
     useNavigate: () => mockNavigate
 }));
 
-describe("PageNotFound tests", () => {
+describe("PrivacyPolicyPage tests", () => {
 
     const axiosMock =new AxiosMockAdapter(axios);
     axiosMock.onGet("/api/currentUser").reply(200, apiCurrentUserFixtures.userOnly);
