@@ -72,25 +72,10 @@ export default function RideRequestTable({ rideReqs, currentUser }) {
         ButtonColumn("Edit", "primary", editCallback, "RideRequestTable"),
         ButtonColumn("Delete", "danger", deleteCallback, "RideRequestTable")
     ];
-
-    const columnsUser = [
-        { Header: 'id', accessor: 'id' },
-        { Header: 'Day', accessor: 'day' },
-        { Header: 'Student', accessor: 'student' },
-        { Header: 'Driver', accessor: 'driver' },
-        { Header: 'Start Time', accessor: 'startTime' },
-        { Header: 'End Time', accessor: 'endTime' },
-        { Header: 'Pick-up Location', accessor: 'pickupLocation' },
-        { Header: 'Pick-up Room #', accessor: 'pickupRoom' },
-        { Header: 'Drop-off Location', accessor: 'dropoffLocation' },
-        { Header: 'Drop-off Room #', accessor: 'dropoffRoom' },
-        { Header: 'Course',  accessor: 'course' },
-        { Header: 'Notes',  accessor: 'notes' }
-    ];
    
     const columnsToDisplay = hasRole(currentUser, "ROLE_ADMIN") ? columnsAdmin :
                              hasRole(currentUser, "ROLE_DRIVER") ? columnsDriver :
-                             hasRole(currentUser, "ROLE_RIDER") ? columnsRider : columnsUser;
+                             hasRole(currentUser, "ROLE_RIDER") ? columnsRider : [];
     
     return <OurTable
         data={rideReqs}

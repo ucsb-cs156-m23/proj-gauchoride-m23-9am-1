@@ -33,8 +33,8 @@ public class RideRequestController extends ApiController {
     @Autowired
     RideRequestRepository rideReqRepository;
 
-    @Operation(summary = "List all rides, only user's if not admin/driver")
-    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_DRIVER') || hasRole('ROLE_USER')")
+    @Operation(summary = "List all rides, only rider's if not admin/driver")
+    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_DRIVER') || hasRole('ROLE_RIDER')")
     @GetMapping("/all")
     public Iterable<RideRequest> allRides() {
         Iterable<RideRequest> rideReqs;
@@ -49,29 +49,19 @@ public class RideRequestController extends ApiController {
         return rideReqs;
     }
 
-    @Operation(summary = "Get a single ride by id, only user's if not admin/driver")
-    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_DRIVER') || hasRole('ROLE_USER')")
+    @Operation(summary = "Get a single ride by id,")
+    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_DRIVER') || hasRole('ROLE_RIDER')")
     @GetMapping("")
     public RideRequest getById(
-            @Parameter(name="id", description = "long, Id of the Ride to get", 
-            required = true)  
-            @RequestParam Long id) {
-        RideRequest rideReq;
-        
-        if (getCurrentUser().getRoles().contains(new SimpleGrantedAuthority("ROLE_ADMIN")) ||
-            getCurrentUser().getRoles().contains(new SimpleGrantedAuthority("ROLE_DRIVER"))) {
-            rideReq = rideReqRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(RideRequest.class, id));;
-        } else {
-            rideReq = rideReqRepository.findByIdAndRiderId(id, getCurrentUser().getUser().getId())
-                .orElseThrow(() -> new EntityNotFoundException(RideRequest.class, id));
-        }
-
+        @Parameter(name="id", description = "long, Id of the Ride to get", required = true) @RequestParam Long id
+    ) {
+        RideRequest rideReq = rideReqRepository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException(RideRequest.class, id));
         return rideReq;
     }
 
     @Operation(summary = "Create a new ride")
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')|| hasRole('ROLE_RIDER')")
     @PostMapping("/post")
     public RideRequest postRideRequest(
         @Parameter(name="day", description="String, Day of the week ride is requested (Monday - Sunday) and allows Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday", 
@@ -101,9 +91,7 @@ public class RideRequestController extends ApiController {
 
         @Parameter(name="notes", description="String, Notes for additional information", example="Library entrance by the arbor", required = false)
         @RequestParam String notes
-
-        )
-        {
+    ) {
 
         RideRequest rideReq = new RideRequest();
         rideReq.setRiderId(getCurrentUser().getUser().getId());
@@ -122,49 +110,29 @@ public class RideRequestController extends ApiController {
         return savedRideReq;
     }
 
-    @Operation(summary = "Delete a ride, only user's if not admin/driver")
-    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_DRIVER') || hasRole('ROLE_USER')")
+    @Operation(summary = "Delete a ride")
+    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_RIDER')")
     @DeleteMapping("")
     public Object deleteRide(
-        @Parameter(name="id", description="long, Id of the Ride to be deleted", 
-        required = true)
-        @RequestParam Long id) {
-
-        RideRequest rideReq;
-
-        if (getCurrentUser().getRoles().contains(new SimpleGrantedAuthority("ROLE_ADMIN")) ||
-            getCurrentUser().getRoles().contains(new SimpleGrantedAuthority("ROLE_DRIVER"))) {
-            rideReq = rideReqRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(RideRequest.class, id));;
-        } else {
-            rideReq = rideReqRepository.findByIdAndRiderId(id, getCurrentUser().getUser().getId())
-                .orElseThrow(() -> new EntityNotFoundException(RideRequest.class, id));
-        }
+        @Parameter(name="id", description="long, Id of the Ride to be deleted", required = true) @RequestParam Long id
+    ) {
+        RideRequest rideReq = rideReqRepository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException(RideRequest.class, id));
 
         rideReqRepository.delete(rideReq);
         return genericMessage("RideRequest with id %s deleted".formatted(id));
     }
 
 
-    @Operation(summary = "Update a single ride, only user's if not admin/driver")
-    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_DRIVER') || hasRole('ROLE_USER')")
+    @Operation(summary = "Update a single ride")
+    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_RIDER')")
     @PutMapping("")
     public RideRequest updateRide(
-            @Parameter(name="id", description="long, Id of the Ride to be edited", 
-            required = true)
-            @RequestParam Long id,
-            @RequestBody @Valid RideRequest incoming) {
-
-        RideRequest rideReq;
-
-        if (getCurrentUser().getRoles().contains(new SimpleGrantedAuthority("ROLE_ADMIN")) ||
-            getCurrentUser().getRoles().contains(new SimpleGrantedAuthority("ROLE_DRIVER"))) {
-            rideReq = rideReqRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(RideRequest.class, id));;
-        } else {
-            rideReq = rideReqRepository.findByIdAndRiderId(id, getCurrentUser().getUser().getId())
-                .orElseThrow(() -> new EntityNotFoundException(RideRequest.class, id));
-        }
+            @Parameter(name="id", description="long, Id of the Ride to be edited", required = true) @RequestParam Long id,
+            @RequestBody @Valid RideRequest incoming
+    ) {
+        RideRequest rideReq = rideReqRepository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException(RideRequest.class, id));
 
         rideReq.setDay(incoming.getDay());
         rideReq.setStartTime(incoming.getStartTime());

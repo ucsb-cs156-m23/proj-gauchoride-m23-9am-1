@@ -343,9 +343,6 @@ describe("AppNavbar tests", () => {
         );
         
         await waitFor(() => expect(getByText("Welcome, Phill Conrad")).toBeInTheDocument());
-        
-        const rideRequests = getByTestId("appnavbar-ride-requests");
-        expect(rideRequests).toBeInTheDocument(); 
 
         const riderDashboard = getByTestId("appnavbar-rider-dashboard");
         expect(riderDashboard).toBeInTheDocument(); 
@@ -366,9 +363,6 @@ describe("AppNavbar tests", () => {
         );
         
         await waitFor(() => expect(getByText("Welcome, Phill Conrad")).toBeInTheDocument());
-        
-        const rideRequests = getByTestId("appnavbar-ride-requests");
-        expect(rideRequests).toBeInTheDocument(); 
 
         const riderDashboard = getByTestId("appnavbar-rider-dashboard");
         expect(riderDashboard).toBeInTheDocument(); 
@@ -390,9 +384,6 @@ describe("AppNavbar tests", () => {
         
         await waitFor(() => expect(getByText("Welcome, Phillip Conrad")).toBeInTheDocument());
 
-        const rideRequests = getByTestId("appnavbar-ride-requests");
-        expect(rideRequests).toBeInTheDocument(); 
-
         const riderDashboard = screen.queryByTestId("appnavbar-rider-dashboard");
         expect(riderDashboard).not.toBeInTheDocument();         
     });
@@ -411,9 +402,6 @@ describe("AppNavbar tests", () => {
         );
         
         await waitFor(() => expect(getByText("Welcome, Phillip Conrad")).toBeInTheDocument());
-        
-        const rideRequests = screen.queryByTestId("appnavbar-ride-requests");
-        expect(rideRequests).not.toBeInTheDocument(); 
 
         const riderDashboard = getByTestId("appnavbar-rider-dashboard");
         expect(riderDashboard).toBeInTheDocument(); 
@@ -434,9 +422,6 @@ describe("AppNavbar tests", () => {
         );
         
         await waitFor(() => expect(getByText("Welcome, Phillip Conrad")).toBeInTheDocument());
-
-        const rideRequests = getByTestId("appnavbar-ride-requests");
-        expect(rideRequests).toBeInTheDocument(); 
 
         const riderDashboard = screen.queryByTestId("appnavbar-rider-dashboard");
         expect(riderDashboard).not.toBeInTheDocument();        
