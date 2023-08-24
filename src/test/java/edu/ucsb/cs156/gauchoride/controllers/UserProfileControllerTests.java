@@ -89,8 +89,8 @@ public class UserProfileControllerTests extends ControllerTestCase {
         .driver(false)
         .rider(true)
         .build();
-    MvcResult response = mockMvc.perform(
-                    put("/api/userprofile?cellPhone=1234").with(csrf())).andExpect(status().isOk()).andReturn();
+
+    String expectedJson = mapper.writeValueAsString(fakeUserNew);
 
     when(userRepository.findById(eq(1L))).thenReturn(Optional.of(fakeUserOld));
 
