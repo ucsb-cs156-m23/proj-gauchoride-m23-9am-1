@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
-
 @Tag(name = "Ride Request")
 @RequestMapping("/api/ride_request")
 @RestController
@@ -33,7 +32,7 @@ public class RideRequestController extends ApiController {
     @Autowired
     RideRequestRepository rideReqRepository;
 
-    @Operation(summary = "List all rides, only rider's if not admin/driver")
+    @Operation(summary = "List all ride requests, only rider's if not admin/driver")
     @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_DRIVER') || hasRole('ROLE_RIDER')")
     @GetMapping("/all")
     public Iterable<RideRequest> allRides() {
@@ -49,7 +48,7 @@ public class RideRequestController extends ApiController {
         return rideReqs;
     }
 
-    @Operation(summary = "Get a single ride by id,")
+    @Operation(summary = "Get a single ride request by id,")
     @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_DRIVER') || hasRole('ROLE_RIDER')")
     @GetMapping("")
     public RideRequest getById(
@@ -60,10 +59,10 @@ public class RideRequestController extends ApiController {
         return rideReq;
     }
 
-    @Operation(summary = "Create a new ride")
+    @Operation(summary = "Create a new ride request")
     @PreAuthorize("hasRole('ROLE_ADMIN')|| hasRole('ROLE_RIDER')")
     @PostMapping("/post")
-    public RideRequest postRideRequest(
+    public RideRequest createRideReq(
         @Parameter(name="day", description="String, Day of the week ride is requested (Monday - Sunday) and allows Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday", 
                     example="Tuesday", required = true) 
         @RequestParam String day,
@@ -110,24 +109,10 @@ public class RideRequestController extends ApiController {
         return savedRideReq;
     }
 
-    @Operation(summary = "Delete a ride")
-    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_RIDER')")
-    @DeleteMapping("")
-    public Object deleteRide(
-        @Parameter(name="id", description="long, Id of the Ride to be deleted", required = true) @RequestParam Long id
-    ) {
-        RideRequest rideReq = rideReqRepository.findById(id)
-            .orElseThrow(() -> new EntityNotFoundException(RideRequest.class, id));
-
-        rideReqRepository.delete(rideReq);
-        return genericMessage("RideRequest with id %s deleted".formatted(id));
-    }
-
-
-    @Operation(summary = "Update a single ride")
+    @Operation(summary = "Update a single ride request")
     @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_RIDER')")
     @PutMapping("")
-    public RideRequest updateRide(
+    public RideRequest updateRideReq(
             @Parameter(name="id", description="long, Id of the Ride to be edited", required = true) @RequestParam Long id,
             @RequestBody @Valid RideRequest incoming
     ) {
@@ -147,4 +132,18 @@ public class RideRequestController extends ApiController {
         rideReqRepository.save(rideReq);
         return rideReq;
     }
+
+    @Operation(summary = "Delete a ride request")
+    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_RIDER')")
+    @DeleteMapping("")
+    public Object deleteRideReq(
+        @Parameter(name="id", description="long, Id of the Ride to be deleted", required = true) @RequestParam Long id
+    ) {
+        RideRequest rideReq = rideReqRepository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException(RideRequest.class, id));
+
+        rideReqRepository.delete(rideReq);
+        return genericMessage("RideRequest with id %s deleted".formatted(id));
+    }
+
 }
