@@ -89,7 +89,7 @@ export default function AppNavbar({ currentUser, systemInfo, doLogout, currentUr
               }
               {
                 isParticipant(currentUser) && (
-                  <Nav.Link data-testid="appnavbar-driver-link" href="/drivers">Drivers</Nav.Link>
+                  <Nav.Link data-testid="appnavbar-driver-link" href="/drivers">Drivers List</Nav.Link>
                 )
               }
               {
