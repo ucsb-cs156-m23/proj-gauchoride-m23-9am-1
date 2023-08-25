@@ -16,6 +16,7 @@ import ShiftPage from "main/pages/ShiftPage";
 import { hasRole, useCurrentUser } from "main/utils/currentUser";
 
 import "bootstrap/dist/css/bootstrap.css";
+import DriversListPage from "main/pages/DriversListPage";
 
 
 function App() {
@@ -47,6 +48,15 @@ function App() {
         }
         {
           hasRole(currentUser, "ROLE_RIDER") && <Route exact path="/shift/list" element={<ShiftPage />} />
+        }
+        {
+          hasRole(currentUser, "ROLE_ADMIN") && <Route exact path="/drivers" element={<DriversListPage />} />
+        }
+        {
+          hasRole(currentUser, "ROLE_DRIVER") && <Route exact path="/drivers" element={<DriversListPage />} />
+        }
+        {
+          hasRole(currentUser, "ROLE_RIDER") && <Route exact path="/drivers" element={<DriversListPage />} />
         }
         {
           hasRole(currentUser, "ROLE_USER")
