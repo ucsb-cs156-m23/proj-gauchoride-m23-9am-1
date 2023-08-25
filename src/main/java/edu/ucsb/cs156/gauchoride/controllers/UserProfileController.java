@@ -32,7 +32,7 @@ public class UserProfileController extends ApiController {
     @Parameter(name="cellPhone") @RequestParam String cellPhone) {
         Long id = super.getCurrentUser().getUser().getId();
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(User.class, id));
+                 .orElseThrow(() -> new EntityNotFoundException(User.class, id));
         user.setCellPhone(cellPhone);
         userRepository.save(user);
         return user;        
