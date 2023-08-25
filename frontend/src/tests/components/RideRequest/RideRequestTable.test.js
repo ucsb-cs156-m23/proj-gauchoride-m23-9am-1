@@ -123,7 +123,7 @@ describe("RideRequestTable tests", () => {
 
     const currentUser = currentUserFixtures.driverOnly;
 
-    const { getByText, getByTestId, queryByTestId } = render(
+    const { getByText, getByTestId } = render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
           <RideRequestTable rideReqs={rideReqFixtures.threeRideReqs} currentUser={currentUser} />
