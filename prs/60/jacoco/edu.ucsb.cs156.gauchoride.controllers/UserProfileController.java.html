@@ -32,7 +32,7 @@ import edu.ucsb.cs156.gauchoride.services.CurrentUserService;
     @Parameter(name=&quot;cellPhone&quot;) @RequestParam String cellPhone) {
 <span class="fc" id="L33">        Long id = super.getCurrentUser().getUser().getId();</span>
 <span class="fc" id="L34">        User user = userRepository.findById(id)</span>
-<span class="fc" id="L35">                .orElseThrow(() -&gt; new EntityNotFoundException(User.class, id));</span>
+<span class="fc" id="L35">                 .orElseThrow(() -&gt; new EntityNotFoundException(User.class, id));</span>
 <span class="fc" id="L36">        user.setCellPhone(cellPhone);</span>
 <span class="fc" id="L37">        userRepository.save(user);</span>
 <span class="fc" id="L38">        return user;        </span>
