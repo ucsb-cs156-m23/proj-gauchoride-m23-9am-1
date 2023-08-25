@@ -188,9 +188,6 @@ function RideForm({ initialContents, submitAction, buttonLabel = "Create" }) {
                     type="text"
                     {...register("pickupRoom")}
                     isInvalid={Boolean(errors.pickupRoom)}
-                 
-                        
-        
                     placeholder="e.g. 1940"  
                     defaultValue={initialContents?.pickupRoom} 
                 />

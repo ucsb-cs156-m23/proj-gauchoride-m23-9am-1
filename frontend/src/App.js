@@ -16,6 +16,7 @@ import ShiftPage from "main/pages/ShiftPage";
 import { hasRole, useCurrentUser } from "main/utils/currentUser";
 
 import "bootstrap/dist/css/bootstrap.css";
+import DriverDashboardPage from "main/pages/Drivers/driverDashboardPage";
 
 
 function App() {
@@ -38,6 +39,9 @@ function App() {
         }
         {
           (hasRole(currentUser, "ROLE_ADMIN")  || hasRole(currentUser, "ROLE_RIDER") )&& <Route exact path="/ride/edit/:id" element={<RideRequestEditPage />} />
+        }
+        {
+          (hasRole(currentUser, "ROLE_DRIVER") ) && <Route exact path="/driver" element={<DriverDashboardPage />} />
         }
         {
           hasRole(currentUser, "ROLE_ADMIN") && <Route exact path="/shift/list" element={<ShiftPage />} />
