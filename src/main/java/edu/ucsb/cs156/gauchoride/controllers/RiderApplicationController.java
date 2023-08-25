@@ -27,8 +27,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.text.DateFormat;
+import java.util.Calendar;
+import java.text.ParseException;
 
 import javax.validation.Valid;
+
 
 @Tag(name = "Rider Application")
 @RequestMapping("/api/riderapplication")
@@ -40,6 +44,8 @@ public class RiderApplicationController extends ApiController {
     @Autowired
     ObjectMapper mapper;
 
+   
+
     @Operation(summary = "Creates a new application")
     @PreAuthorize("hasRole('ROLE_MEMBER') || hasRole('ROLE_USER') || hasRole('ROLE_DRIVER') || hasRole('ROLE_ADMIN')")
     @PostMapping("/new")
@@ -47,19 +53,22 @@ public class RiderApplicationController extends ApiController {
         
         @Parameter(name="perm_number") @RequestParam String perm_number,
        
-        @Parameter(name="description") @RequestParam String description)
-       
+        @Parameter(name="description") @RequestParam String description
+        )
         {
         
+        long milli = 60 * 60 * 24 * 1000;
+        long currentTime = new Date().getTime();
+        long dateOnly = (currentTime / milli) * milli;
 
-        Date date = new Date();
+        Date date = new Date(dateOnly);
+
 
         RiderApplication riderApplication = new RiderApplication();
         riderApplication.setUserId(getCurrentUser().getUser().getId());
       
         riderApplication.setPerm_number(perm_number);
         riderApplication.setCreated_date(date);
-       
         riderApplication.setDescription(description);
         
         RiderApplication savedRiderApplication = riderApplicationRepository.save(riderApplication);
@@ -100,8 +109,13 @@ public class RiderApplicationController extends ApiController {
         RiderApplication riderApplication = riderApplicationRepository.findByIdAndUserId(id, getCurrentUser().getUser().getId())
             .orElseThrow(() -> new EntityNotFoundException(RiderApplication.class, id));
 
-            //Date date = new Date();
-            riderApplication.setUpdated_date(incoming.getUpdated_date());
+            long milli = 60 * 60 * 24 * 1000;
+            long currentTime = new Date().getTime();
+            long dateOnly = (currentTime / milli) * milli;
+
+            Date date = new Date(dateOnly);
+
+            riderApplication.setUpdated_date(date);
             riderApplication.setPerm_number(incoming.getPerm_number());
             riderApplication.setDescription(incoming.getDescription());
 
@@ -118,11 +132,15 @@ public class RiderApplicationController extends ApiController {
         @Parameter(name = "id", description = "Long, id number ride to get ", example = "1", required = true)  @RequestParam long id,
         @RequestBody @Valid RiderApplication incoming
     ) {
-
-        if(incoming.getStatus()!= "cancelled" || incoming.getStatus() == ""){
-            RiderApplication riderApplication = riderApplicationRepository.findByIdAndUserId(id, getCurrentUser().getUser().getId())
+        RiderApplication riderApplication = riderApplicationRepository.findByIdAndUserId(id, getCurrentUser().getUser().getId())
                 .orElseThrow(() -> new EntityNotFoundException(RiderApplication.class, id));
-                Date date = new Date();
+
+        if(incoming.getStatus() != "cancelled"){
+                long milli = 60 * 60 * 24 * 1000;
+                long currentTime = new Date().getTime();
+                long dateOnly = (currentTime / milli) * milli;
+
+                Date date = new Date(dateOnly);
                 riderApplication.setUpdated_date(date);
                 riderApplication.setStatus("cancelled");
                 riderApplication.setCancelled_date(date);
@@ -132,6 +150,7 @@ public class RiderApplicationController extends ApiController {
 
         }else{
             throw new EntityNotFoundException(RiderApplication.class, id);
+            
         }
        
    
@@ -172,16 +191,19 @@ public class RiderApplicationController extends ApiController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/admin")
     public RiderApplication editRiderApplication(
-        @Parameter(name = "status", description = "String, status of application", example = "pending", required = true)  @RequestParam String status,
-        @Parameter(name = "notes", description = "String, notes on application", example = "perm number doesnt exist", required = false) @RequestParam String notes,
-        @Parameter(name = "id", description = "Long, id number ride to get ", example = "1", required = true)  @RequestParam long id
+        @Parameter(name = "id", description = "Long, id number ride to get ", example = "1", required = true)  @RequestParam long id,
+        @RequestBody @Valid RiderApplication incoming
     ){
         RiderApplication riderApplication = riderApplicationRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(RiderApplication.class, id));
-        Date date = new Date();
+        long milli = 60 * 60 * 24 * 1000;
+        long currentTime = new Date().getTime();
+        long dateOnly = (currentTime / milli) * milli;
+        Date date = new Date(dateOnly);
+
         riderApplication.setUpdated_date(date);
-        riderApplication.setNotes(notes);
-        riderApplication.setStatus(status);
+        riderApplication.setNotes(incoming.getNotes());
+        riderApplication.setStatus(incoming.getStatus());
         riderApplicationRepository.save(riderApplication);
         return riderApplication;
 
