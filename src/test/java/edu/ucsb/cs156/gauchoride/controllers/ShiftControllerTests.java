@@ -3,7 +3,6 @@ package edu.ucsb.cs156.gauchoride.controllers;
 import edu.ucsb.cs156.gauchoride.repositories.UserRepository;
 import edu.ucsb.cs156.gauchoride.testconfig.TestConfig;
 import edu.ucsb.cs156.gauchoride.ControllerTestCase;
-import edu.ucsb.cs156.gauchoride.entities.Ride;
 import edu.ucsb.cs156.gauchoride.entities.Shift;
 import edu.ucsb.cs156.gauchoride.repositories.ShiftRepository;
 

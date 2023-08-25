@@ -3,15 +3,9 @@ package edu.ucsb.cs156.gauchoride.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import edu.ucsb.cs156.gauchoride.entities.Ride;
 import edu.ucsb.cs156.gauchoride.entities.Shift;
 import edu.ucsb.cs156.gauchoride.repositories.ShiftRepository;
-import edu.ucsb.cs156.gauchoride.repositories.UserRepository;
 import edu.ucsb.cs156.gauchoride.errors.EntityNotFoundException;
-import edu.ucsb.cs156.gauchoride.models.CurrentUser;
-
-import java.nio.file.AccessDeniedException;
-import java.time.LocalTime;
 
 import javax.validation.Valid;
 
@@ -24,7 +18,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
