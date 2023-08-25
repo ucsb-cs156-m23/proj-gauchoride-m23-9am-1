@@ -21,9 +21,9 @@ Empty.args = {
     users: []
 };
 
-export const oneDriver = Template.bind({});
+export const threeDrivers = Template.bind({});
 
-oneDriver.args = {
+threeDrivers.args = {
     users: usersFixtures.threeDrivers
 };
 
