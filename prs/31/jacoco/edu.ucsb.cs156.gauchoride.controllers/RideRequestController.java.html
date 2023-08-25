@@ -23,57 +23,46 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
-
 @Tag(name = &quot;Ride Request&quot;)
 @RequestMapping(&quot;/api/ride_request&quot;)
 @RestController
 
-<span class="fc" id="L31">public class RideRequestController extends ApiController {</span>
+<span class="fc" id="L30">public class RideRequestController extends ApiController {</span>
 
     @Autowired
     RideRequestRepository rideReqRepository;
 
-    @Operation(summary = &quot;List all rides, only user's if not admin/driver&quot;)
-    @PreAuthorize(&quot;hasRole('ROLE_ADMIN') || hasRole('ROLE_DRIVER') || hasRole('ROLE_USER')&quot;)
+    @Operation(summary = &quot;List all ride requests, only rider's if not admin/driver&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_ADMIN') || hasRole('ROLE_DRIVER') || hasRole('ROLE_RIDER')&quot;)
     @GetMapping(&quot;/all&quot;)
     public Iterable&lt;RideRequest&gt; allRides() {
         Iterable&lt;RideRequest&gt; rideReqs;
 
-<span class="fc bfc" id="L42" title="All 2 branches covered.">        if (getCurrentUser().getRoles().contains(new SimpleGrantedAuthority(&quot;ROLE_ADMIN&quot;)) ||</span>
-<span class="fc bfc" id="L43" title="All 2 branches covered.">            getCurrentUser().getRoles().contains(new SimpleGrantedAuthority(&quot;ROLE_DRIVER&quot;))) {</span>
-<span class="fc" id="L44">            rideReqs = rideReqRepository.findAll();</span>
+<span class="fc bfc" id="L41" title="All 2 branches covered.">        if (getCurrentUser().getRoles().contains(new SimpleGrantedAuthority(&quot;ROLE_ADMIN&quot;)) ||</span>
+<span class="fc bfc" id="L42" title="All 2 branches covered.">            getCurrentUser().getRoles().contains(new SimpleGrantedAuthority(&quot;ROLE_DRIVER&quot;))) {</span>
+<span class="fc" id="L43">            rideReqs = rideReqRepository.findAll();</span>
         } else {
-<span class="fc" id="L46">            rideReqs = rideReqRepository.findAllByRiderId(getCurrentUser().getUser().getId());</span>
+<span class="fc" id="L45">            rideReqs = rideReqRepository.findAllByRiderId(getCurrentUser().getUser().getId());</span>
         }
 
-<span class="fc" id="L49">        return rideReqs;</span>
+<span class="fc" id="L48">        return rideReqs;</span>
     }
 
-    @Operation(summary = &quot;Get a single ride by id, only user's if not admin/driver&quot;)
-    @PreAuthorize(&quot;hasRole('ROLE_ADMIN') || hasRole('ROLE_DRIVER') || hasRole('ROLE_USER')&quot;)
+    @Operation(summary = &quot;Get a single ride request by id,&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_ADMIN') || hasRole('ROLE_DRIVER') || hasRole('ROLE_RIDER')&quot;)
     @GetMapping(&quot;&quot;)
     public RideRequest getById(
-            @Parameter(name=&quot;id&quot;, description = &quot;long, Id of the Ride to get&quot;, 
-            required = true)  
-            @RequestParam Long id) {
-        RideRequest rideReq;
-        
-<span class="fc bfc" id="L61" title="All 2 branches covered.">        if (getCurrentUser().getRoles().contains(new SimpleGrantedAuthority(&quot;ROLE_ADMIN&quot;)) ||</span>
-<span class="fc bfc" id="L62" title="All 2 branches covered.">            getCurrentUser().getRoles().contains(new SimpleGrantedAuthority(&quot;ROLE_DRIVER&quot;))) {</span>
-<span class="fc" id="L63">            rideReq = rideReqRepository.findById(id)</span>
-<span class="fc" id="L64">                .orElseThrow(() -&gt; new EntityNotFoundException(RideRequest.class, id));;</span>
-        } else {
-<span class="fc" id="L66">            rideReq = rideReqRepository.findByIdAndRiderId(id, getCurrentUser().getUser().getId())</span>
-<span class="fc" id="L67">                .orElseThrow(() -&gt; new EntityNotFoundException(RideRequest.class, id));</span>
-        }
-
-<span class="fc" id="L70">        return rideReq;</span>
+        @Parameter(name=&quot;id&quot;, description = &quot;long, Id of the Ride to get&quot;, required = true) @RequestParam Long id
+    ) {
+<span class="fc" id="L57">        RideRequest rideReq = rideReqRepository.findById(id)</span>
+<span class="fc" id="L58">            .orElseThrow(() -&gt; new EntityNotFoundException(RideRequest.class, id));</span>
+<span class="fc" id="L59">        return rideReq;</span>
     }
 
-    @Operation(summary = &quot;Create a new ride&quot;)
-    @PreAuthorize(&quot;hasRole('ROLE_USER')&quot;)
+    @Operation(summary = &quot;Create a new ride request&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_ADMIN')|| hasRole('ROLE_RIDER')&quot;)
     @PostMapping(&quot;/post&quot;)
-    public RideRequest postRideRequest(
+    public RideRequest createRideReq(
         @Parameter(name=&quot;day&quot;, description=&quot;String, Day of the week ride is requested (Monday - Sunday) and allows Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday&quot;, 
                     example=&quot;Tuesday&quot;, required = true) 
         @RequestParam String day,
@@ -101,83 +90,61 @@ import javax.validation.Valid;
 
         @Parameter(name=&quot;notes&quot;, description=&quot;String, Notes for additional information&quot;, example=&quot;Library entrance by the arbor&quot;, required = false)
         @RequestParam String notes
+    ) {
 
-        )
-        {
+<span class="fc" id="L95">        RideRequest rideReq = new RideRequest();</span>
+<span class="fc" id="L96">        rideReq.setRiderId(getCurrentUser().getUser().getId());</span>
+<span class="fc" id="L97">        rideReq.setStudent(getCurrentUser().getUser().getFullName());</span>
+<span class="fc" id="L98">        rideReq.setDay(day);</span>
+<span class="fc" id="L99">        rideReq.setStartTime(startTime);</span>
+<span class="fc" id="L100">        rideReq.setEndTime(endTime);</span>
+<span class="fc" id="L101">        rideReq.setPickupLocation(pickupLocation);</span>
+<span class="fc" id="L102">        rideReq.setPickupRoom(pickupRoom);</span>
+<span class="fc" id="L103">        rideReq.setDropoffLocation(dropoffLocation);</span>
+<span class="fc" id="L104">        rideReq.setDropoffRoom(dropoffRoom);</span>
+<span class="fc" id="L105">        rideReq.setCourse(course);</span>
+<span class="fc" id="L106">        rideReq.setNotes(notes);</span>
 
-<span class="fc" id="L108">        RideRequest rideReq = new RideRequest();</span>
-<span class="fc" id="L109">        rideReq.setRiderId(getCurrentUser().getUser().getId());</span>
-<span class="fc" id="L110">        rideReq.setStudent(getCurrentUser().getUser().getFullName());</span>
-<span class="fc" id="L111">        rideReq.setDay(day);</span>
-<span class="fc" id="L112">        rideReq.setStartTime(startTime);</span>
-<span class="fc" id="L113">        rideReq.setEndTime(endTime);</span>
-<span class="fc" id="L114">        rideReq.setPickupLocation(pickupLocation);</span>
-<span class="fc" id="L115">        rideReq.setPickupRoom(pickupRoom);</span>
-<span class="fc" id="L116">        rideReq.setDropoffLocation(dropoffLocation);</span>
-<span class="fc" id="L117">        rideReq.setDropoffRoom(dropoffRoom);</span>
-<span class="fc" id="L118">        rideReq.setCourse(course);</span>
-<span class="fc" id="L119">        rideReq.setNotes(notes);</span>
-
-<span class="fc" id="L121">        RideRequest savedRideReq = rideReqRepository.save(rideReq);</span>
-<span class="fc" id="L122">        return savedRideReq;</span>
+<span class="fc" id="L108">        RideRequest savedRideReq = rideReqRepository.save(rideReq);</span>
+<span class="fc" id="L109">        return savedRideReq;</span>
     }
 
-    @Operation(summary = &quot;Delete a ride, only user's if not admin/driver&quot;)
-    @PreAuthorize(&quot;hasRole('ROLE_ADMIN') || hasRole('ROLE_DRIVER') || hasRole('ROLE_USER')&quot;)
-    @DeleteMapping(&quot;&quot;)
-    public Object deleteRide(
-        @Parameter(name=&quot;id&quot;, description=&quot;long, Id of the Ride to be deleted&quot;, 
-        required = true)
-        @RequestParam Long id) {
-
-        RideRequest rideReq;
-
-<span class="fc bfc" id="L135" title="All 2 branches covered.">        if (getCurrentUser().getRoles().contains(new SimpleGrantedAuthority(&quot;ROLE_ADMIN&quot;)) ||</span>
-<span class="fc bfc" id="L136" title="All 2 branches covered.">            getCurrentUser().getRoles().contains(new SimpleGrantedAuthority(&quot;ROLE_DRIVER&quot;))) {</span>
-<span class="fc" id="L137">            rideReq = rideReqRepository.findById(id)</span>
-<span class="fc" id="L138">                .orElseThrow(() -&gt; new EntityNotFoundException(RideRequest.class, id));;</span>
-        } else {
-<span class="fc" id="L140">            rideReq = rideReqRepository.findByIdAndRiderId(id, getCurrentUser().getUser().getId())</span>
-<span class="fc" id="L141">                .orElseThrow(() -&gt; new EntityNotFoundException(RideRequest.class, id));</span>
-        }
-
-<span class="fc" id="L144">        rideReqRepository.delete(rideReq);</span>
-<span class="fc" id="L145">        return genericMessage(&quot;RideRequest with id %s deleted&quot;.formatted(id));</span>
-    }
-
-
-    @Operation(summary = &quot;Update a single ride, only user's if not admin/driver&quot;)
-    @PreAuthorize(&quot;hasRole('ROLE_ADMIN') || hasRole('ROLE_DRIVER') || hasRole('ROLE_USER')&quot;)
+    @Operation(summary = &quot;Update a single ride request&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_ADMIN') || hasRole('ROLE_RIDER')&quot;)
     @PutMapping(&quot;&quot;)
-    public RideRequest updateRide(
-            @Parameter(name=&quot;id&quot;, description=&quot;long, Id of the Ride to be edited&quot;, 
-            required = true)
-            @RequestParam Long id,
-            @RequestBody @Valid RideRequest incoming) {
+    public RideRequest updateRideReq(
+            @Parameter(name=&quot;id&quot;, description=&quot;long, Id of the Ride to be edited&quot;, required = true) @RequestParam Long id,
+            @RequestBody @Valid RideRequest incoming
+    ) {
+<span class="fc" id="L119">        RideRequest rideReq = rideReqRepository.findById(id)</span>
+<span class="fc" id="L120">            .orElseThrow(() -&gt; new EntityNotFoundException(RideRequest.class, id));</span>
 
-        RideRequest rideReq;
+<span class="fc" id="L122">        rideReq.setDay(incoming.getDay());</span>
+<span class="fc" id="L123">        rideReq.setStartTime(incoming.getStartTime());</span>
+<span class="fc" id="L124">        rideReq.setEndTime(incoming.getEndTime());</span>
+<span class="fc" id="L125">        rideReq.setPickupLocation(incoming.getPickupLocation());</span>
+<span class="fc" id="L126">        rideReq.setPickupRoom(incoming.getPickupRoom());</span>
+<span class="fc" id="L127">        rideReq.setDropoffLocation(incoming.getDropoffLocation());</span>
+<span class="fc" id="L128">        rideReq.setDropoffRoom(incoming.getDropoffRoom());</span>
+<span class="fc" id="L129">        rideReq.setCourse(incoming.getCourse());</span>
+<span class="fc" id="L130">        rideReq.setNotes(incoming.getNotes());</span>
 
-<span class="fc bfc" id="L160" title="All 2 branches covered.">        if (getCurrentUser().getRoles().contains(new SimpleGrantedAuthority(&quot;ROLE_ADMIN&quot;)) ||</span>
-<span class="fc bfc" id="L161" title="All 2 branches covered.">            getCurrentUser().getRoles().contains(new SimpleGrantedAuthority(&quot;ROLE_DRIVER&quot;))) {</span>
-<span class="fc" id="L162">            rideReq = rideReqRepository.findById(id)</span>
-<span class="fc" id="L163">                .orElseThrow(() -&gt; new EntityNotFoundException(RideRequest.class, id));;</span>
-        } else {
-<span class="fc" id="L165">            rideReq = rideReqRepository.findByIdAndRiderId(id, getCurrentUser().getUser().getId())</span>
-<span class="fc" id="L166">                .orElseThrow(() -&gt; new EntityNotFoundException(RideRequest.class, id));</span>
-        }
-
-<span class="fc" id="L169">        rideReq.setDay(incoming.getDay());</span>
-<span class="fc" id="L170">        rideReq.setStartTime(incoming.getStartTime());</span>
-<span class="fc" id="L171">        rideReq.setEndTime(incoming.getEndTime());</span>
-<span class="fc" id="L172">        rideReq.setPickupLocation(incoming.getPickupLocation());</span>
-<span class="fc" id="L173">        rideReq.setPickupRoom(incoming.getPickupRoom());</span>
-<span class="fc" id="L174">        rideReq.setDropoffLocation(incoming.getDropoffLocation());</span>
-<span class="fc" id="L175">        rideReq.setDropoffRoom(incoming.getDropoffRoom());</span>
-<span class="fc" id="L176">        rideReq.setCourse(incoming.getCourse());</span>
-<span class="fc" id="L177">        rideReq.setNotes(incoming.getNotes());</span>
-
-<span class="fc" id="L179">        rideReqRepository.save(rideReq);</span>
-<span class="fc" id="L180">        return rideReq;</span>
+<span class="fc" id="L132">        rideReqRepository.save(rideReq);</span>
+<span class="fc" id="L133">        return rideReq;</span>
     }
+
+    @Operation(summary = &quot;Delete a ride request&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_ADMIN') || hasRole('ROLE_RIDER')&quot;)
+    @DeleteMapping(&quot;&quot;)
+    public Object deleteRideReq(
+        @Parameter(name=&quot;id&quot;, description=&quot;long, Id of the Ride to be deleted&quot;, required = true) @RequestParam Long id
+    ) {
+<span class="fc" id="L142">        RideRequest rideReq = rideReqRepository.findById(id)</span>
+<span class="fc" id="L143">            .orElseThrow(() -&gt; new EntityNotFoundException(RideRequest.class, id));</span>
+
+<span class="fc" id="L145">        rideReqRepository.delete(rideReq);</span>
+<span class="fc" id="L146">        return genericMessage(&quot;RideRequest with id %s deleted&quot;.formatted(id));</span>
+    }
+
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
