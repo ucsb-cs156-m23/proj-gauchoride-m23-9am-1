@@ -3,7 +3,9 @@ import { Button, Form } from 'react-bootstrap';
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom';
 
-export default function RideRequestForm({ initialContents, submitAction, buttonLabel = "Create" }) {
+
+
+function RideForm({ initialContents, submitAction, buttonLabel = "Create" }) {
     const navigate = useNavigate();
     
     // Stryker disable all
@@ -15,12 +17,9 @@ export default function RideRequestForm({ initialContents, submitAction, buttonL
         { defaultValues: initialContents }
     );
     // Stryker enable all
-
-    // Stryker disable next-line regex
-    const timeRegex = /^(0?[1-9]|1[0-2]):[0-5][0-9] (AM|PM)$/;
-    // Stryker enable all
    
-    const testIdPrefix = "RideRequestForm";
+    const testIdPrefix = "RideForm";
+
 
     return (
 
@@ -52,14 +51,14 @@ export default function RideRequestForm({ initialContents, submitAction, buttonL
                         required: "Day is required.",
                     })}
                 >
-                    <option value="">Select a Day</option>
-                    <option value="Monday">Monday</option>
-                    <option value="Tuesday">Tuesday</option>
-                    <option value="Wednesday">Wednesday</option>
-                    <option value="Thursday">Thursday</option>
-                    <option value="Friday">Friday</option>
-                    <option value="Saturday">Saturday</option>
-                    <option value="Sunday">Sunday</option>
+                <option value="">Select a Day</option>
+                <option value="Monday">Monday</option>
+                <option value="Tuesday">Tuesday</option>
+                <option value="Wednesday">Wednesday</option>
+                <option value="Thursday">Thursday</option>
+                <option value="Friday">Friday</option>
+                <option value="Saturday">Saturday</option>
+                <option value="Sunday">Sunday</option>
                 </Form.Select>
                 <Form.Control.Feedback type="invalid">
                     {errors.day?.message}
@@ -67,132 +66,115 @@ export default function RideRequestForm({ initialContents, submitAction, buttonL
             </Form.Group>
 
             <Form.Group className="mb-3" >
-                <Form.Label htmlFor="startTime">Start Time</Form.Label>
+                <Form.Label htmlFor="start">Start Time</Form.Label>
                 <Form.Control
-                    data-testid={testIdPrefix + "-startTime"}
-                    id="startTime"
+                    data-testid={testIdPrefix + "-start"}
+                    id="start"
                     type="text"
-                    isInvalid={Boolean(errors.startTime)}
-                    {...register("startTime", {
+                    isInvalid={Boolean(errors.start)}
+                    {...register("start", {
                         required: "Start time is required.",
                         pattern: {
-                            value: timeRegex,
-                            message: "Please enter time in the format HH:MM AM/PM (e.g. 3:30 PM)."
+                            value: /^(0?[1-9]|1[0-2]):[0-5][0-9](AM|PM)$/,
+                            message: "Please enter time in the format HH:MM AM/PM (e.g., 3:30PM)."
                           }
                     })}
-                    placeholder="Enter time in the format HH:MM AM/PM (e.g. 3:30 PM)"
+                    placeholder="Enter time in the format HH:MM AM/PM (e.g. 3:30PM)"
                     defaultValue={initialContents?.startTime}
+
                 />
                 <Form.Control.Feedback type="invalid">
-                    {errors.startTime?.message}
+                    {errors.start?.message}
                 </Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group className="mb-3" >
-                <Form.Label htmlFor="endTime">End Time</Form.Label>
+                <Form.Label htmlFor="end">End Time</Form.Label>
                 <Form.Control
-                    data-testid={testIdPrefix + "-endTime"}
-                    id="endTime"
+                    data-testid={testIdPrefix + "-end"}
+                    id="end"
                     type="text"
-                    isInvalid={Boolean(errors.endTime) }
-                    {...register("endTime", {
+                    isInvalid={Boolean(errors.start) }
+                    {...register("end", {
                         required: "End time is required.",
                         pattern: {
-                            value: timeRegex,
-                            message: "Please enter time in the format HH:MM AM/PM (e.g. 3:30 PM)."
-                        }
+                            value: /^(0?[1-9]|1[0-2]):[0-5][0-9](AM|PM)$/,
+                            message: "Please enter time in the format HH:MM AM/PM (e.g., 3:30PM)."
+                          }
                     })}
-                    placeholder="Enter time in the format HH:MM AM/PM (e.g. 3:30 PM)"   
+                    placeholder="Enter time in the format HH:MM AM/PM (e.g. 3:30PM)"   
                     defaultValue={initialContents?.endTime}     
                 />
                 <Form.Control.Feedback type="invalid">
-                    {errors.endTime?.message}
+                    {errors.end?.message}
                 </Form.Control.Feedback>
             </Form.Group>
             
             <Form.Group className="mb-3" >
-                <Form.Label htmlFor="pickupLocation">Pick-up Location</Form.Label>
+                <Form.Label htmlFor="pickup">Pick Up Location</Form.Label>
                 <Form.Control
-                    data-testid={testIdPrefix + "-pickupLocation"}
-                    id="pickupLocation"
+                    data-testid={testIdPrefix + "-pickup"}
+                    id="pickup"
                     type="text"
-                    isInvalid={Boolean(errors.pickupLocation)}
-                    {...register("pickupLocation", {
-                        required: "Pick-up location is required."
+                    isInvalid={Boolean(errors.pickup)}
+                    {...register("pickup", {
+                        required: "Pick Up Location is required."
                     })}
                     placeholder="e.g. Anacapa Residence Hall"  
                     defaultValue={initialContents?.pickupLocation} 
                 />
                 <Form.Control.Feedback type="invalid">
-                    {errors.pickupLocation?.message}
+                    {errors.pickup?.message}
                 </Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group className="mb-3" >
-                <Form.Label htmlFor="pickupRoom">Pick-up Room #</Form.Label>
+                <Form.Label htmlFor="dropoff">Drop Off Location</Form.Label>
                 <Form.Control
-                    data-testid={testIdPrefix + "-pickupRoom"}
-                    id="pickupRoom"
+                    data-testid={testIdPrefix + "-dropoff"}
+                    id="dropoff"
                     type="text"
-                    isInvalid={Boolean(errors.pickupRoom)}
-                    {...register("pickupRoom", {
-                        required: "Pick-up room number is required."
+                    isInvalid={Boolean(errors.dropoff)}
+                    {...register("dropoff", {
+                        required: "Drop Off Location is required."
                     })}
-                    placeholder="e.g. 2225" 
-                    defaultValue={initialContents?.pickupRoom} 
+                    placeholder="e.g. Phelps"  
+                    defaultValue={initialContents?.dropoffLocation}
                 />
                 <Form.Control.Feedback type="invalid">
-                    {errors.pickupRoom?.message}
+                    {errors.dropoff?.message}
                 </Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group className="mb-3" >
-                <Form.Label htmlFor="dropoffLocation">Drop-off Location</Form.Label>
+                <Form.Label htmlFor="room">Room Number for Dropoff</Form.Label>
                 <Form.Control
-                    data-testid={testIdPrefix + "-dropoffLocation"}
-                    id="dropoffLocation"
+                    data-testid={testIdPrefix + "-room"}
+                    id="room"
                     type="text"
-                    isInvalid={Boolean(errors.dropoffLocation)}
-                    {...register("dropoffLocation", {
-                        required: "Drop-off location is required."
+                    isInvalid={Boolean(errors.room)}
+                    {...register("room", {
+                        required: "Room number is required."
                     })}
-                    placeholder="e.g. Phelps Hall"
-                    defaultValue={initialContents?.dropoffLocation} 
+                    placeholder="e.g. 2225"  
+                    defaultValue={initialContents?.room} 
                 />
                 <Form.Control.Feedback type="invalid">
-                    {errors.dropoffLocation?.message}
+                    {errors.room?.message}
                 </Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group className="mb-3" >
-                <Form.Label htmlFor="dropoffRoom">Drop-off Room #</Form.Label>
-                <Form.Control
-                    data-testid={testIdPrefix + "-dropoffRoom"}
-                    id="dropoffRoom"
-                    type="text"
-                    isInvalid={Boolean(errors.dropoffRoom)}
-                    {...register("dropoffRoom", {
-                        required: "Drop-off room number is required."
-                    })}
-                    placeholder="e.g. 2225" 
-                    defaultValue={initialContents?.dropoffRoom} 
-                />
-                <Form.Control.Feedback type="invalid">
-                    {errors.dropoffRoom?.message}
-                </Form.Control.Feedback>
-            </Form.Group>
-
-            <Form.Group className="mb-3" >
-                <Form.Label htmlFor="course">Course</Form.Label>
+                <Form.Label htmlFor="course">Course Number</Form.Label>
                 <Form.Control
                     data-testid={testIdPrefix + "-course"}
                     id="course"
                     type="text"
                     isInvalid={Boolean(errors.course)}
                     {...register("course", {
-                        required: "Course is required."
+                        required: "Course number is required."
                     })}
-                    placeholder="e.g. CMPSC156"  
+                    placeholder="e.g. CMPSC 156"  
                     defaultValue={initialContents?.course} 
                 />
                 <Form.Control.Feedback type="invalid">
@@ -200,23 +182,6 @@ export default function RideRequestForm({ initialContents, submitAction, buttonL
                 </Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group className="mb-3" >
-                <Form.Label htmlFor="notes">Notes</Form.Label>
-                <Form.Control
-                    data-testid={testIdPrefix + "-notes"}
-                    id="notes"
-                    type="text"
-                    isInvalid={Boolean(errors.notes)}
-                    {...register("notes", {
-                        required: "Notes is required."
-                    })}
-                    placeholder="e.g. Bring your best smile :)"  
-                    defaultValue={initialContents?.notes} 
-                />
-                <Form.Control.Feedback type="invalid">
-                    {errors.notes?.message}
-                </Form.Control.Feedback>
-            </Form.Group>
 
             <Button
                 type="submit"
@@ -236,3 +201,5 @@ export default function RideRequestForm({ initialContents, submitAction, buttonL
 
     )
 }
+
+export default RideForm;
