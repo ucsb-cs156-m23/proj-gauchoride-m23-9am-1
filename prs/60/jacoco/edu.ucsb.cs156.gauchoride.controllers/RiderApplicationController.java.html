@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RiderApplicationController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GauchoRide</a> &gt; <a href="index.source.html" class="el_package">edu.ucsb.cs156.gauchoride.controllers</a> &gt; <span class="el_source">RiderApplicationController.java</span></div><h1>RiderApplicationController.java</h1><pre class="source lang-java linenums">package edu.ucsb.cs156.gauchoride.controllers;
+
+import edu.ucsb.cs156.gauchoride.entities.RiderApplication;
+import edu.ucsb.cs156.gauchoride.errors.EntityNotFoundException;
+import edu.ucsb.cs156.gauchoride.repositories.RiderApplicationRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.oauth2.jwt.NimbusReactiveJwtDecoder.SecretKeyReactiveJwtDecoderBuilder;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.text.DateFormat;
+import java.util.Calendar;
+import java.text.ParseException;
+
+import javax.validation.Valid;
+
+
+@Tag(name = &quot;Rider Application&quot;)
+@RequestMapping(&quot;/api/riderapplication&quot;)
+@RestController
+<span class="fc" id="L40">public class RiderApplicationController extends ApiController {</span>
+    @Autowired
+    RiderApplicationRepository riderApplicationRepository;
+
+    @Autowired
+    ObjectMapper mapper;
+
+   
+
+    @Operation(summary = &quot;Creates a new application&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_MEMBER') || hasRole('ROLE_USER') || hasRole('ROLE_DRIVER') || hasRole('ROLE_ADMIN')&quot;)
+    @PostMapping(&quot;/new&quot;)
+    public RiderApplication newRiderApplication(
+        
+        @Parameter(name=&quot;perm_number&quot;) @RequestParam String perm_number,
+       
+        @Parameter(name=&quot;description&quot;) @RequestParam String description
+        )
+        {
+        
+<span class="fc" id="L60">        long milli = 60 * 60 * 24 * 1000;</span>
+<span class="fc" id="L61">        long currentTime = new Date().getTime();</span>
+<span class="fc" id="L62">        long dateOnly = (currentTime / milli) * milli;</span>
+
+<span class="fc" id="L64">        Date date = new Date(dateOnly);</span>
+
+
+<span class="fc" id="L67">        RiderApplication riderApplication = new RiderApplication();</span>
+<span class="fc" id="L68">        riderApplication.setUserId(getCurrentUser().getUser().getId());</span>
+      
+<span class="fc" id="L70">        riderApplication.setPerm_number(perm_number);</span>
+<span class="fc" id="L71">        riderApplication.setCreated_date(date);</span>
+<span class="fc" id="L72">        riderApplication.setDescription(description);</span>
+        
+<span class="fc" id="L74">        RiderApplication savedRiderApplication = riderApplicationRepository.save(riderApplication);</span>
+
+<span class="fc" id="L76">        return savedRiderApplication;</span>
+
+    }
+
+    @Operation(summary = &quot;Gets a list of all rider request owned by current user&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_ADMIN') || hasRole('ROLE_USER') || hasRole('ROLE_DRIVER') || hasRole('ROLE_MEMBER')&quot;)
+    @GetMapping(&quot;/all&quot;)
+    public ResponseEntity&lt;String&gt; riderRequests()
+            throws JsonProcessingException {
+<span class="fc" id="L85">                Long userId = super.getCurrentUser().getUser().getId();</span>
+<span class="fc" id="L86">                Iterable&lt;RiderApplication&gt; riderApplications = riderApplicationRepository.findByUserId(userId);</span>
+<span class="fc" id="L87">                String body = mapper.writeValueAsString(riderApplications);</span>
+<span class="fc" id="L88">                return ResponseEntity.ok().body(body);</span>
+
+            }
+
+    @Operation(summary = &quot;Gets a personal rider request by id&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_ADMIN') || hasRole('ROLE_USER') || hasRole('ROLE_DRIVER') || hasRole('ROLE_MEMBER')&quot;)
+    @GetMapping(&quot;/get&quot;)
+    public RiderApplication riderApplicationID(
+            @Parameter(name = &quot;id&quot;, description = &quot;Long, id number ride to get &quot;, example = &quot;1&quot;, required = true) @RequestParam Long id)
+            throws JsonProcessingException {
+<span class="fc" id="L98">        RiderApplication riderApplication = riderApplicationRepository.findByIdAndUserId(id, getCurrentUser().getUser().getId())</span>
+<span class="fc" id="L99">                .orElseThrow(() -&gt; new EntityNotFoundException(RiderApplication.class, id));</span>
+<span class="fc" id="L100">        return riderApplication;</span>
+    }
+
+    @Operation(summary = &quot;Update a personal application&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_ADMIN') || hasRole('ROLE_USER') || hasRole('ROLE_DRIVER') || hasRole('ROLE_MEMBER')&quot;)
+    @PutMapping(&quot;put&quot;)
+    public RiderApplication updatePersonalApplication(@Parameter(name = &quot;id&quot;, description = &quot;Long, id number ride to get &quot;, example = &quot;1&quot;, required = true) @RequestParam long id, 
+    @RequestBody @Valid RiderApplication incoming
+    ){
+<span class="fc" id="L109">        RiderApplication riderApplication = riderApplicationRepository.findByIdAndUserId(id, getCurrentUser().getUser().getId())</span>
+<span class="fc" id="L110">            .orElseThrow(() -&gt; new EntityNotFoundException(RiderApplication.class, id));</span>
+
+<span class="fc" id="L112">            long milli = 60 * 60 * 24 * 1000;</span>
+<span class="fc" id="L113">            long currentTime = new Date().getTime();</span>
+<span class="fc" id="L114">            long dateOnly = (currentTime / milli) * milli;</span>
+
+<span class="fc" id="L116">            Date date = new Date(dateOnly);</span>
+
+<span class="fc" id="L118">            riderApplication.setUpdated_date(date);</span>
+<span class="fc" id="L119">            riderApplication.setPerm_number(incoming.getPerm_number());</span>
+<span class="fc" id="L120">            riderApplication.setDescription(incoming.getDescription());</span>
+
+<span class="fc" id="L122">            riderApplicationRepository.save(riderApplication);</span>
+
+<span class="fc" id="L124">            return riderApplication;</span>
+    }
+
+    
+    @Operation(summary = &quot;Cancel a personal review&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_ADMIN') || hasRole('ROLE_USER') || hasRole('ROLE_DRIVER') || hasRole('ROLE_MEMBER')&quot;)
+    @PutMapping(&quot;/cancel&quot;)
+    public RiderApplication cancelRiderApplication(
+        @Parameter(name = &quot;id&quot;, description = &quot;Long, id number ride to get &quot;, example = &quot;1&quot;, required = true)  @RequestParam long id,
+        @RequestBody @Valid RiderApplication incoming
+    ) {
+<span class="fc" id="L135">        RiderApplication riderApplication = riderApplicationRepository.findByIdAndUserId(id, getCurrentUser().getUser().getId())</span>
+<span class="fc" id="L136">                .orElseThrow(() -&gt; new EntityNotFoundException(RiderApplication.class, id));</span>
+
+<span class="pc bpc" id="L138" title="1 of 2 branches missed.">        if(incoming.getStatus() != &quot;cancelled&quot;){</span>
+<span class="fc" id="L139">                long milli = 60 * 60 * 24 * 1000;</span>
+<span class="fc" id="L140">                long currentTime = new Date().getTime();</span>
+<span class="fc" id="L141">                long dateOnly = (currentTime / milli) * milli;</span>
+
+<span class="fc" id="L143">                Date date = new Date(dateOnly);</span>
+<span class="fc" id="L144">                riderApplication.setUpdated_date(date);</span>
+<span class="fc" id="L145">                riderApplication.setStatus(&quot;cancelled&quot;);</span>
+<span class="fc" id="L146">                riderApplication.setCancelled_date(date);</span>
+<span class="fc" id="L147">                riderApplicationRepository.save(riderApplication);</span>
+<span class="fc" id="L148">                return riderApplication;</span>
+
+
+        }else{
+<span class="nc" id="L152">            throw new EntityNotFoundException(RiderApplication.class, id);</span>
+            
+        }
+       
+   
+    }
+
+    @Operation(summary = &quot;Gets all Rider Requests&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
+    @GetMapping(&quot;/admin/all&quot;)
+    public ResponseEntity&lt;String&gt; allRequests()
+            throws JsonProcessingException {
+<span class="fc" id="L164">        Iterable&lt;RiderApplication&gt; riderApplications = riderApplicationRepository.findAll();</span>
+<span class="fc" id="L165">        String body = mapper.writeValueAsString(riderApplications);</span>
+<span class="fc" id="L166">        return ResponseEntity.ok().body(body);</span>
+    }
+
+    @Operation(summary = &quot;Gets all pending requests&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
+    @GetMapping(&quot;/admin/pending&quot;)
+    public ResponseEntity&lt;String&gt; allPendingRequests()
+        throws JsonProcessingException {
+<span class="fc" id="L174">            Iterable&lt;RiderApplication&gt; riderApplications = riderApplicationRepository.findByStatus(&quot;pending&quot;);</span>
+<span class="fc" id="L175">            String body = mapper.writeValueAsString(riderApplications);</span>
+<span class="fc" id="L176">            return ResponseEntity.ok().body(body);</span>
+    }
+
+    @Operation(summary = &quot;Gets specific rider application by id&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
+    @GetMapping(&quot;/admin/get&quot;)
+    public RiderApplication riderApplicationId(
+            @Parameter(name = &quot;id&quot;, description = &quot;Long, id number ride to get &quot;, example = &quot;1&quot;, required = true) @RequestParam Long id)
+            throws JsonProcessingException {
+<span class="fc" id="L185">        RiderApplication riderApplication = riderApplicationRepository.findById(id)</span>
+<span class="fc" id="L186">                .orElseThrow(() -&gt; new EntityNotFoundException(RiderApplication.class, id));</span>
+<span class="fc" id="L187">        return riderApplication;</span>
+    }
+
+    @Operation(summary = &quot;Update a rider Application&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
+    @PutMapping(&quot;/admin&quot;)
+    public RiderApplication editRiderApplication(
+        @Parameter(name = &quot;id&quot;, description = &quot;Long, id number ride to get &quot;, example = &quot;1&quot;, required = true)  @RequestParam long id,
+        @RequestBody @Valid RiderApplication incoming
+    ){
+<span class="fc" id="L197">        RiderApplication riderApplication = riderApplicationRepository.findById(id)</span>
+<span class="fc" id="L198">                .orElseThrow(() -&gt; new EntityNotFoundException(RiderApplication.class, id));</span>
+<span class="fc" id="L199">        long milli = 60 * 60 * 24 * 1000;</span>
+<span class="fc" id="L200">        long currentTime = new Date().getTime();</span>
+<span class="fc" id="L201">        long dateOnly = (currentTime / milli) * milli;</span>
+<span class="fc" id="L202">        Date date = new Date(dateOnly);</span>
+
+<span class="fc" id="L204">        riderApplication.setUpdated_date(date);</span>
+<span class="fc" id="L205">        riderApplication.setNotes(incoming.getNotes());</span>
+<span class="fc" id="L206">        riderApplication.setStatus(incoming.getStatus());</span>
+<span class="fc" id="L207">        riderApplicationRepository.save(riderApplication);</span>
+<span class="fc" id="L208">        return riderApplication;</span>
+
+    }
+
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
