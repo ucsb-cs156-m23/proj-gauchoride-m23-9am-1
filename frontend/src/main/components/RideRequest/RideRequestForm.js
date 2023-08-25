@@ -201,6 +201,22 @@ export default function RideRequestForm({ initialContents, submitAction, buttonL
             </Form.Group>
 
             <Form.Group className="mb-3" >
+                <Form.Label htmlFor="pickup-room">Pickup Room</Form.Label>
+                <Form.Control
+                    data-testid={testIdPrefix + "-pickup-room"}
+                    id="pickup-room"
+                    type="text"
+                    {...register("pickupRoom")}
+                    isInvalid={Boolean(errors.pickupRoom)}
+                    placeholder="e.g. 1940"  
+                    defaultValue={initialContents?.pickupRoom} 
+                />
+                { <Form.Control.Feedback type="invalid">
+                    {errors.pickupRoom?.message}
+                </Form.Control.Feedback> }
+            </Form.Group>
+
+            <Form.Group className="mb-3" >
                 <Form.Label htmlFor="notes">Notes</Form.Label>
                 <Form.Control
                     data-testid={testIdPrefix + "-notes"}
