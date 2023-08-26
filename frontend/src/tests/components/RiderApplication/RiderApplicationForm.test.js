@@ -63,7 +63,7 @@ describe("RiderApplicationForm tests", () => {
         expectedfields.forEach((field) =>{
             const fieldElement = screen.getByTestId(`${testId}-${field}`)
             expect(fieldElement).toBeInTheDocument();
-            expect(fieldElement).toHaveValue(field=="email" ? "test@ucsb.edu": String(riderApplicationFixtures.oneRiderApplicationPending[field]));
+            expect(fieldElement).toHaveValue(field==="email" ? "test@ucsb.edu": String(riderApplicationFixtures.oneRiderApplicationPending[field]));
         })
 
     });
