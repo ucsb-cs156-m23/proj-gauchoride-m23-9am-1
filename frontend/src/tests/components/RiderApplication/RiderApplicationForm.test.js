@@ -13,7 +13,7 @@ jest.mock('react-router-dom', () => ({
     useNavigate: () => mockedNavigate
 }));
 
-describe("RideForm tests", () => {
+describe("RiderApplicationForm tests", () => {
     const queryClient = new QueryClient();
 
     // const expectedHeaders = ["Day of Week", "Start Time", "End Time", "Pick Up Location", "Drop Off Location", "Room Number for Dropoff", "Course Number"];
@@ -92,6 +92,22 @@ describe("RideForm tests", () => {
             expect(fieldElement).toHaveValue(field=="email" ? "test@ucsb.edu": String(riderApplicationFixtures.oneRiderApplicationCancelled[field]));
         })
 
+    });
+
+    test("that navigate(-1) is called when Cancel is clicked", async () => {
+        render(
+            <QueryClientProvider client={queryClient}>
+                <Router>
+                    <RiderApplicationForm />
+                </Router>
+            </QueryClientProvider>
+        );
+        expect(await screen.findByTestId(`${testId}-cancel`)).toBeInTheDocument();
+        const cancelButton = screen.getByTestId(`${testId}-cancel`);
+
+        fireEvent.click(cancelButton);
+
+        await waitFor(() => expect(mockedNavigate).toHaveBeenCalledWith(-1));
     });
 
 });
