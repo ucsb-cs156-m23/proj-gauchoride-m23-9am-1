@@ -18,7 +18,8 @@ const Template = (args) => {
 export const Empty = Template.bind({});
 
 Empty.args = {
-    submitAction: () => { console.log("Submit was clicked"); }
+    submitAction: () => { console.log("Submit was clicked"); },
+    userEmail: "test@ucsb.edu"
 };
 
 export const oneRiderApplicationPending = Template.bind({});

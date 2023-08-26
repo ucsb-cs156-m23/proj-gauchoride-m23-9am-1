@@ -23,19 +23,23 @@ describe("RideForm tests", () => {
         render(
             <QueryClientProvider client={queryClient}>
                 <Router>
-                    <RiderApplicationForm />
+                    <RiderApplicationForm userEmail="test@ucsb.edu"/>
                 </Router>
             </QueryClientProvider>
         );
 
         expect(await screen.findByText(/Create/)).toBeInTheDocument();
 
-        const expectedHeaders = ["Perm Number", "Description"]
+        const expectedHeaders = ["Email","Perm Number", "Description"]
 
         expectedHeaders.forEach((headerText) => {
             const header = screen.getByText(headerText);
             expect(header).toBeInTheDocument();
           });
+        const email = screen.getByTestId(`${testId}-email`);
+        expect(email).toBeInTheDocument();
+        expect(email).toHaveValue("test@ucsb.edu");
+        
 
     });
 
