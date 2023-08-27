@@ -47,7 +47,7 @@ import javax.validation.Valid;
    
 
     @Operation(summary = &quot;Creates a new application&quot;)
-    @PreAuthorize(&quot;hasRole('ROLE_MEMBER') || hasRole('ROLE_USER') || hasRole('ROLE_DRIVER') || hasRole('ROLE_ADMIN')&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_MEMBER')&quot;)
     @PostMapping(&quot;/new&quot;)
     public RiderApplication newRiderApplication(
         
