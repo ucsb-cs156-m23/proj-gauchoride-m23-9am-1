@@ -1,7 +1,7 @@
 
 import React from 'react';
 
-import ShiftPage from "main/pages/ShiftPage";
+import ShiftPage from "main/pages/Shift/ShiftPage";
 
 export default {
     title: 'pages/ShiftPage/ShiftPage',

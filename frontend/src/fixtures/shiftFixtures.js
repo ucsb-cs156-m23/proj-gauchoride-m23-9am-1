@@ -1,4 +1,13 @@
 const shiftFixtures = {
+    oneShift:
+    {
+        "id": 1,
+        "day": "Monday",
+        "shiftStart": "08:00AM",
+        "shiftEnd": "11:00AM",
+        "driverID": 1,
+        "driverBackupID": 3
+    },
     threeShifts: [
         {
             "id": 1,
