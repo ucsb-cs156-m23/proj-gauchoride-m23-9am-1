@@ -328,7 +328,7 @@ public class RiderApplicationControllerTests extends ControllerTestCase {
                         .andExpect(status().is(200));
     }
 
-    @WithMockUser(roles = { "USER", "MEMBER", "DRIVER", "ADMIN" })
+    @WithMockUser(roles = { "MEMBER" })
     @Test
     public void members_can_get_all_theirs() throws Exception {
 
