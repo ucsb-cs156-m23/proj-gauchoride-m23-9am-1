@@ -56,7 +56,7 @@ public class RiderApplicationControllerTests extends ControllerTestCase {
 
     @WithMockUser(roles = { "ADMIN" })
     @Test
-    public void logged_admin_users_can_get_all_of_theirs() throws Exception {
+    public void logged_admin_users_cant_get_all_of_theirs() throws Exception {
         mockMvc.perform(get("/api/riderapplication/all"))
                             .andExpect(status().is(200)); 
     }
