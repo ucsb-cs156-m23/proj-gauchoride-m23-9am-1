@@ -101,7 +101,7 @@ public class RiderApplicationController extends ApiController {
     }
 
     @Operation(summary = "Update a personal application")
-    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_USER') || hasRole('ROLE_DRIVER') || hasRole('ROLE_MEMBER')")
+    @PreAuthorize("hasRole('ROLE_MEMBER')")
     @PutMapping("put")
     public RiderApplication updatePersonalApplication(@Parameter(name = "id", description = "Long, id number ride to get ", example = "1", required = true) @RequestParam long id, 
     @RequestBody @Valid RiderApplication incoming
