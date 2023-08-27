@@ -206,7 +206,7 @@ public class RiderApplicationControllerTests extends ControllerTestCase {
 
     @WithMockUser(roles = { "USER", "MEMBER", "DRIVER", "ADMIN" })
     @Test
-    public void test_that_all_roles_cant_update_others_application() throws Exception {
+    public void test_that_all_members_cant_update_others_application() throws Exception {
         long userId = currentUserService.getCurrentUser().getUser().getId();
         long otherUserId = userId + 1;
 
