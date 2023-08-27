@@ -290,7 +290,7 @@ public class RiderApplicationControllerTests extends ControllerTestCase {
 
     @WithMockUser(roles = { "MEMBER" })
     @Test
-    public void test_that_all_roles_can_create_a_new_application() throws Exception {
+    public void test_that_only_members_can_create_a_new_application() throws Exception {
         long userId = currentUserService.getCurrentUser().getUser().getId();
         long milli = 60 * 60 * 24 * 1000;
         long currentTime = new Date().getTime();
