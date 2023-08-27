@@ -49,7 +49,7 @@ public class RiderApplicationControllerTests extends ControllerTestCase {
 
     @WithMockUser(roles = { "USER" })
     @Test
-    public void logged_in_users_can_get_all_of_theirs() throws Exception {
+    public void logged_in_users_cant_get_all_of_theirs() throws Exception {
         mockMvc.perform(get("/api/riderapplication/all"))
                         .andExpect(status().is(200)); 
     }
