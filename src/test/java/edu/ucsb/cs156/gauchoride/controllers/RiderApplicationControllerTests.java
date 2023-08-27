@@ -330,7 +330,7 @@ public class RiderApplicationControllerTests extends ControllerTestCase {
 
     @WithMockUser(roles = { "USER", "MEMBER", "DRIVER", "ADMIN" })
     @Test
-    public void roles_can_get_all_theirs() throws Exception {
+    public void members_can_get_all_theirs() throws Exception {
 
         long userId = currentUserService.getCurrentUser().getUser().getId();
         long milli = 60 * 60 * 24 * 1000;
