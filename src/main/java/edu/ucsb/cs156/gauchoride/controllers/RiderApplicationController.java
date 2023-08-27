@@ -78,7 +78,7 @@ public class RiderApplicationController extends ApiController {
     }
 
     @Operation(summary = "Gets a list of all rider request owned by current user")
-    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_USER') || hasRole('ROLE_DRIVER') || hasRole('ROLE_MEMBER')")
+    @PreAuthorize("hasRole('ROLE_MEMBER')")
     @GetMapping("/all")
     public ResponseEntity<String> riderRequests()
             throws JsonProcessingException {
