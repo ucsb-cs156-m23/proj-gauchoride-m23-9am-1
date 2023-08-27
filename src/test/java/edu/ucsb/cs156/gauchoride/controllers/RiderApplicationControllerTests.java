@@ -449,7 +449,7 @@ public class RiderApplicationControllerTests extends ControllerTestCase {
         assertEquals(expectedJson, responseString);
     }
 
-    @WithMockUser(roles = { "USER", "MEMBER", "DRIVER", "ADMIN" })
+    @WithMockUser(roles = { "MEMBER" })
     @Test
     public void members_can_cancel_their_application() throws Exception {
         long userId = currentUserService.getCurrentUser().getUser().getId();
