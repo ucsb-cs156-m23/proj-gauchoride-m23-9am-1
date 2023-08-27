@@ -45,7 +45,7 @@ import io.swagger.v3.oas.annotations.Parameter;
     ObjectMapper mapper;
 
     @Operation(summary = &quot;Get a list of all shifts&quot;)
-    @PreAuthorize(&quot;hasRole('ROLE_ADMIN') || hasRole('ROLE_DRIVER') || hasRole('ROLE_USER')&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_ADMIN') || hasRole('ROLE_DRIVER') || hasRole('ROLE_RIDER')&quot;)
     @GetMapping(&quot;/all&quot;)
     public ResponseEntity&lt;String&gt; allShifts()
             throws JsonProcessingException {
@@ -55,7 +55,7 @@ import io.swagger.v3.oas.annotations.Parameter;
     }
 
     @Operation(summary = &quot;Get shift by id&quot;)
-    @PreAuthorize(&quot;hasRole('ROLE_ADMIN') || hasRole('ROLE_DRIVER') || hasRole('ROLE_USER')&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_ADMIN') || hasRole('ROLE_DRIVER') || hasRole('ROLE_RIDER')&quot;)
     @GetMapping(&quot;/get&quot;)
     public Shift shiftByID(
             @Parameter(name = &quot;id&quot;, description = &quot;Long, id number of shift to get&quot;, example = &quot;1&quot;, required = true) @RequestParam Long id)
@@ -76,8 +76,9 @@ import io.swagger.v3.oas.annotations.Parameter;
 <span class="fc" id="L76">        return ResponseEntity.ok().body(body);</span>
     }
 
-    @Operation(summary = &quot;Create a new shift for the table&quot;)
-    @PreAuthorize(&quot;hasRole('ROLE_ADMIN') || hasRole('ROLE_DRIVER')&quot;)
+
+    @Operation(summary = &quot;Create a new shift&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
     @PostMapping(&quot;/post&quot;)
     public Shift postShift(
         @Parameter(name=&quot;day&quot;, description =&quot;String, day of the week&quot;, example = &quot;Monday&quot;) @RequestParam String day,
@@ -88,72 +89,57 @@ import io.swagger.v3.oas.annotations.Parameter;
         )
         {
 
-<span class="fc" id="L91">        Shift shift = new Shift();</span>
+<span class="fc" id="L92">        Shift shift = new Shift();</span>
 
-<span class="fc" id="L93">        shift.setDriverID(getCurrentUser().getUser().getId());</span>
-<span class="fc" id="L94">        shift.setDay(day);</span>
-<span class="fc" id="L95">        shift.setShiftStart(shiftStart);</span>
-<span class="fc" id="L96">        shift.setShiftEnd(shiftEnd);</span>
-<span class="fc" id="L97">        shift.setDriverBackupID(driverBackupID);</span>
+<span class="fc" id="L94">        shift.setDriverID(driverID);</span>
+<span class="fc" id="L95">        shift.setDay(day);</span>
+<span class="fc" id="L96">        shift.setShiftStart(shiftStart);</span>
+<span class="fc" id="L97">        shift.setShiftEnd(shiftEnd);</span>
+<span class="fc" id="L98">        shift.setDriverBackupID(driverBackupID);</span>
 
-<span class="fc" id="L99">        Shift savedShift = shiftRepository.save(shift);</span>
+<span class="fc" id="L100">        Shift savedShift = shiftRepository.save(shift);</span>
 
-<span class="fc" id="L101">        return savedShift;</span>
+<span class="fc" id="L102">        return savedShift;</span>
     }
 
 
 
-    @Operation(summary= &quot;Delete a Shift, drivers can only delete their own&quot;)
-    @PreAuthorize(&quot;hasRole('ROLE_ADMIN') || hasRole('ROLE_DRIVER')&quot;)
+    @Operation(summary= &quot;Delete a Shift&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
     @DeleteMapping(&quot;&quot;)
     public Object deleteShift(
         @Parameter(name=&quot;id&quot;, description = &quot;Long, id number of shift to get&quot;, example = &quot;1&quot;, required = true) 
         @RequestParam long id){
-<span class="fc" id="L112">            Shift shift = shiftRepository.findById(id)</span>
-<span class="fc" id="L113">                    .orElseThrow(() -&gt; new EntityNotFoundException(Shift.class, id));</span>
-
-            
-<span class="fc bfc" id="L116" title="All 2 branches covered.">            if (!getCurrentUser().getRoles().contains(new SimpleGrantedAuthority(&quot;ROLE_ADMIN&quot;))){</span>
-<span class="fc bfc" id="L117" title="All 2 branches covered.">                if((getCurrentUser().getUser().getId() != shift.getDriverID())){</span>
-<span class="fc" id="L118">                    throw new EntityNotFoundException(Shift.class, id);</span>
-                }
-            }
-
+<span class="fc" id="L113">            Shift shift = shiftRepository.findById(id)</span>
+<span class="fc" id="L114">                    .orElseThrow(() -&gt; new EntityNotFoundException(Shift.class, id));</span>
     
-<span class="fc" id="L123">            shiftRepository.delete(shift);</span>
-<span class="fc" id="L124">            return genericMessage(&quot;Shift with id %s deleted&quot;.formatted(id));</span>
+<span class="fc" id="L116">            shiftRepository.delete(shift);</span>
+<span class="fc" id="L117">            return genericMessage(&quot;Shift with id %s deleted&quot;.formatted(id));</span>
 
     }
 
 
-    @Operation(summary = &quot;Update a single shift, drivers can only update their own&quot;)
-    @PreAuthorize(&quot;hasRole('ROLE_ADMIN') || hasRole('ROLE_DRIVER')&quot;)
+    @Operation(summary = &quot;Update a single shift&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
     @PutMapping(&quot;&quot;)
     public Shift updateShift(
             @Parameter(name=&quot;id&quot;, description = &quot;Long, id number of shift to get&quot;, example = &quot;1&quot;, required = true)
             @RequestParam Long id,
             @RequestBody @Valid Shift incoming) {
 
-<span class="fc" id="L137">        Shift shift = shiftRepository.findById(id)</span>
-<span class="fc" id="L138">                    .orElseThrow(() -&gt; new EntityNotFoundException(Shift.class, id));</span>
+<span class="fc" id="L130">        Shift shift = shiftRepository.findById(id)</span>
+<span class="fc" id="L131">                    .orElseThrow(() -&gt; new EntityNotFoundException(Shift.class, id));</span>
 
         
-<span class="fc bfc" id="L141" title="All 2 branches covered.">        if (!getCurrentUser().getRoles().contains(new SimpleGrantedAuthority(&quot;ROLE_ADMIN&quot;))){</span>
-<span class="fc bfc" id="L142" title="All 2 branches covered.">                if((getCurrentUser().getUser().getId() != shift.getDriverID())){</span>
-<span class="fc" id="L143">                    throw new EntityNotFoundException(Shift.class, id);</span>
-                }
-            }
+<span class="fc" id="L134">        shift.setDay(incoming.getDay());</span>
+<span class="fc" id="L135">        shift.setShiftStart(incoming.getShiftStart());</span>
+<span class="fc" id="L136">        shift.setShiftEnd(incoming.getShiftEnd());</span>
+<span class="fc" id="L137">        shift.setDriverID(getCurrentUser().getUser().getId());</span>
+<span class="fc" id="L138">        shift.setDriverBackupID(incoming.getDriverBackupID());</span>
 
-        
-<span class="fc" id="L148">        shift.setDay(incoming.getDay());</span>
-<span class="fc" id="L149">        shift.setShiftStart(incoming.getShiftStart());</span>
-<span class="fc" id="L150">        shift.setShiftEnd(incoming.getShiftEnd());</span>
-<span class="fc" id="L151">        shift.setDriverID(getCurrentUser().getUser().getId());</span>
-<span class="fc" id="L152">        shift.setDriverBackupID(incoming.getDriverBackupID());</span>
+<span class="fc" id="L140">        shiftRepository.save(shift);</span>
 
-<span class="fc" id="L154">        shiftRepository.save(shift);</span>
-
-<span class="fc" id="L156">        return shift;</span>
+<span class="fc" id="L142">        return shift;</span>
     }
 
 }
