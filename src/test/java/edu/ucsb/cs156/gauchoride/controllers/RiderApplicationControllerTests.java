@@ -86,7 +86,7 @@ public class RiderApplicationControllerTests extends ControllerTestCase {
     @Test
     public void logged_in_users_cant_get_by_id() throws Exception {
         mockMvc.perform(get("/api/riderapplication/get?id=7"))
-                            .andExpect(status().is(404)); 
+                            .andExpect(status().is(403)); 
     }
 
     @WithMockUser(roles = { "ADMIN" })
