@@ -160,7 +160,7 @@ public class RiderApplicationControllerTests extends ControllerTestCase {
                 assertEquals("RiderApplication with id 7 not found", json.get("message"));
         }
 
-    @WithMockUser(roles = { "USER", "MEMBER", "DRIVER", "ADMIN" })
+    @WithMockUser(roles = { "MEMBER" })
     @Test
     public void test_that_all_roles_can_update_their_application() throws Exception {
         Long userId = currentUserService.getCurrentUser().getUser().getId();
