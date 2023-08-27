@@ -499,7 +499,7 @@ public class RiderApplicationControllerTests extends ControllerTestCase {
    
 
 
-    @WithMockUser(roles = { "USER", "MEMBER", "DRIVER", "ADMIN" })
+    @WithMockUser(roles = { "MEMBER" })
     @Test
     public void member_tries_to_cancel_nonexistant_ride_and_gets_right_error_message() throws Exception {
         long userId = currentUserService.getCurrentUser().getUser().getId();
