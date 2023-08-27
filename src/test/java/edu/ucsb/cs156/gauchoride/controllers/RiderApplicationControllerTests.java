@@ -451,7 +451,7 @@ public class RiderApplicationControllerTests extends ControllerTestCase {
 
     @WithMockUser(roles = { "USER", "MEMBER", "DRIVER", "ADMIN" })
     @Test
-    public void any_role_can_cancel_their_application() throws Exception {
+    public void members_can_cancel_their_application() throws Exception {
         long userId = currentUserService.getCurrentUser().getUser().getId();
         long milli = 60 * 60 * 24 * 1000;
         long currentTime = new Date().getTime();
