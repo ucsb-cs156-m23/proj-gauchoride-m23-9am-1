@@ -162,7 +162,7 @@ public class RiderApplicationControllerTests extends ControllerTestCase {
 
     @WithMockUser(roles = { "MEMBER" })
     @Test
-    public void test_that_all_roles_can_update_their_application() throws Exception {
+    public void test_that_all_members_can_update_their_application() throws Exception {
         Long userId = currentUserService.getCurrentUser().getUser().getId();
 
         long milli = 60 * 60 * 24 * 1000;
