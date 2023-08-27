@@ -89,6 +89,11 @@ export default function AppNavbar({ currentUser, systemInfo, doLogout, currentUr
               }
               {
                 isParticipant(currentUser) && (
+                  <Nav.Link data-testid="appnavbar-driver-link" href="/drivers">Drivers List</Nav.Link>
+                )
+              }
+              {
+                isParticipant(currentUser) && (
                   <NavDropdown title="Ride Request" id="appnavbar-ride-dropdown" data-testid="appnavbar-ride-dropdown" >
                     <NavDropdown.Item data-testid="appnavbar-ride-dropdown-rides" as={Link} to="/ride/">Rides</NavDropdown.Item>
                     { createRideRequest(currentUser) }

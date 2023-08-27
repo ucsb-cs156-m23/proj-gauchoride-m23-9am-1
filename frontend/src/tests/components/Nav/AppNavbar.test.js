@@ -187,6 +187,86 @@ describe("AppNavbar tests", () => {
         expect(shiftMenu).not.toBeInTheDocument();        
     });
 
+
+
+
+
+
+    test("renders drivers link correctly for admin user", async () => {
+
+        const currentUser = currentUserFixtures.adminOnly;
+        const doLogin = jest.fn();
+
+        const { getByText , getByTestId } = render(
+            <QueryClientProvider client={queryClient}>
+                <MemoryRouter>
+                    <AppNavbar currentUser={currentUser} doLogin={doLogin} />
+                    </MemoryRouter>
+            </QueryClientProvider>
+        );
+        
+        await waitFor(() => expect(getByText("Welcome, Phill Conrad")).toBeInTheDocument());
+        const driverLink = getByTestId("appnavbar-driver-link");
+        expect(driverLink).toBeInTheDocument();        
+    });
+
+    test("renders drivers link correctly for driver", async () => {
+
+        const currentUser = currentUserFixtures.driverOnly;
+        const doLogin = jest.fn();
+
+        const { getByText , getByTestId } = render(
+            <QueryClientProvider client={queryClient}>
+                <MemoryRouter>
+                    <AppNavbar currentUser={currentUser} doLogin={doLogin} />
+                </MemoryRouter>
+            </QueryClientProvider>
+        );
+        
+        await waitFor(() => expect(getByText("Welcome, Phillip Conrad")).toBeInTheDocument());
+        const driverLink = getByTestId("appnavbar-driver-link");
+        expect(driverLink).toBeInTheDocument();           
+    });
+
+    test("renders drivers link correctly for rider", async () => {
+
+        const currentUser = currentUserFixtures.riderOnly;
+        const doLogin = jest.fn();
+
+        const { getByText , getByTestId } = render(
+            <QueryClientProvider client={queryClient}>
+                <MemoryRouter>
+                    <AppNavbar currentUser={currentUser} doLogin={doLogin} />
+                </MemoryRouter>
+            </QueryClientProvider>
+        );
+        
+        await waitFor(() => expect(getByText("Welcome, Phillip Conrad")).toBeInTheDocument());
+        const driverLink = getByTestId("appnavbar-driver-link");
+        expect(driverLink).toBeInTheDocument();         
+    });
+
+    test("not render drivers link for regular user", async () => {
+
+        const currentUser = currentUserFixtures.userOnly;
+        const doLogin = jest.fn();
+
+        const { getByText } = render(
+            <QueryClientProvider client={queryClient}>
+                <MemoryRouter>
+                    <AppNavbar currentUser={currentUser} doLogin={doLogin} />
+                </MemoryRouter>
+            </QueryClientProvider>
+        );
+        
+        await waitFor(() => expect(getByText("Welcome, Phillip Conrad")).toBeInTheDocument());
+        const driverLink = screen.queryByTestId("appnavbar-driver-link");
+        expect(driverLink).not.toBeInTheDocument();        
+    });
+
+
+
+
     // test taken from https://github.com/ucsb-cs156/proj-courses repo
     test("renders image correctly", async () => {
         const currentUser = currentUserFixtures.adminUser;
