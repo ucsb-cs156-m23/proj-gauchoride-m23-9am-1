@@ -47,7 +47,7 @@ public class RiderApplicationController extends ApiController {
    
 
     @Operation(summary = "Creates a new application")
-    @PreAuthorize("hasRole('ROLE_MEMBER') || hasRole('ROLE_USER') || hasRole('ROLE_DRIVER') || hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_MEMBER')")
     @PostMapping("/new")
     public RiderApplication newRiderApplication(
         
