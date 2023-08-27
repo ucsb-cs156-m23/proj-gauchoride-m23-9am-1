@@ -51,7 +51,7 @@ public class RiderApplicationControllerTests extends ControllerTestCase {
     @Test
     public void logged_in_users_cant_get_all_of_theirs() throws Exception {
         mockMvc.perform(get("/api/riderapplication/all"))
-                        .andExpect(status().is(403); 
+                        .andExpect(status().is(403)); 
     }
 
     @WithMockUser(roles = { "ADMIN" })
@@ -109,9 +109,9 @@ public class RiderApplicationControllerTests extends ControllerTestCase {
                             .andExpect(status().is(403));
     }
     
-    @WithMockUser(roles = {  "MEMBER" })
+    @WithMockUser(roles = {  "MEMBER" } )
     @Test
-    public void test_that_logged_in_user_can_get_by_id_when_the_id_exists_and_user_id_matches() throws Exception {
+    public void test_that_logged_in_member_can_get_by_id_when_the_id_exists_and_user_id_matches() throws Exception {
 
         long userId = currentUserService.getCurrentUser().getUser().getId();
         long milli = 60 * 60 * 24 * 1000;
@@ -204,9 +204,9 @@ public class RiderApplicationControllerTests extends ControllerTestCase {
         
     }
 
-    @WithMockUser(roles = { "MEMBER"})
+    @WithMockUser(roles = {  "MEMBER"})
     @Test
-    public void test_that_all_members_cant_update_others_application() throws Exception {
+    public void test_that_members_cant_update_others_application() throws Exception {
         long userId = currentUserService.getCurrentUser().getUser().getId();
         long otherUserId = userId + 1;
 
@@ -409,7 +409,7 @@ public class RiderApplicationControllerTests extends ControllerTestCase {
 
     @WithMockUser(roles = { "ADMIN" })
     @Test
-    public void admin_can_get_all_member_applications() throws Exception {
+    public void admin_can_get_all_pending_member_applications() throws Exception {
         long userId = currentUserService.getCurrentUser().getUser().getId();
         long milli = 60 * 60 * 24 * 1000;
         long currentTime = new Date().getTime();
