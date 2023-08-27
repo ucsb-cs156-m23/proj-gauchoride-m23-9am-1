@@ -8,6 +8,8 @@ import java.util.Optional;
 
 @Repository
 public interface RiderApplicationRepository extends CrudRepository<RiderApplication, Long> {
-  Optional<RiderApplication> findById(long id);
   Iterable<RiderApplication> findByUserId(long userId);
+  Optional<RiderApplication> findByIdAndUserId(long id, long userId);
+  Iterable<RiderApplication> findByStatus(String status);
+  
 }
