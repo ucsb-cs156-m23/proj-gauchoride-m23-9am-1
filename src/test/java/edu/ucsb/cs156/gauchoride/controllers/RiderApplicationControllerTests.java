@@ -144,7 +144,7 @@ public class RiderApplicationControllerTests extends ControllerTestCase {
 
         @WithMockUser(roles = { "USER", "MEMBER", "DRIVER", "ADMIN" })
         @Test
-        public void test_that_logged_in_user_cant_get_by_id_when_the_id_does_not_exist() throws Exception {
+        public void test_that_logged_in_members_cant_get_by_id_when_the_id_does_not_exist() throws Exception {
 
                 Long userId = currentUserService.getCurrentUser().getUser().getId();
 
