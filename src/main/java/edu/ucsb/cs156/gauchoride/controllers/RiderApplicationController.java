@@ -90,7 +90,7 @@ public class RiderApplicationController extends ApiController {
             }
 
     @Operation(summary = "Gets a personal rider request by id")
-    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_USER') || hasRole('ROLE_DRIVER') || hasRole('ROLE_MEMBER')")
+    @PreAuthorize("hasRole('ROLE_MEMBER')")
     @GetMapping("/get")
     public RiderApplication riderApplicationID(
             @Parameter(name = "id", description = "Long, id number ride to get ", example = "1", required = true) @RequestParam Long id)
