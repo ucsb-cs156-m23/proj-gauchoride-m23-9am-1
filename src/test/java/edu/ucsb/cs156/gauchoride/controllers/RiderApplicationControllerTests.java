@@ -501,7 +501,7 @@ public class RiderApplicationControllerTests extends ControllerTestCase {
 
     @WithMockUser(roles = { "USER", "MEMBER", "DRIVER", "ADMIN" })
     @Test
-    public void rider_tries_to_cancel_nonexistant_ride_and_gets_right_error_message() throws Exception {
+    public void member_tries_to_cancel_nonexistant_ride_and_gets_right_error_message() throws Exception {
         long userId = currentUserService.getCurrentUser().getUser().getId();
         long milli = 60 * 60 * 24 * 1000;
         long currentTime = new Date().getTime();
