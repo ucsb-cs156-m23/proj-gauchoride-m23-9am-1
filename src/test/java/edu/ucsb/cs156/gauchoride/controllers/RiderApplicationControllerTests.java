@@ -109,7 +109,7 @@ public class RiderApplicationControllerTests extends ControllerTestCase {
                             .andExpect(status().is(403));
     }
     
-    @WithMockUser(roles = { "USER", "MEMBER", "DRIVER", "ADMIN" })
+    @WithMockUser(roles = {  "MEMBER" })
     @Test
     public void test_that_logged_in_user_can_get_by_id_when_the_id_exists_and_user_id_matches() throws Exception {
 
