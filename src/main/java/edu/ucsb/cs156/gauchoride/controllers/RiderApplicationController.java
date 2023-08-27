@@ -126,7 +126,7 @@ public class RiderApplicationController extends ApiController {
 
     
     @Operation(summary = "Cancel a personal review")
-    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_USER') || hasRole('ROLE_DRIVER') || hasRole('ROLE_MEMBER')")
+    @PreAuthorize("hasRole('ROLE_MEMBER')")
     @PutMapping("/cancel")
     public RiderApplication cancelRiderApplication(
         @Parameter(name = "id", description = "Long, id number ride to get ", example = "1", required = true)  @RequestParam long id,
