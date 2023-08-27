@@ -65,7 +65,7 @@ public class RiderApplicationControllerTests extends ControllerTestCase {
     @Test
     public void logged_driver_cant_get_all_of_theirs() throws Exception {
         mockMvc.perform(get("/api/riderapplication/all"))
-                            .andExpect(status().is(200)); 
+                            .andExpect(status().is(403)); 
     }
 
     @WithMockUser(roles = { "MEMBER" })
