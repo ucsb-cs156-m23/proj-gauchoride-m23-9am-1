@@ -3,6 +3,7 @@ import React from 'react';
 
 import ShiftTable from "main/components/Shift/ShiftTable";
 import shiftFixtures from 'fixtures/shiftFixtures';
+import { currentUserFixtures } from 'fixtures/currentUserFixtures';
 
 export default {
     title: 'components/Shift/ShiftTable',
@@ -24,7 +25,8 @@ Empty.args = {
 export const ThreeShifts = Template.bind({});
 
 ThreeShifts.args = {
-    shift: shiftFixtures.threeShifts
+    shift: shiftFixtures.threeShifts,
+    currentUser: currentUserFixtures.adminOnly
 };
 
 

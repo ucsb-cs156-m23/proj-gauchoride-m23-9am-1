@@ -1,6 +1,7 @@
 import { render } from "@testing-library/react";
 import shiftFixtures from "fixtures/shiftFixtures";
 import ShiftTable from "main/components/Shift/ShiftTable"
+import { BrowserRouter as Router } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 
 
@@ -10,7 +11,9 @@ describe("ShiftTable tests", () => {
     test("renders without crashing for empty table", () => {
         render(
             <QueryClientProvider client={queryClient}>
+                <Router>
                 <ShiftTable shift={[]} />
+                </Router>
             </QueryClientProvider>
         );
     });
@@ -18,7 +21,9 @@ describe("ShiftTable tests", () => {
     test("renders without crashing for three shifts", () => {
         render(
             <QueryClientProvider client={queryClient}>
+                <Router>
                 <ShiftTable shift={shiftFixtures.threeShifts} />
+                </Router>
             </QueryClientProvider>
         );
     });
@@ -26,7 +31,9 @@ describe("ShiftTable tests", () => {
     test("Has the expected column headers and content", () => {
         const { getByText, getByTestId } = render(
             <QueryClientProvider client={queryClient}>
+                <Router>
                 <ShiftTable shift={shiftFixtures.threeShifts}/>
+                </Router>
             </QueryClientProvider>
         );
     

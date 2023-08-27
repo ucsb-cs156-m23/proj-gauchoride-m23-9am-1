@@ -8,7 +8,7 @@ import PrivacyPolicyPage from "main/pages/PrivacyPolicyPage";
 import RideRequestCreatePage from "main/pages/Ride/RideRequestCreatePage";
 import RideRequestEditPage from "main/pages/Ride/RideRequestEditPage";
 import RideRequestIndexPage from "main/pages/Ride/RideRequestIndexPage";
-import ShiftPage from "main/pages/ShiftPage";
+import ShiftPage from "main/pages/Shift/ShiftPage";
 
 
 
