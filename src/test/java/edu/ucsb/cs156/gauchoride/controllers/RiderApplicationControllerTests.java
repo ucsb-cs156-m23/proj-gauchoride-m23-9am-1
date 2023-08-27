@@ -250,7 +250,7 @@ public class RiderApplicationControllerTests extends ControllerTestCase {
     }
 
 
-    @WithMockUser(roles = { "USER", "MEMBER", "DRIVER", "ADMIN" })
+    @WithMockUser(roles = { "MEMBER" })
     @Test
     public void test_that_all_members_cant_update_a_nonexistant_application() throws Exception {
         long userId = currentUserService.getCurrentUser().getUser().getId();
