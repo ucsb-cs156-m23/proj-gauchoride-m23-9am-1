@@ -78,7 +78,7 @@ describe("DriverDashBoardPage tests", () => {
             </QueryClientProvider>
         );
 
-        await waitFor(() => expect(getByText("Shift")).toBeInTheDocument());
+        await waitFor(() => expect(getByText("Your Shifts")).toBeInTheDocument());
 
 
     });

@@ -38,6 +38,7 @@ function ShiftForm({ initialContents, submitAction, buttonLabel = "Create" }) {
                 </Form.Group>
             )}
 
+{/* 
             <Form.Group className="mb-3" >
                 <Form.Label htmlFor="day">Day of Week</Form.Label>
                 <Form.Select
@@ -62,7 +63,33 @@ function ShiftForm({ initialContents, submitAction, buttonLabel = "Create" }) {
                     {errors.day?.message}
                 </Form.Control.Feedback>
             </Form.Group>
+ */}
+    
 
+            <Form.Group className="mb-3" >
+            <Form.Label htmlFor="day">Day of Week</Form.Label>
+                <Form.Select
+                    data-testid={testIdPrefix + "-day"}
+                    id="day"
+                    type="text"
+                    isInvalid={Boolean(errors.day)}
+                    {...register("day", {
+                        required: "Day is Required."
+                    })}
+                >
+                <option value="">Select a Day</option>
+                <option value="Monday">Monday</option>
+                <option value="Tuesday">Tuesday</option>
+                <option value="Wednesday">Wednesday</option>
+                <option value="Thursday">Thursday</option>
+                <option value="Friday">Friday</option>
+                <option value="Saturday">Saturday</option>
+                <option value="Sunday">Sunday</option>
+                </Form.Select>
+                <Form.Control.Feedback type="invalid">
+                    {errors.day?.message}
+                </Form.Control.Feedback>
+            </Form.Group>
             <Form.Group className="mb-3" >
                 <Form.Label htmlFor="shiftStart">Start Time</Form.Label>
                 <Form.Control
