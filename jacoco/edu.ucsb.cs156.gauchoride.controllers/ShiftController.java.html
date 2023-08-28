@@ -134,7 +134,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 <span class="fc" id="L134">        shift.setDay(incoming.getDay());</span>
 <span class="fc" id="L135">        shift.setShiftStart(incoming.getShiftStart());</span>
 <span class="fc" id="L136">        shift.setShiftEnd(incoming.getShiftEnd());</span>
-<span class="fc" id="L137">        shift.setDriverID(getCurrentUser().getUser().getId());</span>
+<span class="fc" id="L137">        shift.setDriverID(incoming.getDriverID());</span>
 <span class="fc" id="L138">        shift.setDriverBackupID(incoming.getDriverBackupID());</span>
 
 <span class="fc" id="L140">        shiftRepository.save(shift);</span>
