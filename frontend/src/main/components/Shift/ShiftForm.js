@@ -38,7 +38,6 @@ function ShiftForm({ initialContents, submitAction, buttonLabel = "Create" }) {
                 </Form.Group>
             )}
 
-{/* 
             <Form.Group className="mb-3" >
                 <Form.Label htmlFor="day">Day of Week</Form.Label>
                 <Form.Select
