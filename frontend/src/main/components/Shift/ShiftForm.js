@@ -41,7 +41,7 @@ function ShiftForm({ initialContents, submitAction, buttonLabel = "Create" }) {
             <Form.Group className="mb-3" >
                 <Form.Label htmlFor="day">Day of Week</Form.Label>
                 <Form.Select
-                    // data-testid={testIdPrefix + "-day"}
+                    data-testid={testIdPrefix + "-day"}
                     id="day"
                     type="text"
                     isInvalid={Boolean(errors.day)}
@@ -111,7 +111,7 @@ function ShiftForm({ initialContents, submitAction, buttonLabel = "Create" }) {
             <Form.Group className="mb-3">
                 <Form.Label htmlFor="driverID">Driver ID</Form.Label>
                 <Form.Control
-                    // data-testid={testIdPrefix + "-driverID"}
+                    data-testid={testIdPrefix + "-driverID"}
                     id="driverID"
                     name="driverID"
                     type="number"
@@ -128,7 +128,7 @@ function ShiftForm({ initialContents, submitAction, buttonLabel = "Create" }) {
             <Form.Group className="mb-3">
                 <Form.Label htmlFor="driverBackupID">Backup Driver ID</Form.Label>
                 <Form.Control
-                    // data-testid={testIdPrefix + "-driverBackupID"}
+                    data-testid={testIdPrefix + "-driverBackupID"}
                     id="driverBackupID"
                     name="driverBackupID"
                     type="number"
@@ -145,7 +145,7 @@ function ShiftForm({ initialContents, submitAction, buttonLabel = "Create" }) {
 
             <Button
                 type="submit"
-                // data-testid={testIdPrefix + "-submit"}
+                data-testid={testIdPrefix + "-submit"}
             >
                 {buttonLabel}
             </Button>
