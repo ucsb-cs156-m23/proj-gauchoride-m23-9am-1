@@ -134,7 +134,7 @@ public class ShiftController extends ApiController {
         shift.setDay(incoming.getDay());
         shift.setShiftStart(incoming.getShiftStart());
         shift.setShiftEnd(incoming.getShiftEnd());
-        shift.setDriverID(getCurrentUser().getUser().getId());
+        shift.setDriverID(incoming.getDriverID());
         shift.setDriverBackupID(incoming.getDriverBackupID());
 
         shiftRepository.save(shift);

@@ -9,6 +9,8 @@ import RideRequestCreatePage from "main/pages/Ride/RideRequestCreatePage";
 import RideRequestEditPage from "main/pages/Ride/RideRequestEditPage";
 import RideRequestIndexPage from "main/pages/Ride/RideRequestIndexPage";
 import ShiftPage from "main/pages/Shift/ShiftPage";
+import ShiftCreatePage from "main/pages/Shift/ShiftCreatePage";
+import ShiftEditPage from "main/pages/Shift/ShiftEditPage";
 
 
 
@@ -31,6 +33,7 @@ function App() {
         <Route exact path="/" element={<HomePage />} />
         <Route exact path="/profile" element={<ProfilePage />} />
         <Route exact path="/privacy" element={<PrivacyPolicyPage />} />
+
         {
           hasRole(currentUser, "ROLE_ADMIN") && <Route exact path="/admin/users" element={<AdminUsersPage />} />
         }
@@ -66,6 +69,15 @@ function App() {
         }
         {
           hasRole(currentUser, "ROLE_USER")
+        }
+
+        {
+          hasRole(currentUser, "ROLE_ADMIN") && (
+            <>
+              <Route exact path="/shift/edit/:id" element={<ShiftEditPage />} />
+              <Route exact path="/shift/create" element={<ShiftCreatePage />} />
+            </>
+          )
         }
         <Route exact path="/*" element={<PageNotFound />} />
 

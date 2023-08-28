@@ -37,9 +37,10 @@ function ShiftForm({ initialContents, submitAction, buttonLabel = "Create" }) {
                     />
                 </Form.Group>
             )}
+    
 
             <Form.Group className="mb-3" >
-                <Form.Label htmlFor="day">Day of Week</Form.Label>
+            <Form.Label htmlFor="day">Day of Week</Form.Label>
                 <Form.Select
                     data-testid={testIdPrefix + "-day"}
                     id="day"
@@ -62,7 +63,6 @@ function ShiftForm({ initialContents, submitAction, buttonLabel = "Create" }) {
                     {errors.day?.message}
                 </Form.Control.Feedback>
             </Form.Group>
-
             <Form.Group className="mb-3" >
                 <Form.Label htmlFor="shiftStart">Start Time</Form.Label>
                 <Form.Control
