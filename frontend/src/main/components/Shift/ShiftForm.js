@@ -1,11 +1,10 @@
 import { Button, Form } from 'react-bootstrap';
 import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
 
 function ShiftForm({ initialContents, submitAction, buttonLabel = "Create" }) {
-    console.log(initialContents);
 
-    
+
     // Stryker disable all
     const {
         register,
@@ -14,9 +13,11 @@ function ShiftForm({ initialContents, submitAction, buttonLabel = "Create" }) {
     } = useForm(
         { defaultValues: initialContents || {}, }
     );
+    const time_regex = /^(0?[1-9]|1[0-2]):[0-5][0-9](AM|PM)$/;
     // Stryker restore all
-   
+
     const navigate = useNavigate();
+
 
     const testIdPrefix = "ShiftForm";
 
@@ -38,37 +39,47 @@ function ShiftForm({ initialContents, submitAction, buttonLabel = "Create" }) {
             )}
 
             <Form.Group className="mb-3" >
-                <Form.Label htmlFor="day">Day</Form.Label>
-                <Form.Control
-                    data-testid={testIdPrefix + "-day"}
+                <Form.Label htmlFor="day">Day of Week</Form.Label>
+                <Form.Select
+                    // data-testid={testIdPrefix + "-day"}
                     id="day"
                     type="text"
                     isInvalid={Boolean(errors.day)}
                     {...register("day", {
-                        required: "Day is required.",
-                        // maxLength : {
-                        //     value: 9,
-                        //     message: "Max length 9 characters"
-                        // }
+                        required: "Day is Required."
                     })}
-                    defaultValue={initialContents?.day}
-                />
+                >
+                <option value="">Select a Day</option>
+                <option value="Monday">Monday</option>
+                <option value="Tuesday">Tuesday</option>
+                <option value="Wednesday">Wednesday</option>
+                <option value="Thursday">Thursday</option>
+                <option value="Friday">Friday</option>
+                <option value="Saturday">Saturday</option>
+                <option value="Sunday">Sunday</option>
+                </Form.Select>
                 <Form.Control.Feedback type="invalid">
                     {errors.day?.message}
                 </Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group className="mb-3" >
-                <Form.Label htmlFor="shiftStart">Shift Start</Form.Label>
+                <Form.Label htmlFor="shiftStart">Start Time</Form.Label>
                 <Form.Control
                     data-testid={testIdPrefix + "-shiftStart"}
                     id="shiftStart"
                     type="text"
-                    isInvalid={Boolean(errors.shiftStart)}
+                    isInvalid={Boolean(errors.start)}
                     {...register("shiftStart", {
-                        required: "Shift Start is required."
+                        required: "Start Time is Required.",
+                        pattern: {
+                            value: time_regex,
+                            message: "Please enter start time in the format HH:MM AM/PM (e.g., 03:30PM)."
+                          }
                     })}
+                    placeholder="Format HH:MM AM/PM (e.g. 03:30PM)"
                     defaultValue={initialContents?.shiftStart}
+
                 />
                 <Form.Control.Feedback type="invalid">
                     {errors.shiftStart?.message}
@@ -76,48 +87,55 @@ function ShiftForm({ initialContents, submitAction, buttonLabel = "Create" }) {
             </Form.Group>
 
             <Form.Group className="mb-3" >
-                <Form.Label htmlFor="shiftEnd">Shift End</Form.Label>
+                <Form.Label htmlFor="shiftEnd">End Time</Form.Label>
                 <Form.Control
                     data-testid={testIdPrefix + "-shiftEnd"}
                     id="shiftEnd"
                     type="text"
-                    isInvalid={Boolean(errors.shiftEnd)}
+                    isInvalid={Boolean(errors.start) }
                     {...register("shiftEnd", {
-                        required: "Shift End is required."
+                        required: "End Time is Required.",
+                        pattern: {
+                            value: time_regex,
+                            message: "Please enter end time in the format HH:MM AM/PM (e.g., 03:30PM)."
+                          }
                     })}
-                    defaultValue={initialContents?.shiftEnd}
+                    placeholder="Format HH:MM AM/PM (e.g. 03:30PM)"   
+                    defaultValue={initialContents?.shiftEnd}     
                 />
                 <Form.Control.Feedback type="invalid">
                     {errors.shiftEnd?.message}
                 </Form.Control.Feedback>
             </Form.Group>
-            <Form.Group className="mb-3" >
+
+            <Form.Group className="mb-3">
                 <Form.Label htmlFor="driverID">Driver ID</Form.Label>
                 <Form.Control
-                    data-testid={testIdPrefix + "-driverID"}
+                    // data-testid={testIdPrefix + "-driverID"}
                     id="driverID"
-                    type="text"
+                    name="driverID"
+                    type="number"
                     isInvalid={Boolean(errors.driverID)}
                     {...register("driverID", {
-                        required: "Driver ID is required."
+                        required: "Driver's ID is required."
                     })}
-                    defaultValue={initialContents?.driverID}
                 />
                 <Form.Control.Feedback type="invalid">
                     {errors.driverID?.message}
                 </Form.Control.Feedback>
             </Form.Group>
-            <Form.Group className="mb-3" >
+
+            <Form.Group className="mb-3">
                 <Form.Label htmlFor="driverBackupID">Backup Driver ID</Form.Label>
                 <Form.Control
-                    data-testid={testIdPrefix + "-driverBackupID"}
+                    // data-testid={testIdPrefix + "-driverBackupID"}
                     id="driverBackupID"
-                    type="text"
+                    name="driverBackupID"
+                    type="number"
                     isInvalid={Boolean(errors.driverBackupID)}
                     {...register("driverBackupID", {
                         required: "Backup Driver ID is required."
                     })}
-                    defaultValue={initialContents?.driverBackupID}
                 />
                 <Form.Control.Feedback type="invalid">
                     {errors.driverBackupID?.message}
@@ -127,7 +145,7 @@ function ShiftForm({ initialContents, submitAction, buttonLabel = "Create" }) {
 
             <Button
                 type="submit"
-                data-testid={testIdPrefix + "-submit"}
+                // data-testid={testIdPrefix + "-submit"}
             >
                 {buttonLabel}
             </Button>

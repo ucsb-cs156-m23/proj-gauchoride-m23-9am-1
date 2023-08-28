@@ -29,4 +29,11 @@ ThreeShifts.args = {
     currentUser: currentUserFixtures.adminOnly
 };
 
+export const ThreeShiftsDriver = Template.bind({});
+
+ThreeShiftsDriver.args = {
+    shift: shiftFixtures.threeShifts,
+    currentUser: currentUserFixtures.driverOnly
+};
+
 

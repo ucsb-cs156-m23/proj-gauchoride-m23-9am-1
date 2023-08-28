@@ -1,9 +1,9 @@
-import { render, waitFor } from "@testing-library/react";
+import { render, waitFor, screen } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
 import ShiftPage from "main/pages/Shift/ShiftPage";
 import shiftFixtures from "fixtures/shiftFixtures";
-import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
+import { apiCurrentUserFixtures, currentUserFixtures } from "fixtures/currentUserFixtures";
 import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
 import mockConsole from "jest-mock-console";
 
@@ -15,6 +15,12 @@ describe("ShiftPage tests", () => {
     const axiosMock = new AxiosMockAdapter(axios);
 
     const testId = "ShiftTable";
+    const setupAdminUser = () => {
+        axiosMock.reset();
+        axiosMock.resetHistory();
+        axiosMock.onGet("/api/currentUser").reply(200, apiCurrentUserFixtures.adminUser);
+        axiosMock.onGet("/api/systemInfo").reply(200, systemInfoFixtures.showingNeither);
+    };
 
     beforeEach( () => {
         axiosMock.reset();
@@ -82,6 +88,41 @@ describe("ShiftPage tests", () => {
         await waitFor(() => expect(getByText("Shift")).toBeInTheDocument());
 
     })
+    test("Renders with Create Button for admin user", async () => {
+        setupAdminUser();
+        axiosMock.onGet("/api/shift/all").reply(200, []);
+        const queryClient = new QueryClient();
+        render(
+            <QueryClientProvider client={queryClient}>
+                <MemoryRouter>
+                    <ShiftPage/>
+                </MemoryRouter>
+            </QueryClientProvider>
+        );
+
+        await waitFor(() => {
+            expect(screen.getByText(/Create Shift/)).toBeInTheDocument();
+        });
+        const button = screen.getByText(/Create Shift/);
+        expect(button).toHaveAttribute("href", "/shift/create");
+        expect(button).toHaveAttribute("style", "float: right;");
+    });
+    test("Renders no Create Button for admin user", async () => {
+        setupAdminUser();
+        axiosMock.onGet("/api/shift/all").reply(200, []);
+        const queryClient = new QueryClient();
+        render(
+            <QueryClientProvider client={queryClient}>
+                <MemoryRouter>
+                    <ShiftPage/>
+                </MemoryRouter>
+            </QueryClientProvider>
+        );
+
+        await waitFor(() => {
+            expect(screen.queryByText(/Create Shift/)).not.toBeInTheDocument();
+        });
+    });
 
 });
 

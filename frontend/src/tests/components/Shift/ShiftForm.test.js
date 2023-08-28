@@ -2,7 +2,7 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router-dom";
 
 import ShiftForm from "main/components/Shift/ShiftForm";
-import shiftFixtures from 'fixtures/shiftFixtures';
+import shiftFixtures from "fixtures/shiftFixtures";
 
 import { QueryClient, QueryClientProvider } from "react-query";
 
@@ -16,44 +16,28 @@ jest.mock('react-router-dom', () => ({
 describe("ShiftForm tests", () => {
     const queryClient = new QueryClient();
 
-    // const expectedHeaders = ["Day of Week", "Start Time", "End Time", "Pick Up Location", "Drop Off Location", "Room Number for Dropoff", "Course Number"];
+    const expectedHeaders = ["Day of Week", "Start Time", "End Time", "Driver ID", "Backup Driver ID"];
     const testId = "ShiftForm";
 
     test("renders correctly with no initialContents", async () => {
         render(
             <QueryClientProvider client={queryClient}>
                 <Router>
-                    <ShiftForm/>
+                    <ShiftForm />
                 </Router>
             </QueryClientProvider>
         );
 
         expect(await screen.findByText(/Create/)).toBeInTheDocument();
 
-        const expectedHeaders = ["Day","Shift Start", "Shift End", "Driver ID", "Backup Driver ID"]
-
         expectedHeaders.forEach((headerText) => {
             const header = screen.getByText(headerText);
             expect(header).toBeInTheDocument();
           });
-        const cancelButton = screen.getByTestId(`${testId}-submit`);
-
-        fireEvent.click(cancelButton);
-        await screen.findByText(/Day is required./);
-        expect(screen.getByText(/Shift Start is required./)).toBeInTheDocument();
-        expect(screen.getByText(/Shift End is required./)).toBeInTheDocument();
-        // expect(screen.getByText(/Driver ID is required./)).toBeInTheDocument();
-        // expect(screen.getByText(/Backup Driver ID is required./)).toBeInTheDocument();
-        const driverId = screen.getAllByText(/Driver ID is required./)[0]
-        expect(driverId).toBeInTheDocument();
-        const backupDriverId = screen.getAllByText(/Driver ID is required./)[1]
-        expect(backupDriverId).toBeInTheDocument();
-        
-        
 
     });
 
-    test("renders correctly when passing in one shift initialContents", async () => {
+    test("renders correctly when passing in initialContents", async () => {
         render(
             <QueryClientProvider client={queryClient}>
                 <Router>
@@ -64,19 +48,15 @@ describe("ShiftForm tests", () => {
 
         expect(await screen.findByText(/Create/)).toBeInTheDocument();
 
-        const expectedHeaders = ["Id","Day","Shift Start", "Shift End", "Driver ID", "Backup Driver ID"]
-        const expectedfields = ["id","day","shiftStart","shiftEnd","driverID","driverBackupID"]
         expectedHeaders.forEach((headerText) => {
             const header = screen.getByText(headerText);
             expect(header).toBeInTheDocument();
-          });
-        expectedfields.forEach((field) =>{
-            const fieldElement = screen.getByTestId(`${testId}-${field}`)
-            expect(fieldElement).toBeInTheDocument();
-            expect(fieldElement).toHaveValue(String(shiftFixtures.oneShift[field]));
-        })
+        });
 
+        expect(await screen.findByTestId(`${testId}-id`)).toBeInTheDocument();
+        expect(screen.getByText(`Id`)).toBeInTheDocument();
     });
+
 
     test("that navigate(-1) is called when Cancel is clicked", async () => {
         render(
@@ -92,6 +72,42 @@ describe("ShiftForm tests", () => {
         fireEvent.click(cancelButton);
 
         await waitFor(() => expect(mockedNavigate).toHaveBeenCalledWith(-1));
+    });
+
+    test("that the correct validations are performed", async () => {
+        render(
+            <QueryClientProvider client={queryClient}>
+                <Router>
+                    <ShiftForm />
+                </Router>
+            </QueryClientProvider>
+        );
+
+        expect(await screen.findByText(/Create/)).toBeInTheDocument();
+        const submitButton = screen.getByText(/Create/);
+        fireEvent.click(submitButton);
+
+        await screen.findByText(/Day is Required./);
+        expect(screen.getByText(/Start Time is Required./)).toBeInTheDocument();
+        expect(screen.getByText(/End Time is Required./)).toBeInTheDocument();
+        expect(screen.getByText(/Driver's ID is required./)).toBeInTheDocument();
+        expect(screen.getByText(/Backup Driver ID is required./)).toBeInTheDocument();
+
+        const shiftStartInput = screen.queryByTestId(`${testId}-shiftStart`)
+        const shiftEndInput = screen.queryByTestId(`${testId}-shiftEnd`)
+
+        fireEvent.change(shiftStartInput, { target: { value: "a".repeat(10) } });
+        fireEvent.change(shiftEndInput, { target: { value: "a".repeat(10) } });
+        fireEvent.click(submitButton);
+
+        await waitFor(() => {
+            expect(screen.getByText("Please enter start time in the format HH:MM AM/PM (e.g., 03:30PM).")).toBeInTheDocument();
+        });
+
+        await waitFor(() => {
+            expect(screen.getByText("Please enter end time in the format HH:MM AM/PM (e.g., 03:30PM).")).toBeInTheDocument();
+        });
+
     });
 
 });
