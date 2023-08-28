@@ -62,7 +62,6 @@ function ShiftForm({ initialContents, submitAction, buttonLabel = "Create" }) {
                     {errors.day?.message}
                 </Form.Control.Feedback>
             </Form.Group>
- */}
     
 
             <Form.Group className="mb-3" >
