@@ -16,17 +16,12 @@ describe("DriverPage tests", () => {
 
     const queryClient = new QueryClient();
     test("Renders expected content", async () => {
-        // arrange
-        // axiosMock.reset();
-        // axiosMock.resetHistory();
         axiosMock.onGet("/api/currentUser").reply(200, apiCurrentUserFixtures.riderOnly);
         axiosMock.onGet("/api/systemInfo").reply(200, systemInfoFixtures.showingNeither);
-        // setupUserOnly();
-        // console.log(apiCurrentUserFixtures.driverOnly);
         axiosMock.onGet("/api/drivers/all").reply(200, usersFixtures.threeDrivers);
 
         // act
-        const {getByText} = render(
+        render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
                     <DriversListPage/>
@@ -35,8 +30,6 @@ describe("DriverPage tests", () => {
         );
 
         // assert
-        
-        // const firstName = ;
         await waitFor( () => expect(screen.getByTestId("DriverTable-cell-row-0-col-givenName")).toHaveTextContent("Phill"));
         const lastName = screen.getByTestId("DriverTable-cell-row-0-col-familyName");
         expect(lastName).toHaveTextContent("Conrad");
