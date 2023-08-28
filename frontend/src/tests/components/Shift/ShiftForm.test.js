@@ -34,7 +34,7 @@ describe("ShiftForm tests", () => {
             const header = screen.getByText(headerText);
             expect(header).toBeInTheDocument();
           });
-        expect(screen.getByTestId(`${testId}-cancel`)).toBeInTheDocument;
+        expect(screen.getByTestId(`${testId}-cancel`)).toBeInTheDocument();
         expect(screen.getByTestId(`${testId}-day`)).toBeInTheDocument();
         expect(screen.getByTestId(`${testId}-driverID`)).toBeInTheDocument();
         expect(screen.getByTestId(`${testId}-driverBackupID`)).toBeInTheDocument();
