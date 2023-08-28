@@ -3,7 +3,7 @@ import OurTable from "main/components/OurTable"
 
 
 
-export default function UsersTable({ users}) {
+export default function DriverTable({ users}) {
 
     const columns = [
         {
